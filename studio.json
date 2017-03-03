@@ -1,0 +1,9 @@
+{
+    "version": 2,
+    "paths": [
+        "../enrollment",
+        "../curriculum",
+        "../acacha/names",
+        "../acacha/l5-repository"
+    ]
+}
