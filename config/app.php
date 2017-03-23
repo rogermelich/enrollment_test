@@ -178,7 +178,6 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        //Scool\Enrollment\Providers\EnrollmentServiceProvider::class,
         Scool\Curriculum\Providers\CurriculumServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
