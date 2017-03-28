@@ -179,7 +179,8 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Scool\Curriculum\Providers\CurriculumServiceProvider::class,
-        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Scool\Enrollment\Providers\EnrollmentServiceProvider::class,
+	Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
         /*
