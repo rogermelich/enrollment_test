@@ -180,8 +180,9 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Scool\Curriculum\Providers\CurriculumServiceProvider::class,
         Scool\Enrollment\Providers\EnrollmentServiceProvider::class,
-	Prettus\Repository\Providers\RepositoryServiceProvider::class,
+	    Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
