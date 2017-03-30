@@ -28,6 +28,10 @@ Menu::macro('sidebar', function () {
         ->link('http://www.acacha.org', 'Another link')
 //        ->url('http://www.google.com', 'Google')
         ->add(Menu::adminlteSeparator('Acacha Adminlte'))
+        ->add(Menu::new()->prepend('<a href="#"><span>Enrollment</span> <i class="fa fa-angle-left pull-right" aria-hidden="true"></i></a>')
+            ->addParentClass('treeview')
+            ->add(Link::to('/enrollment', 'Crud'))->addClass('treeview-menu')
+        )
         #adminlte_menu
         ->add(Menu::adminlteSeparator('SECONDARY MENU'))
         ->add(Menu::new()->prepend('<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>')
