@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/wizard', function (){
+        return view('wizard');
+    });
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });

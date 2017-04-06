@@ -31,6 +31,7 @@ Menu::macro('sidebar', function () {
         ->add(Menu::new()->prepend('<a href="#"><span>Enrollment</span> <i class="fa fa-angle-left pull-right" aria-hidden="true"></i></a>')
             ->addParentClass('treeview')
             ->add(Link::to('/enrollment', 'Crud'))->addClass('treeview-menu')
+            ->add(Link::to('/enrollment/wizard', 'Wizard'))
         )
         #adminlte_menu
         ->add(Menu::adminlteSeparator('SECONDARY MENU'))

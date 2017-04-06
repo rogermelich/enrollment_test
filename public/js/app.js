@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 
 /*global toString:true*/
 
@@ -10634,6 +10634,59 @@ return jQuery;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = options.computed || (options.computed = {})
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10657,10 +10710,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   }
   return adapter;
 }
@@ -10731,10 +10784,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -10920,7 +10973,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10931,7 +10984,7 @@ var settle = __webpack_require__(25);
 var buildURL = __webpack_require__(28);
 var parseHeaders = __webpack_require__(34);
 var isURLSameOrigin = __webpack_require__(32);
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(8);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
@@ -11102,10 +11155,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11131,7 +11184,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11143,7 +11196,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11167,7 +11220,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11182,59 +11235,6 @@ module.exports = function bind(fn, thisArg) {
     return fn.apply(thisArg, args);
   };
 };
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = options.computed || (options.computed = {})
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
 
 
 /***/ }),
@@ -11276,7 +11276,7 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(38);
+__webpack_require__(40);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11284,7 +11284,11 @@ __webpack_require__(38);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(43));
+Vue.component('example', __webpack_require__(45));
+
+Vue.component('wizard', __webpack_require__(47));
+Vue.component('wizard-step', __webpack_require__(48));
+Vue.component('studies-course', __webpack_require__(227));
 
 var app = new Vue({
   el: '#app'
@@ -11347,9 +11351,9 @@ module.exports = __webpack_require__(19);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 var Axios = __webpack_require__(21);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -11382,9 +11386,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(5);
+axios.Cancel = __webpack_require__(6);
 axios.CancelToken = __webpack_require__(20);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -11405,7 +11409,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(5);
+var Cancel = __webpack_require__(6);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -11469,7 +11473,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(22);
 var dispatchRequest = __webpack_require__(23);
@@ -11622,8 +11626,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(26);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(2);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(3);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -11732,7 +11736,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -12261,10 +12265,157 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Store__ = __webpack_require__(224);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            steps: [],
+            state: __WEBPACK_IMPORTED_MODULE_0__Store__["a" /* state */]
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        console.log('Component Mounted to Wizard');
+        this.$children.forEach(function (step) {
+            if (step.active) {
+                __WEBPACK_IMPORTED_MODULE_0__Store__["b" /* store */].changeStep(step.id);
+            }
+            _this.steps.push(step);
+        });
+    },
+
+    methods: {
+        stepChanged: function stepChanged(step) {
+            __WEBPACK_IMPORTED_MODULE_0__Store__["b" /* store */].changeStep(step);
+        },
+        getStepByNumber: function getStepByNumber(step) {
+            return this.stepsByName[step - 1];
+        },
+        next: function next() {
+            if (this.currentStepNumber + 1 <= this.steps.length) {
+                __WEBPACK_IMPORTED_MODULE_0__Store__["b" /* store */].changeStep(this.getStepByNumber(this.currentStepNumber + 1));
+            }
+        },
+        previous: function previous() {
+            if (this.currentStepNumber - 1 >= 0) {
+                __WEBPACK_IMPORTED_MODULE_0__Store__["b" /* store */].changeStep(this.getStepByNumber(this.currentStepNumber - 1));
+            }
+        },
+        finish: function finish() {
+            console.log('FINISH TODO');
+        }
+    },
+    computed: {
+        stepsByName: function stepsByName() {
+            return this.steps.map(function (step) {
+                return step.id;
+            });
+        },
+        currentStepNumber: function currentStepNumber() {
+            return this.stepsByName.indexOf(__WEBPACK_IMPORTED_MODULE_0__Store__["a" /* state */].currentStep) + 1;
+        },
+        first: function first() {
+            return this.currentStepNumber === 1;
+        },
+        last: function last() {
+            return this.currentStepNumber === this.steps.length;
+        }
+    }
+});
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_voca__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_voca___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_voca__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Store__ = __webpack_require__(224);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            state: __WEBPACK_IMPORTED_MODULE_1__Store__["a" /* state */]
+        };
+    },
+
+    props: {
+        title: {
+            type: String,
+            require: true
+        },
+        active: {
+            type: [String, Boolean],
+            default: false
+        }
+    },
+    computed: {
+        isActive: function isActive() {
+            return __WEBPACK_IMPORTED_MODULE_1__Store__["a" /* state */].currentStep === this.id;
+        },
+        id: function id() {
+            return __WEBPACK_IMPORTED_MODULE_0_voca___default.a.latinise(__WEBPACK_IMPORTED_MODULE_0_voca___default.a.camelCase(this.title));
+        },
+        link: function link() {
+            return '#' + this.id;
+        }
+    },
+    mounted: function mounted() {
+        console.log('Component Mounted to Wizard Step');
+    }
+});
+
+/***/ }),
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(41);
+window._ = __webpack_require__(43);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12274,11 +12425,12 @@ window._ = __webpack_require__(41);
 
 window.$ = window.jQuery = __webpack_require__(1);
 
-__webpack_require__(39);
+__webpack_require__(41);
 
 __webpack_require__(17);
-window.toastr = __webpack_require__(42);
-__webpack_require__(40);
+window.toastr = __webpack_require__(44);
+__webpack_require__(42);
+__webpack_require__(231);
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -12286,7 +12438,7 @@ __webpack_require__(40);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(47);
+window.Vue = __webpack_require__(53);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -12307,7 +12459,7 @@ Vue.prototype.trans = function (key) {
 };
 
 //Laravel AdminLTE login input field component
-Vue.component('login-input-field', __webpack_require__(44));
+Vue.component('login-input-field', __webpack_require__(46));
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -12323,7 +12475,7 @@ Vue.component('login-input-field', __webpack_require__(44));
 // });
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/* */ 
@@ -14651,7 +14803,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports) {
 
 /*!
@@ -15166,7 +15318,7 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -32255,10 +32407,10 @@ if (typeof jQuery === 'undefined') {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(55)(module)))
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -32690,18 +32842,18 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
         })();
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-}(__webpack_require__(48)));
+}(__webpack_require__(54)));
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(9)(
+var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(36),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(49),
   /* scopeId */
   null,
   /* cssModules */
@@ -32728,14 +32880,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(9)(
+var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(37),
   /* template */
-  __webpack_require__(46),
+  __webpack_require__(50),
   /* scopeId */
   null,
   /* cssModules */
@@ -32762,7 +32914,75 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 45 */
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(38),
+  /* template */
+  __webpack_require__(52),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/roger/Code/scool/enrollment_test/resources/assets/js/components/Wizard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Wizard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f5790380", Component.options)
+  } else {
+    hotAPI.reload("data-v-f5790380", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(39),
+  /* template */
+  __webpack_require__(51),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/roger/Code/scool/enrollment_test/resources/assets/js/components/WizardSteps.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] WizardSteps.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-255ff777", Component.options)
+  } else {
+    hotAPI.reload("data-v-255ff777", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32791,7 +33011,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32857,7 +33077,119 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "tab-pane",
+    class: {
+      'active': _vm.isActive
+    },
+    attrs: {
+      "role": "tabpanel",
+      "id": _vm.id
+    }
+  }, [_vm._t("default")], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-255ff777", module.exports)
+  }
+}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "nav-tabs-custom"
+  }, [_vm._m(0), _vm._v(" "), _c('ul', {
+    staticClass: "nav nav-tabs nav-justified"
+  }, _vm._l((_vm.steps), function(step) {
+    return _c('li', {
+      class: {
+        'active': step.isActive
+      },
+      on: {
+        "click": function($event) {
+          _vm.stepChanged($event.target.id)
+        }
+      }
+    }, [_c('a', {
+      attrs: {
+        "href": step.link,
+        "id": step.id,
+        "aria-controls": step.id,
+        "data-toggle": "tab"
+      }
+    }, [_vm._v(_vm._s(step.title))])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "tab-content"
+  }, [_vm._t("default")], 2), _vm._v(" "), _c('div', {
+    staticClass: "box-footer"
+  }, [(!_vm.first) ? _c('button', {
+    staticClass: "btn btn-primary btn-flat pull-left",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        _vm.previous()
+      }
+    }
+  }, [_vm._v("\n            Previous\n        ")]) : _vm._e(), _vm._v(" "), (!_vm.last) ? _c('button', {
+    staticClass: "btn btn-primary btn-flat pull-right",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        _vm.next()
+      }
+    }
+  }, [_vm._v("Next")]) : _vm._e(), _vm._v(" "), (_vm.last) ? _c('button', {
+    staticClass: "btn btn-primary btn-flat pull-right",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        _vm.finish()
+      }
+    }
+  }, [_vm._v("Finish\n        ")]) : _vm._e()])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "progress progress-sm active"
+  }, [_c('div', {
+    staticClass: "progress-bar progress-bar-success progress-bar-striped",
+    staticStyle: {
+      "width": "25%"
+    },
+    attrs: {
+      "role": "progressbar",
+      "aria-valuenow": "25",
+      "aria-valuemin": "0",
+      "aria-valuemax": "100"
+    }
+  }, [_c('span', {
+    staticClass: "sr-only"
+  }, [_vm._v("25% Complete")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-f5790380", module.exports)
+  }
+}
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42182,10 +42514,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(10)))
 
 /***/ }),
-/* 48 */
+/* 54 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -42194,7 +42526,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 49 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -42222,8 +42554,8 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 50 */,
-/* 51 */
+/* 56 */,
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
@@ -42232,6 +42564,10549 @@ __webpack_require__(16);
 __webpack_require__(13);
 module.exports = __webpack_require__(14);
 
+
+/***/ }),
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return state; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return store; });
+var state = {
+    currentStep: null
+};
+
+var store = {
+    state: state,
+
+    changeStep: function changeStep(step) {
+        state.currentStep = step;
+    }
+};
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/*! 
+ * Voca string library 1.3.0
+ * https://vocajs.com
+ *
+ * Copyright Dmitri Pavlutin and other contributors
+ * Released under the MIT license
+ */
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.v = factory());
+}(this, (function () { 'use strict';
+
+/**
+ * Checks if `value` is `null` or `undefined`
+ *
+ * @ignore
+ * @function isNil
+ * @param {*} value The object to check
+ * @return {boolean} Returns `true` is `value` is `undefined` or `null`, `false` otherwise
+ */
+function isNil(value) {
+  return value === undefined || value === null;
+}
+
+/**
+ * Converts the `value` to a boolean. If `value` is `undefined` or `null`, returns `defaultValue`.
+ *
+ * @ignore
+ * @function toBoolean
+ * @param {*} value The value to convert.
+ * @param {boolean} [defaultValue=false] The default value.
+ * @return {boolean} Returns the coercion to boolean.
+ */
+function coerceToBoolean(value) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+  if (isNil(value)) {
+    return defaultValue;
+  }
+  return Boolean(value);
+}
+
+/**
+ * Checks whether `subject` is a string primitive type.
+ *
+ * @function isString
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} subject The value to verify.
+ * @return {boolean} Returns `true` if `subject` is string primitive type or `false` otherwise.
+ * @example
+ * v.isString('vacation');
+ * // => true
+ *
+ * v.isString(560);
+ * // => false
+ */
+function isString(subject) {
+  return typeof subject === 'string';
+}
+
+/**
+ * Get the string representation of the `value`.
+ * Converts the `value` to string.
+ * If `value` is `null` or `undefined`, return `defaultValue`.
+ *
+ * @ignore
+ * @function toString
+ * @param {*} value             The value to convert.
+ * @param {*} [defaultValue=''] The default value to return.
+ * @return {string|null}        Returns the string representation of `value`. Returns `defaultValue` if `value` is
+ *                              `null` or `undefined`.
+ */
+function coerceToString(value) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+  if (isNil(value)) {
+    return defaultValue;
+  }
+  if (isString(value)) {
+    return value;
+  }
+  return String(value);
+}
+
+/**
+ * Converts the first character of `subject` to upper case. If `restToLower` is `true`, convert the rest of
+ * `subject` to lower case.
+ *
+ * @function capitalize
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string}  [subject='']        The string to capitalize.
+ * @param  {boolean} [restToLower=false] Convert the rest of `subject` to lower case.
+ * @return {string}                      Returns the capitalized string.
+ * @example
+ * v.capitalize('apple');
+ * // => 'Apple'
+ *
+ * v.capitalize('aPPle', true);
+ * // => 'Apple'
+ */
+function capitalize(subject, restToLower) {
+  var subjectString = coerceToString(subject);
+  var restToLowerCaseBoolean = coerceToBoolean(restToLower);
+  if (subjectString === '') {
+    return '';
+  }
+  if (restToLowerCaseBoolean) {
+    subjectString = subjectString.toLowerCase();
+  }
+  return subjectString.substr(0, 1).toUpperCase() + subjectString.substr(1);
+}
+
+/**
+ * Converts the `subject` to lower case.
+ *
+ * @function lowerCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to lower case.
+ * @return {string}              Returns the lower case string.
+ * @example
+ * v.lowerCase('Green');
+ * // => 'green'
+ *
+ * v.lowerCase('BLUE');
+ * // => 'blue'
+ */
+function lowerCase(subject) {
+  var subjectString = coerceToString(subject, '');
+  return subjectString.toLowerCase();
+}
+
+/**
+ * A regular expression string matching digits
+ *
+ * @type {string}
+ * @ignore
+ */
+var digit = '\\d';
+
+/**
+ * A regular expression string matching whitespace
+ *
+ * @type {string}
+ * @ignore
+ */
+var whitespace = '\\s\\uFEFF\\xA0';
+
+/**
+ * A regular expression string matching high surrogate
+ *
+ * @type {string}
+ * @ignore
+ */
+var highSurrogate = '\\uD800-\\uDBFF';
+
+/**
+ * A regular expression string matching low surrogate
+ *
+ * @type {string}
+ * @ignore
+ */
+var lowSurrogate = '\\uDC00-\\uDFFF';
+
+/**
+ * A regular expression string matching diacritical mark
+ *
+ * @type {string}
+ * @ignore
+ */
+var diacriticalMark = '\\u0300-\\u036F\\u1AB0-\\u1AFF\\u1DC0-\\u1DFF\\u20D0-\\u20FF\\uFE20-\\uFE2F';
+
+/**
+ * A regular expression to match the base character for a combining mark
+ *
+ * @type {string}
+ * @ignore
+ */
+var base = '\\0-\\u02FF\\u0370-\\u1AAF\\u1B00-\\u1DBF\\u1E00-\\u20CF\\u2100-\\uD7FF\\uE000-\\uFE1F\\uFE30-\\uFFFF';
+
+/**
+ * Regular expression to match combining marks
+ *
+ * @see http://unicode.org/faq/char_combmark.html
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_COMBINING_MARKS = new RegExp('([' + base + ']|[' + highSurrogate + '][' + lowSurrogate + ']|[' + highSurrogate + '](?![' + lowSurrogate + '])|(?:[^' + highSurrogate + ']|^)[' + lowSurrogate + '])([' + diacriticalMark + ']+)', 'g');
+
+/**
+ * Regular expression to match surrogate pairs
+ *
+ * @see http://www.unicode.org/faq/utf_bom.html#utf16-2
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_SURROGATE_PAIRS = new RegExp('([' + highSurrogate + '])([' + lowSurrogate + '])', 'g');
+
+/**
+ * Regular expression to match an unicode character
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_UNICODE_CHARACTER = new RegExp('((?:[' + base + ']|[' + highSurrogate + '][' + lowSurrogate + ']|[' + highSurrogate + '](?![' + lowSurrogate + '])|(?:[^' + highSurrogate + ']|^)[' + lowSurrogate + '])(?:[' + diacriticalMark + ']+))|\
+([' + highSurrogate + '][' + lowSurrogate + '])|\
+([\\n\\r\\u2028\\u2029])|\
+(.)', 'g');
+
+/**
+ * Regular expression to match whitespaces
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_WHITESPACE = new RegExp('[' + whitespace + ']');
+
+/**
+ * Regular expression to match whitespaces from the left side
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_TRIM_LEFT = new RegExp('^[' + whitespace + ']+');
+
+/**
+ * Regular expression to match whitespaces from the right side
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_TRIM_RIGHT = new RegExp('[' + whitespace + ']+$');
+
+/**
+ * Regular expression to match digit characters
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_DIGIT = new RegExp('^' + digit + '+$');
+
+/**
+ * Regular expression to match regular expression special characters
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_SPECIAL_CHARACTERS = /[-[\]{}()*+!<=:?.\/\\^$|#,]/g;
+
+/**
+ * Regular expression to match not latin characters
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_NON_LATIN = /[^A-Za-z0-9]/g;
+
+/**
+ * Regular expression to match HTML special characters.
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_HTML_SPECIAL_CHARACTERS = /[<>&"'`]/g;
+
+/**
+ * Regular expression to match sprintf format string
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_CONVERSION_SPECIFICATION = /(%{1,2})(?:(\d+)\$)?(\+)?([ 0]|'.{1})?(-)?(\d+)?(?:\.(\d+))?([bcdiouxXeEfgGs])?/g;
+
+/**
+ * Regular expression to match trailing zeros in a number
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_TRAILING_ZEROS = /\.?0+$/g;
+
+/**
+ * Regular expression to match flags from a regular expression.
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_FLAGS = /[gimuy]*$/;
+
+/**
+ * Regular expression to match a list of tags.
+ *
+ * @see https://html.spec.whatwg.org/multipage/syntax.html#syntax-tag-name
+ * @type {RegExp}
+ * @ignore
+ */
+
+var REGEXP_TAG_LIST = /<([A-Za-z0-9]+)>/g;
+
+/**
+ * A regular expression to match the General Punctuation Unicode block
+ *
+ * @type {string}
+ * @ignore
+ */
+var generalPunctuationBlock = '\\u2000-\\u206F';
+
+/**
+ * A regular expression to match non characters from from Basic Latin and Latin-1 Supplement Unicode blocks
+ *
+ * @type {string}
+ * @ignore
+ */
+var nonCharacter = '\\x00-\\x2F\\x3A-\\x40\\x5B-\\x60\\x7b-\\xBF\\xD7\\xF7';
+
+/**
+ * A regular expression to match the dingbat Unicode block
+ *
+ * @type {string}
+ * @ignore
+ */
+var dingbatBlock = '\\u2700-\\u27BF';
+
+/**
+ * A regular expression string that matches lower case letters: LATIN
+ *
+ * @type {string}
+ * @ignore
+ */
+var lowerCaseLetter = 'a-z\\xB5\\xDF-\\xF6\\xF8-\\xFF\\u0101\\u0103\\u0105\\u0107\\u0109\\u010B\\u010D\\u010F\\u0111\\u0113\\u0115\\u0117\\u0119\\u011B\\u011D\\u011F\\u0121\\u0123\\u0125\\u0127\\u0129\\u012B\\u012D\\u012F\\u0131\\u0133\\u0135\\u0137\\u0138\\u013A\\u013C\\u013E\\u0140\\u0142\\u0144\\u0146\\u0148\\u0149\\u014B\\u014D\\u014F\\u0151\\u0153\\u0155\\u0157\\u0159\\u015B\\u015D\\u015F\\u0161\\u0163\\u0165\\u0167\\u0169\\u016B\\u016D\\u016F\\u0171\\u0173\\u0175\\u0177\\u017A\\u017C\\u017E-\\u0180\\u0183\\u0185\\u0188\\u018C\\u018D\\u0192\\u0195\\u0199-\\u019B\\u019E\\u01A1\\u01A3\\u01A5\\u01A8\\u01AA\\u01AB\\u01AD\\u01B0\\u01B4\\u01B6\\u01B9\\u01BA\\u01BD-\\u01BF\\u01C6\\u01C9\\u01CC\\u01CE\\u01D0\\u01D2\\u01D4\\u01D6\\u01D8\\u01DA\\u01DC\\u01DD\\u01DF\\u01E1\\u01E3\\u01E5\\u01E7\\u01E9\\u01EB\\u01ED\\u01EF\\u01F0\\u01F3\\u01F5\\u01F9\\u01FB\\u01FD\\u01FF\\u0201\\u0203\\u0205\\u0207\\u0209\\u020B\\u020D\\u020F\\u0211\\u0213\\u0215\\u0217\\u0219\\u021B\\u021D\\u021F\\u0221\\u0223\\u0225\\u0227\\u0229\\u022B\\u022D\\u022F\\u0231\\u0233-\\u0239\\u023C\\u023F\\u0240\\u0242\\u0247\\u0249\\u024B\\u024D\\u024F';
+
+/**
+ * A regular expression string that matches upper case letters: LATIN
+ *
+ * @type {string}
+ * @ignore
+ */
+var upperCaseLetter = '\\x41-\\x5a\\xc0-\\xd6\\xd8-\\xde\\u0100\\u0102\\u0104\\u0106\\u0108\\u010a\\u010c\\u010e\\u0110\\u0112\\u0114\\u0116\\u0118\\u011a\\u011c\\u011e\\u0120\\u0122\\u0124\\u0126\\u0128\\u012a\\u012c\\u012e\\u0130\\u0132\\u0134\\u0136\\u0139\\u013b\\u013d\\u013f\\u0141\\u0143\\u0145\\u0147\\u014a\\u014c\\u014e\\u0150\\u0152\\u0154\\u0156\\u0158\\u015a\\u015c\\u015e\\u0160\\u0162\\u0164\\u0166\\u0168\\u016a\\u016c\\u016e\\u0170\\u0172\\u0174\\u0176\\u0178\\u0179\\u017b\\u017d\\u0181\\u0182\\u0184\\u0186\\u0187\\u0189-\\u018b\\u018e-\\u0191\\u0193\\u0194\\u0196-\\u0198\\u019c\\u019d\\u019f\\u01a0\\u01a2\\u01a4\\u01a6\\u01a7\\u01a9\\u01ac\\u01ae\\u01af\\u01b1-\\u01b3\\u01b5\\u01b7\\u01b8\\u01bc\\u01c4\\u01c5\\u01c7\\u01c8\\u01ca\\u01cb\\u01cd\\u01cf\\u01d1\\u01d3\\u01d5\\u01d7\\u01d9\\u01db\\u01de\\u01e0\\u01e2\\u01e4\\u01e6\\u01e8\\u01ea\\u01ec\\u01ee\\u01f1\\u01f2\\u01f4\\u01f6-\\u01f8\\u01fa\\u01fc\\u01fe\\u0200\\u0202\\u0204\\u0206\\u0208\\u020a\\u020c\\u020e\\u0210\\u0212\\u0214\\u0216\\u0218\\u021a\\u021c\\u021e\\u0220\\u0222\\u0224\\u0226\\u0228\\u022a\\u022c\\u022e\\u0230\\u0232\\u023a\\u023b\\u023d\\u023e\\u0241\\u0243-\\u0246\\u0248\\u024a\\u024c\\u024e';
+
+/**
+ * Regular expression to match Unicode words
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_WORD = new RegExp('(?:[' + upperCaseLetter + '][' + diacriticalMark + ']*)?(?:[' + lowerCaseLetter + '][' + diacriticalMark + ']*)+|\
+(?:[' + upperCaseLetter + '][' + diacriticalMark + ']*)+(?![' + lowerCaseLetter + '])|\
+[' + digit + ']+|\
+[' + dingbatBlock + ']|\
+[^' + nonCharacter + generalPunctuationBlock + whitespace + ']+', 'g');
+
+/**
+ * Regular expression to match words from Basic Latin and Latin-1 Supplement blocks
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_LATIN_WORD = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
+
+/**
+ * Regular expression to match alpha characters
+ *
+ * @see http://stackoverflow.com/a/22075070/1894471
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_ALPHA = new RegExp('^(?:[' + lowerCaseLetter + upperCaseLetter + '][' + diacriticalMark + ']*)+$');
+
+/**
+ * Regular expression to match alpha and digit characters
+ *
+ * @see http://stackoverflow.com/a/22075070/1894471
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_ALPHA_DIGIT = new RegExp('^((?:[' + lowerCaseLetter + upperCaseLetter + '][' + diacriticalMark + ']*)|[' + digit + '])+$');
+
+/**
+ * Regular expression to match Extended ASCII characters, i.e. the first 255
+ *
+ * @type {RegExp}
+ * @ignore
+ */
+var REGEXP_EXTENDED_ASCII = /^[\x00-\xFF]*$/;
+
+/**
+ * Verifies if `value` is `undefined` or `null` and returns `defaultValue`. In other case returns `value`.
+ *
+ * @ignore
+ * @function nilDefault
+ * @param {*} value The value to verify.
+ * @param {*} defaultValue The default value.
+ * @return {*} Returns `defaultValue` if `value` is `undefined` or `null`, otherwise `defaultValue`.
+ */
+function nilDefault(value, defaultValue) {
+  return value == null ? defaultValue : value;
+}
+
+/**
+ * Get the string representation of the `value`.
+ * Converts the `value` to string.
+ *
+ * @ignore
+ * @function toString
+ * @param {*} value             The value to convert.
+ * @return {string|null}        Returns the string representation of `value`.
+ */
+function toString(value) {
+  if (isNil(value)) {
+    return null;
+  }
+  if (isString(value)) {
+    return value;
+  }
+  return String(value);
+}
+
+/**
+ * Splits `subject` into an array of words.
+ *
+ * @function words
+ * @static
+ * @since 1.0.0
+ * @memberOf Split
+ * @param {string} [subject=''] The string to split into words.
+ * @param {string|RegExp} [pattern] The pattern to watch words. If `pattern` is not RegExp, it is transformed to `new RegExp(pattern, flags)`.
+ * @param {string} [flags=''] The regular expression flags. Applies when `pattern` is string type.
+ * @return {Array} Returns the array of words.
+ * @example
+ * v.words('gravity can cross dimensions');
+ * // => ['gravity', 'can', 'cross', 'dimensions']
+ *
+ * v.words('GravityCanCrossDimensions');
+ * // => ['Gravity', 'Can', 'Cross', 'Dimensions']
+ *
+ * v.words('Gravity - can cross dimensions!');
+ * // => ['Gravity', 'can', 'cross', 'dimensions']
+ *
+ * v.words('Earth gravity', /[^\s]+/g);
+ * // => ['Earth', 'gravity']
+ */
+function words(subject, pattern, flags) {
+  var subjectString = coerceToString(subject);
+  var patternRegExp = void 0;
+  if (isNil(pattern)) {
+    patternRegExp = REGEXP_EXTENDED_ASCII.test(subjectString) ? REGEXP_LATIN_WORD : REGEXP_WORD;
+  } else if (pattern instanceof RegExp) {
+    patternRegExp = pattern;
+  } else {
+    var flagsString = toString(nilDefault(flags, ''));
+    patternRegExp = new RegExp(toString(pattern), flagsString);
+  }
+  return nilDefault(subjectString.match(patternRegExp), []);
+}
+
+/**
+ * Transforms the `word` into camel case chunk.
+ *
+ * @param  {string} word  The word string
+ * @param  {number} index The index of the word in phrase.
+ * @return {string}       The transformed word.
+ * @ignore
+ */
+function wordToCamel(word, index) {
+  return index === 0 ? lowerCase(word) : capitalize(word, true);
+}
+
+/**
+ * Converts the `subject` to <a href="https://en.wikipedia.org/wiki/CamelCase">camel case</a>.
+ *
+ * @function camelCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to camel case.
+ * @return {string}              The camel case string.
+ * @example
+ * v.camelCase('bird flight');
+ * // => 'birdFlight'
+ *
+ * v.camelCase('BirdFlight');
+ * // => 'birdFlight'
+ *
+ * v.camelCase('-BIRD-FLIGHT-');
+ * // => 'birdFlight'
+ */
+function camelCase(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  return words(subjectString).map(wordToCamel).join('');
+}
+
+/**
+ * Converts the first character of `subject` to lower case.
+ *
+ * @function decapitalize
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to decapitalize.
+ * @return {string}              Returns the decapitalized string.
+ * @example
+ * v.decapitalize('Sun');
+ * // => 'sun'
+ *
+ * v.decapitalize('moon');
+ * // => 'moon'
+ */
+function decapitalize(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  return subjectString.substr(0, 1).toLowerCase() + subjectString.substr(1);
+}
+
+/**
+ * Converts the `subject` to <a href="https://en.wikipedia.org/wiki/Letter_case#cite_ref-13">kebab case</a>,
+ * also called <i>spinal case</i> or <i>lisp case</i>.
+ *
+ * @function kebabCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to kebab case.
+ * @return {string}              Returns the kebab case string.
+ * @example
+ * v.kebabCase('goodbye blue sky');
+ * // => 'goodbye-blue-sky'
+ *
+ * v.kebabCase('GoodbyeBlueSky');
+ * // => 'goodbye-blue-sky'
+ *
+ * v.kebabCase('-Goodbye-Blue-Sky-');
+ * // => 'goodbye-blue-sky'
+ */
+function kebabCase(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  return words(subjectString).map(lowerCase).join('-');
+}
+
+/**
+ * Converts the `subject` to <a href="https://en.wikipedia.org/wiki/Snake_case">snake case</a>.
+ *
+ * @function snakeCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to snake case.
+ * @return {string}              Returns the snake case string.
+ * @example
+ * v.snakeCase('learning to fly');
+ * // => 'learning_to_fly'
+ *
+ * v.snakeCase('LearningToFly');
+ * // => 'learning_to_fly'
+ *
+ * v.snakeCase('-Learning-To-Fly-');
+ * // => 'learning_to_fly'
+ */
+function snakeCase(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  return words(subjectString).map(lowerCase).join('_');
+}
+
+/**
+ * Converts the `subject` to upper case.
+ *
+ * @function upperCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to upper case.
+ * @return {string}              Returns the upper case string.
+ * @example
+ * v.upperCase('school');
+ * // => 'SCHOOL'
+ */
+function upperCase(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.toUpperCase();
+}
+
+/**
+ * Converts the uppercase alpha caracters of `subject` to lowercase and lowercase 
+ * characters to uppercase.
+ *
+ * @function swapCase
+ * @static
+ * @since 1.3.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to swap the case.
+ * @return {string}              Returns the converted string.
+ * @example
+ * v.swapCase('League of Shadows');
+ * // => 'lEAGE OF sHADOWS'
+ *
+ * v.swapCase('2 Bees');
+ * // => '2 bEES'
+ */
+function swapCase(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.split('').reduce(swapAndConcat, '');
+}
+
+function swapAndConcat(swapped, character) {
+  var lowerCase = character.toLowerCase();
+  var upperCase = character.toUpperCase();
+  return swapped + (character === lowerCase ? upperCase : lowerCase);
+}
+
+/**
+ * Converts the subject to title case.
+ *
+ * @function titleCase
+ * @static
+ * @since 1.2.0
+ * @memberOf Case
+ * @param  {string} [subject=''] The string to convert to title case.
+ * @param  {Array} [ignoreWords] The words that should not be capitalized.
+ * @return {string}              Returns the title case string.
+ * @example
+ * v.titleCase('learning to fly');
+ * // => 'Learning To Fly'
+ *
+ * v.titleCase('another brick in the wall', ['in', 'the']);
+ * // => 'Another Brick in the Wall'
+ */
+function titleCase(subject, ignoreWords) {
+  var subjectString = coerceToString(subject);
+  var ignoreWordsArray = Array.isArray(ignoreWords) ? ignoreWords : [];
+  var wordsRegExp = REGEXP_EXTENDED_ASCII.test(subjectString) ? REGEXP_LATIN_WORD : REGEXP_WORD;
+  return subjectString.replace(wordsRegExp, function (word) {
+    var lowerCaseWord = word.toLowerCase();
+    return ignoreWordsArray.indexOf(lowerCaseWord) !== -1 ? lowerCaseWord : capitalize(lowerCaseWord, true);
+  });
+}
+
+/**
+ * Clip the number to interval `downLimit` to `upLimit`.
+ *
+ * @ignore
+ * @function clipNumber
+ * @param {number} value The number to clip
+ * @param {number} downLimit The down limit
+ * @param {number} upLimit The upper limit
+ * @return {number} The clipped number
+ */
+function clipNumber(value, downLimit, upLimit) {
+  if (value <= downLimit) {
+    return downLimit;
+  }
+  if (value >= upLimit) {
+    return upLimit;
+  }
+  return value;
+}
+
+/**
+ * Max save integer value
+ *
+ * @ignore
+ * @type {number}
+ */
+var MAX_SAFE_INTEGER = 0x1fffffffffffff;
+
+/**
+ * Transforms `value` to an integer.
+ *
+ * @ignore
+ * @function toInteger
+ * @param {number} value The number to transform.
+ * @returns {number} Returns the transformed integer.
+ */
+function toInteger(value) {
+  if (value === Infinity) {
+    return MAX_SAFE_INTEGER;
+  }
+  if (value === -Infinity) {
+    return -MAX_SAFE_INTEGER;
+  }
+  return ~~value;
+}
+
+/**
+ * Truncates `subject` to a new `length`.
+ *
+ * @function truncate
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to truncate.
+ * @param  {int}    length       The length to truncate the string.
+ * @param  {string} [end='...']  The string to be added at the end.
+ * @return {string}              Returns the truncated string.
+ * @example
+ * v.truncate('Once upon a time', 7);
+ * // => 'Once...'
+ *
+ * v.truncate('Good day, Little Red Riding Hood', 14, ' (...)');
+ * // => 'Good day (...)'
+ *
+ * v.truncate('Once upon', 10);
+ * // => 'Once upon'
+ */
+function truncate(subject, length, end) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? subjectString.length : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  var endString = coerceToString(end, '...');
+  if (lengthInt >= subjectString.length) {
+    return subjectString;
+  }
+  return subjectString.substr(0, length - endString.length) + endString;
+}
+
+/**
+ * Access a character from `subject` at specified `position`.
+ *
+ * @function charAt
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to extract from.
+ * @param  {numbers} position The position to get the character.
+ * @return {string} Returns the character at specified position.
+ * @example
+ * v.charAt('helicopter', 0);
+ * // => 'h'
+ *
+ * v.charAt('helicopter', 1);
+ * // => 'e'
+ */
+function charAt(subject, position) {
+  var subjectString = coerceToString(subject);
+  return subjectString.charAt(position);
+}
+
+var HIGH_SURROGATE_START = 0xD800;
+var HIGH_SURROGATE_END = 0xDBFF;
+var LOW_SURROGATE_START = 0xDC00;
+var LOW_SURROGATE_END = 0xDFFF;
+
+/**
+ * Checks if `codePoint` is a high-surrogate number from range 0xD800 to 0xDBFF.
+ *
+ * @ignore
+ * @param {number} codePoint The code point number to be verified
+ * @return {boolean} Returns a boolean whether `codePoint` is a high-surrogate number.
+ */
+function isHighSurrogate(codePoint) {
+  return codePoint >= HIGH_SURROGATE_START && codePoint <= HIGH_SURROGATE_END;
+}
+
+/**
+ * Checks if `codePoint` is a low-surrogate number from range 0xDC00 to 0xDFFF.
+ *
+ * @ignore
+ * @param {number} codePoint The code point number to be verified
+ * @return {boolean} Returns a boolean whether `codePoint` is a low-surrogate number.
+ */
+function isLowSurrogate(codePoint) {
+  return codePoint >= LOW_SURROGATE_START && codePoint <= LOW_SURROGATE_END;
+}
+
+/**
+ * Get the astral code point number based on surrogate pair numbers.
+ *
+ * @ignore
+ * @param {number} highSurrogate The high-surrogate code point number.
+ * @param {number} lowSurrogate The low-surrogate code point number.
+ * @return {number} Returns the astral symbol number.
+ */
+function getAstralNumberFromSurrogatePair(highSurrogate, lowSurrogate) {
+  return (highSurrogate - HIGH_SURROGATE_START) * 0x400 + lowSurrogate - LOW_SURROGATE_START + 0x10000;
+}
+
+/**
+ * Get the number representation of the `value`.
+ * Converts the `value` to number.
+ * If `value` is `null` or `undefined`, return `defaultValue`.
+ *
+ * @ignore
+ * @function toString
+ * @param {*} value             The value to convert.
+ * @param {*} [defaultValue=''] The default value to return.
+ * @return {number|null}        Returns the number representation of `value`. Returns `defaultValue` if `value` is
+ *                              `null` or `undefined`.
+ */
+function coerceToNumber(value) {
+  var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+  if (isNil(value)) {
+    return defaultValue;
+  }
+  if (typeof value === 'number') {
+    return value;
+  }
+  return Number(value);
+}
+
+/**
+ * If `value` is `NaN`, return `defaultValue`. In other case returns `value`.
+ *
+ * @ignore
+ * @function nanDefault
+ * @param {*} value The value to verify.
+ * @param {*} defaultValue The default value.
+ * @return {*} Returns `defaultValue` if `value` is `NaN`, otherwise `defaultValue`.
+ */
+function nanDefault(value, defaultValue) {
+  return value !== value ? defaultValue : value;
+}
+
+/**
+ * Get the Unicode code point value of the character at `position`. <br/>
+ * If a valid UTF-16 <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#24surrogatepairs">
+ * surrogate pair</a> starts at `position`, the
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#astralplanes">astral code point</a>
+ * value at `position` is returned.
+ *
+ * @function codePointAt
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to extract from.
+ * @param  {number} position The position to get the code point number.
+ * @return {number} Returns a non-negative number less than or equal to `0x10FFFF`.
+ * @example
+ * v.codePointAt('rain', 1);
+ * // => 97, or 0x0061
+ *
+ * v.codePointAt('\uD83D\uDE00 is smile', 0); // or '😀 is smile'
+ * // => 128512, or 0x1F600
+ */
+function codePointAt(subject, position) {
+  var subjectString = coerceToString(subject);
+  var subjectStringLength = subjectString.length;
+  var positionNumber = coerceToNumber(position);
+  positionNumber = nanDefault(positionNumber, 0);
+  if (positionNumber < 0 || positionNumber >= subjectStringLength) {
+    return undefined;
+  }
+  var firstCodePoint = subjectString.charCodeAt(positionNumber);
+  var secondCodePoint = void 0;
+  if (isHighSurrogate(firstCodePoint) && subjectStringLength > positionNumber + 1) {
+    secondCodePoint = subjectString.charCodeAt(positionNumber + 1);
+    if (isLowSurrogate(secondCodePoint)) {
+      return getAstralNumberFromSurrogatePair(firstCodePoint, secondCodePoint);
+    }
+  }
+  return firstCodePoint;
+}
+
+/**
+ * Extracts the first `length` characters from `subject`.
+ *
+ * @function first
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to extract from.
+ * @param  {int}    [length=1]   The number of characters to extract.
+ * @return {string}              Returns the first characters string.
+ * @example
+ * v.first('helicopter');
+ * // => 'h'
+ *
+ * v.first('vehicle', 2);
+ * // => 've'
+ *
+ * v.first('car', 5);
+ * // => 'car'
+ */
+function first(subject, length) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? 1 : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  if (subjectString.length <= lengthInt) {
+    return subjectString;
+  }
+  return subjectString.substr(0, lengthInt);
+}
+
+/**
+ * Get a grapheme from `subject` at specified `position` taking care of
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#24surrogatepairs">surrogate pairs</a> and
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#25combiningmarks">combining marks</a>.
+ *
+ * @function graphemeAt
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to extract from.
+ * @param  {number} position The position to get the grapheme.
+ * @return {string} Returns the grapheme at specified position.
+ * @example
+ * v.graphemeAt('\uD835\uDC00\uD835\uDC01', 0); // or '𝐀𝐁'
+ * // => 'A'
+ *
+ * v.graphemeAt('cafe\u0301', 3); // or 'café'
+ * // => 'é'
+ */
+function graphemeAt(subject, position) {
+  var subjectString = coerceToString(subject);
+  var positionNumber = coerceToNumber(position);
+  var graphemeMatch = void 0;
+  var graphemeMatchIndex = 0;
+  positionNumber = nanDefault(positionNumber, 0);
+  while ((graphemeMatch = REGEXP_UNICODE_CHARACTER.exec(subjectString)) !== null) {
+    if (graphemeMatchIndex === positionNumber) {
+      REGEXP_UNICODE_CHARACTER.lastIndex = 0;
+      return graphemeMatch[0];
+    }
+    graphemeMatchIndex++;
+  }
+  return '';
+}
+
+/**
+ * Extracts the last `length` characters from `subject`.
+ *
+ * @function last
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to extract from.
+ * @param  {int}    [length=1]   The number of characters to extract.
+ * @return {string}              Returns the last characters string.
+ * @example
+ * v.last('helicopter');
+ * // => 'r'
+ *
+ * v.last('vehicle', 2);
+ * // => 'le'
+ *
+ * v.last('car', 5);
+ * // => 'car'
+ */
+function last(subject, length) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? 1 : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  if (subjectString.length <= lengthInt) {
+    return subjectString;
+  }
+  return subjectString.substr(subjectString.length - lengthInt, lengthInt);
+}
+
+/**
+ * Truncates `subject` to a new `length` and does not break the words. Guarantees that the truncated string is no longer
+ * than `length`.
+ *
+ * @static
+ * @function prune
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject=''] The string to prune.
+ * @param  {int}    length       The length to prune the string.
+ * @param  {string} [end='...']  The string to be added at the end.
+ * @return {string}              Returns the pruned string.
+ * @example
+ * v.prune('Once upon a time', 7);
+ * // => 'Once...'
+ *
+ * v.prune('Good day, Little Red Riding Hood', 16, ' (more)');
+ * // => 'Good day (more)'
+ *
+ * v.prune('Once upon', 10);
+ * // => 'Once upon'
+ */
+function prune(subject, length, end) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? subjectString.length : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  var endString = coerceToString(end, '...');
+  if (lengthInt >= subjectString.length) {
+    return subjectString;
+  }
+  var pattern = REGEXP_EXTENDED_ASCII.test(subjectString) ? REGEXP_LATIN_WORD : REGEXP_WORD;
+  var truncatedLength = 0;
+  subjectString.replace(pattern, function (word, offset) {
+    var wordInsertLength = offset + word.length;
+    if (wordInsertLength <= lengthInt - endString.length) {
+      truncatedLength = wordInsertLength;
+    }
+  });
+  return subjectString.substr(0, truncatedLength) + endString;
+}
+
+/**
+ * Extracts from `subject` a string from `start` position up to `end` position. The character at `end` position is not
+ * included.
+ *
+ * @function slice
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject='']         The string to extract from.
+ * @param  {number} start                The position to start extraction. If negative use `subject.length + start`.
+ * @param  {number} [end=subject.length] The position to end extraction. If negative use `subject.length + end`.
+ * @return {string}                      Returns the extracted string.
+ * @note Uses native `String.prototype.slice()`
+ * @example
+ * v.slice('miami', 1);
+ * // => 'iami'
+ *
+ * v.slice('florida', -4);
+ * // => 'rida'
+ *
+ * v.slice('florida', 1, 4);
+ * // => "lor"
+ */
+function slice(subject, start, end) {
+  return coerceToString(subject).slice(start, end);
+}
+
+/**
+ * Extracts from `subject` a string from `start` position a number of `length` characters.
+ *
+ * @function substr
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject='']                 The string to extract from.
+ * @param  {number} start                        The position to start extraction.
+ * @param  {number} [length=subject.endOfString] The number of characters to extract. If omitted, extract to the end of `subject`.
+ * @return {string}                              Returns the extracted string.
+ * @note Uses native `String.prototype.substr()`
+ * @example
+ * v.substr('infinite loop', 9);
+ * // => 'loop'
+ *
+ * v.substr('dreams', 2, 2);
+ * // => 'ea'
+ */
+function substr(subject, start, length) {
+  return coerceToString(subject).substr(start, length);
+}
+
+/**
+ * Extracts from `subject` a string from `start` position up to `end` position. The character at `end` position is not
+ * included.
+ *
+ * @function substring
+ * @static
+ * @since 1.0.0
+ * @memberOf Chop
+ * @param  {string} [subject='']         The string to extract from.
+ * @param  {number} start                The position to start extraction.
+ * @param  {number} [end=subject.length] The position to end extraction.
+ * @return {string}                      Returns the extracted string.
+ * @note Uses native `String.prototype.substring()`
+ * @example
+ * v.substring('beach', 1);
+ * // => 'each'
+ *
+ * v.substring('ocean', 1, 3);
+ * // => 'ea'
+ */
+function substring(subject, start, end) {
+  return coerceToString(subject).substring(start, end);
+}
+
+/**
+ * Counts the characters in `subject`.<br/>
+ *
+ * @function count
+ * @static
+ * @since 1.0.0
+ * @memberOf Count
+ * @param  {string} [subject=''] The string to count characters.
+ * @return {number}              Returns the number of characters in `subject`.
+ * @example
+ * v.count('rain');
+ * // => 4
+ */
+function count(subject) {
+  return coerceToString(subject).length;
+}
+
+/**
+ * Counts the graphemes in `subject` taking care of
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#24surrogatepairs">surrogate pairs</a> and
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#25combiningmarks">combining marks</a>.
+ *
+ * @function  countGraphemes
+ * @static
+ * @since 1.0.0
+ * @memberOf Count
+ * @param  {string} [subject=''] The string to count graphemes.
+ * @return {number}              Returns the number of graphemes in `subject`.
+ * @example
+ * v.countGraphemes('cafe\u0301'); // or 'café'
+ * // => 4
+ *
+ * v.countGraphemes('\uD835\uDC00\uD835\uDC01'); // or '𝐀𝐁'
+ * // => 2
+ *
+ * v.countGraphemes('rain');
+ * // => 4
+ */
+function countGrapheme(subject) {
+  return coerceToString(subject).replace(REGEXP_COMBINING_MARKS, '*').replace(REGEXP_SURROGATE_PAIRS, '*').length;
+}
+
+/**
+ * Counts the number of `substring` appearances in `subject`.
+ *
+ * @function countSubstrings
+ * @static
+ * @since 1.0.0
+ * @memberOf Count
+ * @param  {string} [subject=''] The string where to count.
+ * @param  {string} substring    The substring to be counted.
+ * @return {number}              Returns the number of `substring` appearances.
+ * @example
+ * v.countSubstrings('bad boys, bad boys whatcha gonna do?', 'boys');
+ * // => 2
+ *
+ * v.countSubstrings('every dog has its day', 'cat');
+ * // => 0
+ */
+function countSubstrings(subject, substring) {
+  var subjectString = coerceToString(subject);
+  var substringString = coerceToString(substring);
+  var substringLength = substringString.length;
+  var count = 0;
+  var matchIndex = 0;
+  if (subjectString === '' || substringString === '') {
+    return count;
+  }
+  do {
+    matchIndex = subjectString.indexOf(substringString, matchIndex);
+    if (matchIndex !== -1) {
+      count++;
+      matchIndex += substringLength;
+    }
+  } while (matchIndex !== -1);
+  return count;
+}
+
+var reduce = Array.prototype.reduce;
+
+/**
+ * Counts the characters in `subject` for which `predicate` returns truthy.
+ *
+ * @function  countWhere
+ * @static
+ * @since 1.0.0
+ * @memberOf Count
+ * @param  {string}   [subject=''] The string to count characters.
+ * @param  {Function} predicate    The predicate function invoked on each character with parameters `(character, index, string)`.
+ * @param  {Object}   [context]    The context to invoke the `predicate`.
+ * @return {number}                Returns the number of characters for which `predicate` returns truthy.
+ * @example
+ * v.countWhere('hola!', v.isAlpha);
+ * // => 4
+ *
+ * v.countWhere('2022', function(character, index, str) {
+ *   return character === '2';
+ * });
+ * // => 3
+ */
+function countWhere(subject, predicate, context) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '' || typeof predicate !== 'function') {
+    return 0;
+  }
+  var predicateWithContext = predicate.bind(context);
+  return reduce.call(subjectString, function (countTruthy, character, index) {
+    return predicateWithContext(character, index, subjectString) ? countTruthy + 1 : countTruthy;
+  }, 0);
+}
+
+/**
+ * Counts the number of words in `subject`.
+ *
+ * @function countWords
+ * @static
+ * @since 1.0.0
+ * @memberOf Count
+ * @param {string} [subject=''] The string to split into words.
+ * @param {string|RegExp} [pattern] The pattern to watch words. If `pattern` is not RegExp, it is transformed to `new RegExp(pattern, flags)`.
+ * @param {string} [flags=''] The regular expression flags. Applies when `pattern` is string type.
+ * @return {number} Returns the number of words.
+ * @example
+ * v.countWords('gravity can cross dimensions');
+ * // => 4
+ *
+ * v.countWords('GravityCanCrossDimensions');
+ * // => 4
+ *
+ * v.countWords('Gravity - can cross dimensions!');
+ * // => 4
+ *
+ * v.words('Earth gravity', /[^\s]+/g);
+ * // => 2
+ */
+function countWords(subject, pattern, flags) {
+  return words(subject, pattern, flags).length;
+}
+
+/**
+ * The current index.
+ *
+ * @ignore
+ * @name ReplacementIndex#index
+ * @type {number}
+ * @return {ReplacementIndex} ReplacementIndex instance.
+ */
+function ReplacementIndex() {
+  this.index = 0;
+}
+
+/**
+ * Increment the current index.
+ *
+ * @ignore
+ * @return {undefined}
+ */
+ReplacementIndex.prototype.increment = function () {
+  this.index++;
+};
+
+/**
+ * Increment the current index by position.
+ *
+ * @ignore
+ * @param {number} [position] The replacement position.
+ * @return {undefined}
+ */
+ReplacementIndex.prototype.incrementOnEmptyPosition = function (position) {
+  if (isNil(position)) {
+    this.increment();
+  }
+};
+
+/**
+ * Get the replacement index by position.
+ *
+ * @ignore
+ * @param {number} [position] The replacement position.
+ * @return {number} The replacement index.
+ */
+ReplacementIndex.prototype.getIndexByPosition = function (position) {
+  return isNil(position) ? this.index : position - 1;
+};
+
+var Const = Object.freeze({
+  // Type specifiers
+  TYPE_INTEGER: 'i',
+  TYPE_INTEGER_BINARY: 'b',
+  TYPE_INTEGER_ASCII_CHARACTER: 'c',
+  TYPE_INTEGER_DECIMAL: 'd',
+  TYPE_INTEGER_OCTAL: 'o',
+  TYPE_INTEGER_UNSIGNED_DECIMAL: 'u',
+  TYPE_INTEGER_HEXADECIMAL: 'x',
+  TYPE_INTEGER_HEXADECIMAL_UPPERCASE: 'X',
+  TYPE_FLOAT_SCIENTIFIC: 'e',
+  TYPE_FLOAT_SCIENTIFIC_UPPERCASE: 'E',
+  TYPE_FLOAT: 'f',
+  TYPE_FLOAT_SHORT: 'g',
+  TYPE_FLOAT_SHORT_UPPERCASE: 'G',
+  TYPE_STRING: 's',
+
+  // Simple literals
+  LITERAL_PERCENT: '%',
+  LITERAL_SINGLE_QUOTE: "'",
+  LITERAL_PLUS: '+',
+  LITERAL_MINUS: '-',
+  LITERAL_PERCENT_SPECIFIER: '%%',
+
+  // Radix constants to format numbers
+  RADIX_BINARY: 2,
+  RADIX_OCTAL: 8,
+  RADIX_DECIMAL: 10,
+  RADIX_HEXADECIMAL: 16
+});
+
+/**
+ * Repeats the `subject` number of `times`.
+ *
+ * @function repeat
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to repeat.
+ * @param {number} [times=1] The number of times to repeat.
+ * @return {string} Returns the repeated string.
+ * @example
+ * v.repeat('w', 3);
+ * // => 'www'
+ *
+ * v.repeat('world', 0);
+ * // => ''
+ */
+function repeat(subject, times) {
+  var subjectString = coerceToString(subject);
+  var timesInt = isNil(times) ? 1 : clipNumber(toInteger(times), 0, MAX_SAFE_INTEGER);
+  var repeatString = '';
+  while (timesInt) {
+    if (timesInt & 1) {
+      repeatString += subjectString;
+    }
+    if (timesInt > 1) {
+      subjectString += subjectString;
+    }
+    timesInt >>= 1;
+  }
+  return repeatString;
+}
+
+/**
+ * Creates the padding string.
+ *
+ * @ignore
+ * @param {string} padCharacters The characters to create padding string.
+ * @param {number} length The padding string length.
+ * @return {string} The padding string.
+ */
+function buildPadding(padCharacters, length) {
+  var padStringRepeat = toInteger(length / padCharacters.length);
+  var padStringRest = length % padCharacters.length;
+  return repeat(padCharacters, padStringRepeat + padStringRest).substr(0, length);
+}
+
+/**
+ * Pads `subject` from left to a new `length`.
+ *
+ * @function padLeft
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to pad.
+ * @param {int} [length=0] The length to left pad the string. No changes are made if `length` is less than `subject.length`.
+ * @param {string} [pad=' '] The string to be used for padding.
+ * @return {string} Returns the left padded string.
+ * @example
+ * v.padLeft('dog', 5);
+ * // => '  dog'
+ *
+ * v.padLeft('bird', 6, '-');
+ * // => '--bird'
+ *
+ * v.padLeft('cat', 6, '-=');
+ * // => '-=-cat'
+ */
+function padLeft(subject, length, pad) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? 0 : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  var padString = coerceToString(pad, ' ');
+  if (lengthInt <= subjectString.length) {
+    return subjectString;
+  }
+  return buildPadding(padString, lengthInt - subjectString.length) + subjectString;
+}
+
+/**
+ * Pads `subject` from right to a new `length`.
+ *
+ * @function padRight
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to pad.
+ * @param {int} [length=0] The length to right pad the string. No changes are made if `length` is less than `subject.length`.
+ * @param {string} [pad=' '] The string to be used for padding.
+ * @return {string} Returns the right padded string.
+ * @example
+ * v.padRight('dog', 5);
+ * // => 'dog  '
+ *
+ * v.padRight('bird', 6, '-');
+ * // => 'bird--'
+ *
+ * v.padRight('cat', 6, '-=');
+ * // => 'cat-=-'
+ */
+function padRight(subject, length, pad) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? 0 : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  var padString = coerceToString(pad, ' ');
+  if (lengthInt <= subjectString.length) {
+    return subjectString;
+  }
+  return subjectString + buildPadding(padString, lengthInt - subjectString.length);
+}
+
+/**
+ * Aligns and pads `subject` string.
+ *
+ * @ignore
+ * @param {string} subject The subject string.
+ * @param {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the aligned and padded string.
+ */
+function alignAndPad(subject, conversion) {
+  var width = conversion.width;
+  if (isNil(width) || subject.length >= width) {
+    return subject;
+  }
+  var padType = conversion.alignmentSpecifier === Const.LITERAL_MINUS ? padRight : padLeft;
+  return padType(subject, width, conversion.getPaddingCharacter());
+}
+
+/**
+ * Add sign to the formatted number.
+ *
+ * @ignore
+ * @name addSignToFormattedNumber
+ * @param  {number} replacementNumber The number to be replaced.
+ * @param  {string} formattedReplacement The formatted version of number.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the formatted number string with a sign.
+ */
+function addSignToFormattedNumber(replacementNumber, formattedReplacement, conversion) {
+  if (conversion.signSpecifier === Const.LITERAL_PLUS && replacementNumber >= 0) {
+    formattedReplacement = Const.LITERAL_PLUS + formattedReplacement;
+  }
+  return formattedReplacement;
+}
+
+/**
+ * Formats a float type according to specifiers.
+ *
+ * @ignore
+ * @param  {string} replacement The string to be formatted.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the formatted string.
+ */
+
+function float(replacement, conversion) {
+  var replacementNumber = parseFloat(replacement);
+  var formattedReplacement = void 0;
+  if (isNaN(replacementNumber)) {
+    replacementNumber = 0;
+  }
+  var precision = coerceToNumber(conversion.precision, 6);
+  switch (conversion.typeSpecifier) {
+    case Const.TYPE_FLOAT:
+      formattedReplacement = replacementNumber.toFixed(precision);
+      break;
+    case Const.TYPE_FLOAT_SCIENTIFIC:
+      formattedReplacement = replacementNumber.toExponential(precision);
+      break;
+    case Const.TYPE_FLOAT_SCIENTIFIC_UPPERCASE:
+      formattedReplacement = replacementNumber.toExponential(precision).toUpperCase();
+      break;
+    case Const.TYPE_FLOAT_SHORT:
+    case Const.TYPE_FLOAT_SHORT_UPPERCASE:
+      formattedReplacement = formatFloatAsShort(replacementNumber, precision, conversion);
+      break;
+  }
+  formattedReplacement = addSignToFormattedNumber(replacementNumber, formattedReplacement, conversion);
+  return coerceToString(formattedReplacement);
+}
+
+/**
+ * Formats the short float.
+ *
+ * @ignore
+ * @param  {number} replacementNumber The number to format.
+ * @param  {number} precision The precision to format the float.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {string}  Returns the formatted short float.
+ */
+function formatFloatAsShort(replacementNumber, precision, conversion) {
+  if (replacementNumber === 0) {
+    return '0';
+  }
+  var nonZeroPrecision = precision === 0 ? 1 : precision;
+  var formattedReplacement = replacementNumber.toPrecision(nonZeroPrecision).replace(REGEXP_TRAILING_ZEROS, '');
+  if (conversion.typeSpecifier === Const.TYPE_FLOAT_SHORT_UPPERCASE) {
+    formattedReplacement = formattedReplacement.toUpperCase();
+  }
+  return formattedReplacement;
+}
+
+/**
+ * Formats an integer type according to specifiers.
+ *
+ * @ignore
+ * @param  {string} replacement The string to be formatted.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the formatted string.
+ */
+
+function integerBase(replacement, conversion) {
+  var integer = parseInt(replacement);
+  if (isNaN(integer)) {
+    integer = 0;
+  }
+  integer = integer >>> 0;
+  switch (conversion.typeSpecifier) {
+    case Const.TYPE_INTEGER_ASCII_CHARACTER:
+      integer = String.fromCharCode(integer);
+      break;
+    case Const.TYPE_INTEGER_BINARY:
+      integer = integer.toString(Const.RADIX_BINARY);
+      break;
+    case Const.TYPE_INTEGER_OCTAL:
+      integer = integer.toString(Const.RADIX_OCTAL);
+      break;
+    case Const.TYPE_INTEGER_HEXADECIMAL:
+      integer = integer.toString(Const.RADIX_HEXADECIMAL);
+      break;
+    case Const.TYPE_INTEGER_HEXADECIMAL_UPPERCASE:
+      integer = integer.toString(Const.RADIX_HEXADECIMAL).toUpperCase();
+      break;
+  }
+  return coerceToString(integer);
+}
+
+/**
+ * Formats a decimal integer type according to specifiers.
+ *
+ * @ignore
+ * @param  {string} replacement The string to be formatted.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the formatted string.
+ */
+
+function integerDecimal(replacement, conversion) {
+  var integer = parseInt(replacement);
+  if (isNaN(integer)) {
+    integer = 0;
+  }
+  return addSignToFormattedNumber(integer, toString(integer), conversion);
+}
+
+/**
+ * Formats a string type according to specifiers.
+ *
+ * @ignore
+ * @param {string} replacement The string to be formatted.
+ * @param {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the formatted string.
+ */
+function stringFormat(replacement, conversion) {
+  var formattedReplacement = replacement;
+  var precision = conversion.precision;
+  if (!isNil(precision) && formattedReplacement.length > precision) {
+    formattedReplacement = truncate(formattedReplacement, precision, '');
+  }
+  return formattedReplacement;
+}
+
+/**
+ * Returns the computed string based on format specifiers.
+ *
+ * @ignore
+ * @name computeReplacement
+ * @param {string} replacement The replacement value.
+ * @param {ConversionSpecification} conversion The conversion specification object.
+ * @return {string} Returns the computed string.
+ */
+function compute(replacement, conversion) {
+  var formatFunction = void 0;
+  switch (conversion.typeSpecifier) {
+    case Const.TYPE_STRING:
+      formatFunction = stringFormat;
+      break;
+    case Const.TYPE_INTEGER_DECIMAL:
+    case Const.TYPE_INTEGER:
+      formatFunction = integerDecimal;
+      break;
+    case Const.TYPE_INTEGER_ASCII_CHARACTER:
+    case Const.TYPE_INTEGER_BINARY:
+    case Const.TYPE_INTEGER_OCTAL:
+    case Const.TYPE_INTEGER_HEXADECIMAL:
+    case Const.TYPE_INTEGER_HEXADECIMAL_UPPERCASE:
+    case Const.TYPE_INTEGER_UNSIGNED_DECIMAL:
+      formatFunction = integerBase;
+      break;
+    case Const.TYPE_FLOAT:
+    case Const.TYPE_FLOAT_SCIENTIFIC:
+    case Const.TYPE_FLOAT_SCIENTIFIC_UPPERCASE:
+    case Const.TYPE_FLOAT_SHORT:
+    case Const.TYPE_FLOAT_SHORT_UPPERCASE:
+      formatFunction = float;
+      break;
+  }
+  var formattedString = formatFunction(replacement, conversion);
+  return alignAndPad(formattedString, conversion);
+}
+
+/**
+ * Construct the new conversion specification object.
+ *
+ * @ignore
+ * @param {Object} properties An object with properties to initialize.
+ * @return {ConversionSpecification} ConversionSpecification instance.
+ */
+function ConversionSpecification(properties) {
+
+  /**
+   * The percent characters from conversion specification.
+   *
+   * @ignore
+   * @name ConversionSpecification#percent
+   * @type {string}
+   */
+  this.percent = properties.percent;
+
+  /**
+   *  The sign specifier to force a sign to be used on a number.
+   *
+   * @ignore
+   * @name ConversionSpecification#signSpecifier
+   * @type {string}
+   */
+  this.signSpecifier = properties.signSpecifier;
+
+  /**
+   * The padding specifier that says what padding character will be used.
+   *
+   * @ignore
+   * @name ConversionSpecification#paddingSpecifier
+   * @type {string}
+   */
+  this.paddingSpecifier = properties.paddingSpecifier;
+
+  /**
+   * The alignment specifier that says if the result should be left-justified or right-justified.
+   *
+   * @ignore
+   * @name ConversionSpecification#alignmentSpecifier
+   * @type {string}
+   */
+  this.alignmentSpecifier = properties.alignmentSpecifier;
+
+  /**
+   * The width specifier how many characters this conversion should result in.
+   *
+   * @ignore
+   * @name ConversionSpecification#width
+   * @type {number}
+   */
+  this.width = properties.width;
+
+  /**
+   * The precision specifier says how many decimal digits should be displayed for floating-point numbers.
+   *
+   * @ignore
+   * @name ConversionSpecification#precision
+   * @type {number}
+   */
+  this.precision = properties.precision;
+
+  /**
+   * The type specifier says what type the argument data should be treated as.
+   *
+   * @ignore
+   * @name ConversionSpecification#typeSpecifier
+   * @type {string}
+   */
+  this.typeSpecifier = properties.typeSpecifier;
+}
+
+/**
+ * Check if the conversion specification is a percent literal "%%".
+ *
+ * @ignore
+ * @return {boolean} Returns true if the conversion is a percent literal, false otherwise.
+ */
+ConversionSpecification.prototype.isPercentLiteral = function () {
+  return Const.LITERAL_PERCENT_SPECIFIER === this.percent;
+};
+
+/**
+ * Get the padding character from padding specifier.
+ *
+ * @ignore
+ * @returns {string} Returns the padding character.
+ */
+ConversionSpecification.prototype.getPaddingCharacter = function () {
+  var paddingCharacter = nilDefault(this.paddingSpecifier, ' ');
+  if (paddingCharacter.length === 2 && paddingCharacter[0] === Const.LITERAL_SINGLE_QUOTE) {
+    paddingCharacter = paddingCharacter[1];
+  }
+  return paddingCharacter;
+};
+
+/**
+ * Validates the specifier type and replacement position.
+ *
+ * @ignore
+ * @throws {Error} Throws an exception on insufficient arguments or unknown specifier.
+ * @param  {number} index The index of the matched specifier.
+ * @param  {number} replacementsLength The number of replacements.
+ * @param  {ConversionSpecification} conversion The conversion specification object.
+ * @return {undefined}
+ */
+function validate(index, replacementsLength, conversion) {
+  if (isNil(conversion.typeSpecifier)) {
+    throw new Error('sprintf(): Unknown type specifier');
+  }
+  if (index > replacementsLength - 1) {
+    throw new Error('sprintf(): Too few arguments');
+  }
+  if (index < 0) {
+    throw new Error('sprintf(): Argument number must be greater than zero');
+  }
+}
+
+/**
+ * Return the replacement for regular expression match of the conversion specification.
+ *
+ * @ignore
+ * @name matchReplacement
+ * @param {ReplacementIndex} replacementIndex The replacement index object.
+ * @param {string[]} replacements The array of replacements.
+ * @param {string} conversionSpecification The conversion specification.
+ * @param {string} percent The percent characters from conversion specification.
+ * @param {string} position The position to insert the replacement.
+ * @param {string} signSpecifier The sign specifier to force a sign to be used on a number.
+ * @param {string} paddingSpecifier The padding specifier that says what padding character will be used.
+ * @param {string} alignmentSpecifier The alignment specifier that says if the result should be left-justified or right-justified.
+ * @param {string} widthSpecifier The width specifier how many characters this conversion should result in.
+ * @param {string} precisionSpecifier The precision specifier says how many decimal digits should be displayed for floating-point numbers.
+ * @param {string} typeSpecifier The type specifier says what type the argument data should be treated as.
+ * @return {string} Returns the computed replacement.
+ */
+function match(replacementIndex, replacements, conversionSpecification, percent, position, signSpecifier, paddingSpecifier, alignmentSpecifier, widthSpecifier, precisionSpecifier, typeSpecifier) {
+  var conversion = new ConversionSpecification({
+    percent: percent,
+    signSpecifier: signSpecifier,
+    paddingSpecifier: paddingSpecifier,
+    alignmentSpecifier: alignmentSpecifier,
+    width: coerceToNumber(widthSpecifier, null),
+    precision: coerceToNumber(precisionSpecifier, null),
+    typeSpecifier: typeSpecifier
+  });
+  if (conversion.isPercentLiteral()) {
+    return conversionSpecification.slice(1);
+  }
+  var actualReplacementIndex = replacementIndex.getIndexByPosition(position);
+  replacementIndex.incrementOnEmptyPosition(position);
+  validate(actualReplacementIndex, replacements.length, conversion);
+  return compute(replacements[actualReplacementIndex], conversion);
+}
+
+/**
+ * Produces a string according to `format`.
+ *
+ * <div id="sprintf-format" class="smaller">
+ * `format` string is composed of zero or more directives: ordinary characters (not <code>%</code>), which are  copied  unchanged
+ * to  the  output string and <i>conversion specifications</i>, each of which results in fetching zero or more subsequent
+ * arguments. <br/> <br/>
+ *
+ * Each <b>conversion specification</b> is introduced by the character <code>%</code>, and ends with a <b>conversion
+ * specifier</b>. In between there may be (in this order) zero or more <b>flags</b>, an optional <b>minimum field width</b>
+ * and an optional <b>precision</b>.<br/>
+ * The syntax is: <b>ConversionSpecification</b> = <b>"%"</b> { <b>Flags</b> }
+ * [ <b>MinimumFieldWidth</b> ] [ <b>Precision</b> ] <b>ConversionSpecifier</b>, where curly braces { } denote repetition
+ * and square brackets [ ] optionality. <br/><br/>
+ *
+ * By default, the arguments are used in the given order.<br/>
+ * For argument numbering and swapping, `%m$` (where `m` is a number indicating the argument order)
+ * is used instead of `%` to specify explicitly which argument is taken. For instance `%1$s` fetches the 1st argument,
+ * `%2$s` the 2nd and so on, no matter what position  the conversion specification has in `format`.
+ * <br/><br/>
+ *
+ * <b>The flags</b><br/>
+ * The character <code>%</code> is followed by zero or more of the following flags:<br/>
+ * <table class="light-params">
+ *   <tr>
+ *     <td><code>+</code></td>
+ *     <td>
+ *       A  sign (<code>+</code> or <code>-</code>) should always be placed before a number produced by a
+ *       signed conversion. By default a sign is used only for negative numbers.
+ *     </td>
+ *   </tr>
+ *   <tr>
+ *     <td><code>0</code></td>
+ *     <td>The value should be zero padded.</td>
+ *   </tr>
+ *   <tr>
+ *     <td><code>&blank;</code></td>
+ *     <td>(a space) The value should be space padded.</td>
+ *   </tr>
+ *   <tr>
+ *    <td><code>'</code></td>
+ *    <td>Indicates alternate padding character, specified by prefixing it with a single quote <code>'</code>.</td>
+ *   </tr>
+ *   <tr>
+ *     <td><code>-</code></td>
+ *     <td>The converted value is to be left adjusted on the field boundary (the default is right justification).</td>
+ *   </tr>
+ * </table>
+ *
+ * <b>The minimum field width</b><br/>
+ * An  optional decimal digit string (with nonzero first digit) specifying a minimum field width.  If the converted
+ * value has fewer characters than the field width, it will be padded with spaces on the left (or right, if the
+ * left-adjustment flag has been given).<br/><br/>
+ *
+ * <b>The precision</b><br/>
+ * An optional precision, in the form of a period `.` followed by an optional decimal digit string.<br/>
+ * This gives the number of digits to appear after the radix character for `e`, `E`, `f` and `F` conversions, the
+ * maximum number of significant digits for `g` and `G` conversions or the maximum number of characters to be printed
+ * from a string for `s` conversion.<br/><br/>
+ *
+ * <b>The conversion specifier</b><br/>
+ * A specifier that mentions what type the argument should be treated as:
+ *
+ * <table class="light-params">
+ *   <tr>
+ *     <td>`s`</td>
+ *     <td>The string argument is treated as and presented as a string.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`d` `i`</td>
+ *     <td>The integer argument is converted to signed decimal notation.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`b`</td>
+ *     <td>The unsigned integer argument is converted to unsigned binary.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`c`</td>
+ *     <td>The unsigned integer argument is converted to an ASCII character with that number.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`o`</td>
+ *     <td>The unsigned integer argument is converted to unsigned octal.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`u`</td>
+ *     <td>The unsigned integer argument is converted to unsigned decimal.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`x` `X`</td>
+ *     <td>The unsigned integer argument is converted to unsigned hexadecimal. The letters `abcdef` are used for `x`
+ *     conversions; the letters `ABCDEF` are used for `X` conversions.</td>
+ *   </tr>
+ *   <tr>
+ *     <td>`f`</td>
+ *     <td>
+ *      The float argument is rounded and converted to decimal notation in the style `[-]ddd.ddd`, where the number of
+ *      digits after the decimal-point character is equal to the precision specification. If the precision is missing,
+ *      it is taken as 6; if the precision is explicitly zero, no decimal-point character appears.
+ *      If a decimal point appears, at least one digit appears before it.
+ *     </td>
+ *   </tr>
+ *   <tr>
+ *     <td>`e` `E`</td>
+ *     <td>
+ *       The float argument is rounded and converted in the style `[-]d.ddde±dd`, where there is one digit
+ *       before the decimal-point character and the number of digits after it is equal to the precision. If
+ *       the precision is missing, it is taken as `6`; if the precision is zero, no decimal-point character
+ *       appears. An `E` conversion uses the letter `E` (rather than `e`) to introduce the exponent.
+ *     </td>
+ *   </tr>
+ *   <tr>
+ *     <td>`g` `G`</td>
+ *     <td>
+ *       The float argument is converted in style `f` or `e` (or `F` or `E` for `G` conversions). The precision specifies
+ *       the number of significant digits. If the precision is missing, `6` digits are given; if the
+ *       precision is zero, it is treated as `1`. Style `e` is used if the exponent from its conversion is less
+ *       than `-6` or greater than or equal to the precision. Trailing zeros are removed from the fractional
+ *       part of the result; a decimal point appears only if it is followed by at least one digit.
+ *     </td>
+ *   </tr>
+ *   <tr>
+ *     <td>`%`</td>
+ *     <td>A literal `%` is written. No argument is converted. The complete conversion specification is `%%`.</td>
+ *   </tr>
+ *
+ * </table>
+ * </div>
+ *
+ * @function sprintf
+ * @static
+ * @since 1.0.0
+ * @memberOf Format
+ * @param  {string} [format=''] The format string.
+ * @param  {...*}               replacements The replacements to produce the string.
+ * @return {string}             Returns the produced string.
+ * @example
+ * v.sprintf('%s, %s!', 'Hello', 'World');
+ * // => 'Hello World!'
+ *
+ * v.sprintf('%s costs $%d', 'coffee', 2);
+ * // => 'coffee costs $2'
+ *
+ * v.sprintf('%1$s %2$s %1$s %2$s, watcha gonna %3$s', 'bad', 'boys', 'do')
+ * // => 'bad boys bad boys, watcha gonna do'
+ *
+ * v.sprintf('% 6s', 'bird');
+ * // => '  bird'
+ *
+ * v.sprintf('% -6s', 'crab');
+ * // => 'crab  '
+ *
+ * v.sprintf("%'*5s", 'cat');
+ * // => '**cat'
+ *
+ * v.sprintf("%'*-6s", 'duck');
+ * // => 'duck**'
+ *
+ * v.sprintf('%d %i %+d', 15, -2, 25);
+ * // => '15 -2 +25'
+ *
+ * v.sprintf("%06d", 15);
+ * // => '000015'
+ *
+ * v.sprintf('0b%b 0o%o 0x%X', 12, 9, 155);
+ * // => '0b1100 0o11 0x9B'
+ *
+ * v.sprintf('%.2f', 10.469);
+ * // => '10.47'
+ *
+ * v.sprintf('%.2e %g', 100.5, 0.455);
+ * // => '1.01e+2 0.455'
+ * 
+ */
+function sprintf(format) {
+  var formatString = coerceToString(format);
+  if (formatString === '') {
+    return formatString;
+  }
+
+  for (var _len = arguments.length, replacements = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    replacements[_key - 1] = arguments[_key];
+  }
+
+  var boundReplacementMatch = match.bind(undefined, new ReplacementIndex(), replacements);
+  return formatString.replace(REGEXP_CONVERSION_SPECIFICATION, boundReplacementMatch);
+}
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * Produces a string according to `format`. Works exactly like <a href="#sprintf"><code>sprintf()</code></a>,
+ * with the only difference that accepts the formatting arguments in an array `values`.<br/>
+ * See <a href="#sprintf-format">here</a> `format` string specifications.
+ *
+ * @function vprintf
+ * @static
+ * @since 1.0.0
+ * @memberOf Format
+ * @param  {string} format='']  The format string.
+ * @param  {Array} replacements The array of replacements to produce the string.
+ * @return {string}             Returns the produced string.
+ * @example
+ * v.vprintf('%s', ['Welcome'])
+ * // => 'Welcome'
+ *
+ * v.vprintf('%s has %d apples', ['Alexandra', 3]);
+ * // => 'Alexandra has 3 apples'
+ */
+function vprintf(format, replacements) {
+  return sprintf.apply(undefined, [format].concat(_toConsumableArray(nilDefault(replacements, []))));
+}
+
+var escapeCharactersMap = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '&': '&amp;',
+  '"': '&quot;',
+  "'": '&#x27;',
+  '`': '&#x60;'
+};
+
+/**
+ * Return the escaped version of `character`.
+ *
+ * @ignore
+ * @param  {string} character The character to be escape.
+ * @return {string}           The escaped version of character.
+ */
+function replaceSpecialCharacter(character) {
+  return escapeCharactersMap[character];
+}
+
+/**
+ * Escapes HTML special characters  <code>< > & ' " `</code> in <code>subject</code>.
+ *
+ * @function escapeHtml
+ * @static
+ * @since 1.0.0         
+ * @memberOf Escape
+ * @param {string} [subject=''] The string to escape.
+ * @return {string} Returns the escaped string.
+ * @example
+ * v.escapeHtml('<p>wonderful world</p>');
+ * // => '&lt;p&gt;wonderful world&lt;/p&gt;'
+ */
+function escapeHtml(subject) {
+  return coerceToString(subject).replace(REGEXP_HTML_SPECIAL_CHARACTERS, replaceSpecialCharacter);
+}
+
+/**
+ * Escapes the regular expression special characters `- [ ] / { } ( ) * + ? . \ ^ $ |` in `subject`.
+ *
+ * @function escapeRegExp
+ * @static
+ * @since 1.0.0
+ * @memberOf Escape
+ * @param {string} [subject=''] The string to escape.
+ * @return {string} Returns the escaped string.
+ * @example
+ * v.escapeRegExp('(hours)[minutes]{seconds}');
+ * // => '\(hours\)\[minutes\]\{seconds\}'
+ */
+function escapeRegExp(subject) {
+  return coerceToString(subject).replace(REGEXP_SPECIAL_CHARACTERS, '\\$&');
+}
+
+var unescapeCharactersMap = {
+  '<': /(&lt;)|(&#x0*3c;)|(&#0*60;)/gi,
+  '>': /(&gt;)|(&#x0*3e;)|(&#0*62;)/gi,
+  '&': /(&amp;)|(&#x0*26;)|(&#0*38;)/gi,
+  '"': /(&quot;)|(&#x0*22;)|(&#0*34;)/gi,
+  "'": /(&#x0*27;)|(&#0*39;)/gi,
+  '`': /(&#x0*60;)|(&#0*96;)/gi
+};
+var characters = Object.keys(unescapeCharactersMap);
+
+/**
+ * Replaces the HTML entities with corresponding characters.
+ *
+ * @ignore
+ * @param  {string} string The accumulator string.
+ * @param  {string} key    The character.
+ * @return {string}        The string with replaced HTML entity
+ */
+function reduceUnescapedString(string, key) {
+  return string.replace(unescapeCharactersMap[key], key);
+}
+
+/**
+ * Unescapes HTML special characters from <code>&amp;lt; &amp;gt; &amp;amp; &amp;quot; &amp;#x27; &amp;#x60;</code>
+ * to corresponding <code>< > & ' " `</code> in <code>subject</code>.
+ *
+ * @function unescapeHtml
+ * @static
+ * @since 1.0.0
+ * @memberOf Escape
+ * @param  {string} [subject=''] The string to unescape.
+ * @return {string}              Returns the unescaped string.
+ * @example
+ * v.unescapeHtml('&lt;p&gt;wonderful world&lt;/p&gt;');
+ * // => '<p>wonderful world</p>'
+ */
+function unescapeHtml(subject) {
+  var subjectString = coerceToString(subject);
+  return characters.reduce(reduceUnescapedString, subjectString);
+}
+
+/**
+ * Returns the first occurrence index of `search` in `subject`.
+ *
+ * @function indexOf
+ * @static
+ * @since 1.0.0
+ * @memberOf Index
+ * @param {string} [subject=''] The string where to search.
+ * @param {string} search The string to search.
+ * @param {number} [fromIndex=0] The index to start searching.
+ * @return {number} Returns the first occurrence index or `-1` if not found.
+ * @example
+ * v.indexOf('morning', 'n');
+ * // => 3
+ *
+ * v.indexOf('evening', 'o');
+ * // => -1
+ */
+function indexOf(subject, search, fromIndex) {
+  var subjectString = coerceToString(subject);
+  return subjectString.indexOf(search, fromIndex);
+}
+
+/**
+ * Returns the last occurrence index of `search` in `subject`.
+ *
+ * @function lastIndexOf
+ * @static
+ * @since 1.0.0
+ * @memberOf Index
+ * @param {string} [subject=''] The string where to search.
+ * @param {string} search The string to search.
+ * @param {number} [fromIndex=subject.length - 1] The index to start searching backward in the string.
+ * @return {number} Returns the last occurrence index or `-1` if not found.
+ * @example
+ * v.lastIndexOf('morning', 'n');
+ * // => 5
+ *
+ * v.lastIndexOf('evening', 'o');
+ * // => -1
+ */
+function lastIndexOf(subject, search, fromIndex) {
+  var subjectString = coerceToString(subject);
+  return subjectString.lastIndexOf(search, fromIndex);
+}
+
+/**
+ * Returns the first index of a `pattern` match in `subject`.
+ *
+ * @function search
+ * @static
+ * @since 1.0.0
+ * @memberOf Index
+ * @param {string} [subject=''] The string where to search.
+ * @param {string|RegExp} pattern The pattern to match. If `pattern` is not RegExp, it is transformed to `new RegExp(pattern)`.
+ * @param {number} [fromIndex=0] The index to start searching.
+ * @return {number} Returns the first match index or `-1` if not found.
+ * @example
+ * v.search('morning', /rn/);
+ * // => 2
+ *
+ * v.search('evening', '/\d/');
+ * // => -1
+ */
+function search(subject, pattern, fromIndex) {
+  var subjectString = coerceToString(subject);
+  var fromIndexNumber = isNil(fromIndex) ? 0 : clipNumber(toInteger(fromIndex), 0, subjectString.length);
+  var matchIndex = subjectString.substr(fromIndexNumber).search(pattern);
+  if (matchIndex !== -1 && !isNaN(fromIndexNumber)) {
+    matchIndex += fromIndexNumber;
+  }
+  return matchIndex;
+}
+
+/**
+ * Inserts into `subject` a string `toInsert` at specified `position`.
+ *
+ * @function insert
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string where to insert.
+ * @param {string} [toInsert=''] The string to be inserted.
+ * @param {number} [position=0] The position to insert.
+ * @return {string} Returns the string after insertion.
+ * @example
+ * v.insert('ct', 'a', 1);
+ * // => 'cat'
+ *
+ * v.insert('sunny', ' day', 5);
+ * // => 'sunny day'
+ */
+function insert(subject, toInsert, position) {
+  var subjectString = coerceToString(subject);
+  var toInsertString = coerceToString(toInsert);
+  var positionNumber = coerceToNumber(position);
+  if (positionNumber < 0 || positionNumber > subjectString.length || toInsertString === '') {
+    return subjectString;
+  }
+  return subjectString.slice(0, positionNumber) + toInsertString + subjectString.slice(positionNumber);
+}
+
+/**
+ * Generated diacritics map. See bellow the base code.
+ * @ignore
+ * @see http://stackoverflow.com/a/18391901/1894471
+ * @type Object
+ */
+
+var diacritics = {
+  "3": "\u039e\u03be",
+  "8": "\u0398\u03b8",
+  "A": "\x41\xc0\xc1\xc2\xc3\xc4\xc5\u0100\u0102\u0104\u01cd\u01de\u01e0\u01fa\u0200\u0202\u0226\u023a\u1e00\u1ea0\u1ea2\u1ea4\u1ea6\u1ea8\u1eaa\u1eac\u1eae\u1eb0\u1eb2\u1eb4\u1eb6\u24b6\u2c6f\uff21\u0386\u0391\u0410",
+  "B": "\x42\u0181\u0182\u0243\u1e02\u1e04\u1e06\u24b7\uff22\u0392\u0411",
+  "C": "\x43\xc7\u0106\u0108\u010a\u010c\u0187\u023b\u1e08\u24b8\ua73e\uff23\u0426",
+  "D": "\x44\u010e\u0110\u0189\u018a\u018b\u1e0a\u1e0c\u1e0e\u1e10\u1e12\u24b9\ua779\uff24\xd0\u0394\u0414",
+  "E": "\x45\xc8\xc9\xca\xcb\u0112\u0114\u0116\u0118\u011a\u018e\u0190\u0204\u0206\u0228\u1e14\u1e16\u1e18\u1e1a\u1e1c\u1eb8\u1eba\u1ebc\u1ebe\u1ec0\u1ec2\u1ec4\u1ec6\u24ba\uff25\u0388\u0395\u0415\u042d",
+  "F": "\x46\u0191\u1e1e\u24bb\ua77b\uff26\u03a6\u0424",
+  "G": "\x47\u011c\u011e\u0120\u0122\u0193\u01e4\u01e6\u01f4\u1e20\u24bc\ua77d\ua77e\ua7a0\uff27\u0393\u0413\u0490",
+  "H": "\x48\u0124\u0126\u021e\u1e22\u1e24\u1e26\u1e28\u1e2a\u24bd\u2c67\u2c75\ua78d\uff28\u0389\u0397\u0425",
+  "I": "\x49\xcc\xcd\xce\xcf\u0128\u012a\u012c\u012e\u0130\u0197\u01cf\u0208\u020a\u1e2c\u1e2e\u1ec8\u1eca\u24be\uff29\u038a\u0399\u03aa\u0406\u0418",
+  "J": "\x4a\u0134\u0248\u24bf\uff2a\u0419",
+  "K": "\x4b\u0136\u0198\u01e8\u1e30\u1e32\u1e34\u24c0\u2c69\ua740\ua742\ua744\ua7a2\uff2b\u039a\u041a",
+  "L": "\x4c\u0139\u013b\u013d\u013f\u0141\u023d\u1e36\u1e38\u1e3a\u1e3c\u24c1\u2c60\u2c62\ua746\ua748\ua780\uff2c\u039b\u041b",
+  "M": "\x4d\u019c\u1e3e\u1e40\u1e42\u24c2\u2c6e\uff2d\u039c\u041c",
+  "N": "\x4e\xd1\u0143\u0145\u0147\u019d\u01f8\u0220\u1e44\u1e46\u1e48\u1e4a\u24c3\ua790\ua7a4\uff2e\u039d\u041d",
+  "O": "\x4f\xd2\xd3\xd4\xd5\xd6\xd8\u014c\u014e\u0150\u0186\u019f\u01a0\u01d1\u01ea\u01ec\u01fe\u020c\u020e\u022a\u022c\u022e\u0230\u1e4c\u1e4e\u1e50\u1e52\u1ecc\u1ece\u1ed0\u1ed2\u1ed4\u1ed6\u1ed8\u1eda\u1edc\u1ede\u1ee0\u1ee2\u24c4\ua74a\ua74c\uff2f\u038c\u039f\u041e",
+  "P": "\x50\u01a4\u1e54\u1e56\u24c5\u2c63\ua750\ua752\ua754\uff30\u03a0\u041f",
+  "Q": "\x51\u024a\u24c6\ua756\ua758\uff31",
+  "R": "\x52\u0154\u0156\u0158\u0210\u0212\u024c\u1e58\u1e5a\u1e5c\u1e5e\u24c7\u2c64\ua75a\ua782\ua7a6\uff32\u03a1\u0420",
+  "S": "\x53\u015a\u015c\u015e\u0160\u0218\u1e60\u1e62\u1e64\u1e66\u1e68\u1e9e\u24c8\u2c7e\ua784\ua7a8\uff33\u03a3\u0421",
+  "T": "\x54\u0162\u0164\u0166\u01ac\u01ae\u021a\u023e\u1e6a\u1e6c\u1e6e\u1e70\u24c9\ua786\uff34\u03a4\u0422",
+  "U": "\x55\xd9\xda\xdb\xdc\u0168\u016a\u016c\u016e\u0170\u0172\u01af\u01d3\u01d5\u01d7\u01d9\u01db\u0214\u0216\u0244\u1e72\u1e74\u1e76\u1e78\u1e7a\u1ee4\u1ee6\u1ee8\u1eea\u1eec\u1eee\u1ef0\u24ca\uff35\u0423\u042a",
+  "V": "\x56\u01b2\u0245\u1e7c\u1e7e\u24cb\ua75e\uff36\u0412",
+  "W": "\x57\u0174\u1e80\u1e82\u1e84\u1e86\u1e88\u24cc\u2c72\uff37\u038f\u03a9",
+  "X": "\x58\u1e8a\u1e8c\u24cd\uff38\u03a7",
+  "Y": "\x59\xdd\u0176\u0178\u01b3\u0232\u024e\u1e8e\u1ef2\u1ef4\u1ef6\u1ef8\u1efe\u24ce\uff39\u038e\u03a5\u03ab\u042b",
+  "Z": "\x5a\u0179\u017b\u017d\u01b5\u0224\u1e90\u1e92\u1e94\u24cf\u2c6b\u2c7f\ua762\uff3a\u0396\u0417",
+  "a": "\x61\xe0\xe1\xe2\xe3\xe4\xe5\u0101\u0103\u0105\u01ce\u01df\u01e1\u01fb\u0201\u0203\u0227\u0250\u1e01\u1e9a\u1ea1\u1ea3\u1ea5\u1ea7\u1ea9\u1eab\u1ead\u1eaf\u1eb1\u1eb3\u1eb5\u1eb7\u24d0\u2c65\uff41\u03ac\u03b1\u0430",
+  "b": "\x62\u0180\u0183\u0253\u1e03\u1e05\u1e07\u24d1\uff42\u03b2\u0431",
+  "c": "\x63\xe7\u0107\u0109\u010b\u010d\u0188\u023c\u1e09\u2184\u24d2\ua73f\uff43\u0446",
+  "d": "\x64\u010f\u0111\u018c\u0256\u0257\u1e0b\u1e0d\u1e0f\u1e11\u1e13\u24d3\ua77a\uff44\xf0\u03b4\u0434",
+  "e": "\x65\xe8\xe9\xea\xeb\u0113\u0115\u0117\u0119\u011b\u01dd\u0205\u0207\u0229\u0247\u025b\u1e15\u1e17\u1e19\u1e1b\u1e1d\u1eb9\u1ebb\u1ebd\u1ebf\u1ec1\u1ec3\u1ec5\u1ec7\u24d4\uff45\u03ad\u03b5\u0435\u044d",
+  "f": "\x66\u0192\u1e1f\u24d5\ua77c\uff46\u03c6\u0444",
+  "g": "\x67\u011d\u011f\u0121\u0123\u01e5\u01e7\u01f5\u0260\u1d79\u1e21\u24d6\ua77f\ua7a1\uff47\u03b3\u0433\u0491",
+  "h": "\x68\u0125\u0127\u021f\u0265\u1e23\u1e25\u1e27\u1e29\u1e2b\u1e96\u24d7\u2c68\u2c76\uff48\u03ae\u03b7\u0445",
+  "i": "\x69\xec\xed\xee\xef\u0129\u012b\u012d\u012f\u0131\u01d0\u0209\u020b\u0268\u1e2d\u1e2f\u1ec9\u1ecb\u24d8\uff49\u0390\u03af\u03b9\u03ca\u0438\u0456",
+  "j": "\x6a\u0135\u01f0\u0249\u24d9\uff4a\u0439",
+  "k": "\x6b\u0137\u0199\u01e9\u1e31\u1e33\u1e35\u24da\u2c6a\ua741\ua743\ua745\ua7a3\uff4b\u03ba\u043a",
+  "l": "\x6c\u013a\u013c\u013e\u0140\u0142\u017f\u019a\u026b\u1e37\u1e39\u1e3b\u1e3d\u24db\u2c61\ua747\ua749\ua781\uff4c\u03bb\u043b",
+  "m": "\x6d\u026f\u0271\u1e3f\u1e41\u1e43\u24dc\uff4d\u03bc\u043c",
+  "n": "\x6e\xf1\u0144\u0146\u0148\u0149\u019e\u01f9\u0272\u1e45\u1e47\u1e49\u1e4b\u24dd\ua791\ua7a5\uff4e\u03bd\u043d",
+  "o": "\x6f\xf2\xf3\xf4\xf5\xf6\xf8\u014d\u014f\u0151\u01a1\u01d2\u01eb\u01ed\u01ff\u020d\u020f\u022b\u022d\u022f\u0231\u0254\u0275\u1e4d\u1e4f\u1e51\u1e53\u1ecd\u1ecf\u1ed1\u1ed3\u1ed5\u1ed7\u1ed9\u1edb\u1edd\u1edf\u1ee1\u1ee3\u24de\ua74b\ua74d\uff4f\u03bf\u03cc\u043e",
+  "p": "\x70\u01a5\u1d7d\u1e55\u1e57\u24df\ua751\ua753\ua755\uff50\u03c0\u043f",
+  "q": "\x71\u024b\u24e0\ua757\ua759\uff51",
+  "r": "\x72\u0155\u0157\u0159\u0211\u0213\u024d\u027d\u1e59\u1e5b\u1e5d\u1e5f\u24e1\ua75b\ua783\ua7a7\uff52\u03c1\u0440",
+  "s": "\x73\xdf\u015b\u015d\u015f\u0161\u0219\u023f\u1e61\u1e63\u1e65\u1e67\u1e69\u1e9b\u24e2\ua785\ua7a9\uff53\u03c2\u03c3\u0441",
+  "t": "\x74\u0163\u0165\u0167\u01ad\u021b\u0288\u1e6b\u1e6d\u1e6f\u1e71\u1e97\u24e3\u2c66\ua787\uff54\u03c4\u0442",
+  "u": "\x75\xf9\xfa\xfb\xfc\u0169\u016b\u016d\u016f\u0171\u0173\u01b0\u01d4\u01d6\u01d8\u01da\u01dc\u0215\u0217\u0289\u1e73\u1e75\u1e77\u1e79\u1e7b\u1ee5\u1ee7\u1ee9\u1eeb\u1eed\u1eef\u1ef1\u24e4\uff55\u0443\u044a",
+  "v": "\x76\u028b\u028c\u1e7d\u1e7f\u24e5\ua75f\uff56\u0432",
+  "w": "\x77\u0175\u1e81\u1e83\u1e85\u1e87\u1e89\u1e98\u24e6\u2c73\uff57\u03c9\u03ce",
+  "x": "\x78\u1e8b\u1e8d\u24e7\uff58\u03c7",
+  "y": "\x79\xfd\xff\u0177\u01b4\u0233\u024f\u1e8f\u1e99\u1ef3\u1ef5\u1ef7\u1ef9\u1eff\u24e8\uff59\u03b0\u03c5\u03cb\u03cd\u044b",
+  "z": "\x7a\u017a\u017c\u017e\u01b6\u0225\u0240\u1e91\u1e93\u1e95\u24e9\u2c6c\ua763\uff5a\u03b6\u0437",
+  "OE": "\x8c\u0152",
+  "oe": "\x9c\u0153",
+  "AE": "\xc6\u01e2\u01fc",
+  "ae": "\xe6\u01e3\u01fd",
+  "hv": "\u0195",
+  "OI": "\u01a2",
+  "oi": "\u01a3",
+  "DZ": "\u01c4\u01f1",
+  "Dz": "\u01c5\u01f2",
+  "dz": "\u01c6\u01f3",
+  "LJ": "\u01c7",
+  "Lj": "\u01c8",
+  "lj": "\u01c9",
+  "NJ": "\u01ca",
+  "Nj": "\u01cb",
+  "nj": "\u01cc",
+  "OU": "\u0222",
+  "ou": "\u0223",
+  "TZ": "\ua728",
+  "tz": "\ua729",
+  "AA": "\ua732",
+  "aa": "\ua733",
+  "AO": "\ua734",
+  "ao": "\ua735",
+  "AU": "\ua736",
+  "au": "\ua737",
+  "AV": "\ua738\ua73a",
+  "av": "\ua739\ua73b",
+  "AY": "\ua73c",
+  "ay": "\ua73d",
+  "OO": "\ua74e",
+  "oo": "\ua74f",
+  "VY": "\ua760",
+  "vy": "\ua761",
+  "TH": "\xde",
+  "th": "\xfe",
+  "PS": "\u03a8",
+  "ps": "\u03c8",
+  "Yo": "\u0401",
+  "Ye": "\u0404",
+  "Yi": "\u0407",
+  "Zh": "\u0416",
+  "Ch": "\u0427",
+  "Sh": "\u0428\u0429",
+  "": "\u042c\u044c",
+  "Yu": "\u042e",
+  "Ya": "\u042f",
+  "zh": "\u0436",
+  "ch": "\u0447",
+  "sh": "\u0448\u0449",
+  "yu": "\u044e",
+  "ya": "\u044f",
+  "yo": "\u0451",
+  "ye": "\u0454",
+  "yi": "\u0457"
+};
+
+var diacriticsMap = null;
+
+/**
+ * Creates a map of the diacritics.
+ *
+ * @ignore
+ * @returns {Object} Returns the diacritics map.
+ */
+function getDiacriticsMap() {
+  if (diacriticsMap !== null) {
+    return diacriticsMap;
+  }
+  diacriticsMap = {};
+  Object.keys(diacritics).forEach(function (key) {
+    var characters = diacritics[key];
+    for (var index = 0; index < characters.length; index++) {
+      var character = characters[index];
+      diacriticsMap[character] = key;
+    }
+  });
+  return diacriticsMap;
+}
+
+/**
+ * Get the latin character from character with diacritics.
+ *
+ * @ignore
+ * @param   {string} character The character with diacritics.
+ * @returns {string}           Returns the character without diacritics.
+ */
+function getLatinCharacter(character) {
+  var characterWithoutDiacritic = getDiacriticsMap()[character];
+  return characterWithoutDiacritic ? characterWithoutDiacritic : character;
+}
+
+/**
+ * Returns the `cleanCharacter` from combining marks regular expression match.
+ *
+ * @ignore
+ * @param {string} character The character with combining marks
+ * @param {string} cleanCharacter The character without combining marks.
+ * @return {string} The character without combining marks.
+ */
+function removeCombiningMarks(character, cleanCharacter) {
+  return cleanCharacter;
+}
+
+/**
+ * Latinises the `subject` by removing diacritic characters.
+ *
+ * @function latinise
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to latinise.
+ * @return {string} Returns the latinised string.
+ * @example
+ * v.latinise('cafe\u0301'); // or 'café'
+ * // => 'cafe'
+ *
+ * v.latinise('août décembre');
+ * // => 'aout decembre'
+ *
+ * v.latinise('как прекрасен этот мир');
+ * // => 'kak prekrasen etot mir'
+ */
+function latinise(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  return subjectString.replace(REGEXP_NON_LATIN, getLatinCharacter).replace(REGEXP_COMBINING_MARKS, removeCombiningMarks);
+}
+
+/**
+ * Pads `subject` to a new `length`.
+ *
+ * @function pad
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to pad.
+ * @param {int} [length=0] The length to pad the string. No changes are made if `length` is less than `subject.length`.
+ * @param {string} [pad=' '] The string to be used for padding.
+ * @return {string} Returns the padded string.
+ * @example
+ * v.pad('dog', 5);
+ * // => ' dog '
+ *
+ * v.pad('bird', 6, '-');
+ * // => '-bird-'
+ *
+ * v.pad('cat', 6, '-=');
+ * // => '-cat-='
+ */
+function pad(subject, length, pad) {
+  var subjectString = coerceToString(subject);
+  var lengthInt = isNil(length) ? 0 : clipNumber(toInteger(length), 0, MAX_SAFE_INTEGER);
+  var padString = coerceToString(pad, ' ');
+  if (lengthInt <= subjectString.length) {
+    return subjectString;
+  }
+  var paddingLength = lengthInt - subjectString.length;
+  var paddingSideLength = toInteger(paddingLength / 2);
+  var paddingSideRemainingLength = paddingLength % 2;
+  return buildPadding(padString, paddingSideLength) + subjectString + buildPadding(padString, paddingSideLength + paddingSideRemainingLength);
+}
+
+/**
+ * Replaces the matches of `pattern` with `replacement`. <br/>
+ *
+ * @function replace
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to verify.
+ * @param {string|RegExp} pattern The pattern which match is replaced. If `pattern` is a string,
+ * a simple string match is evaluated and only the first occurrence replaced.
+ * @param {string|Function} replacement The string or function which invocation result replaces `pattern` match.
+ * @return {string} Returns the replacement result.
+ * @example
+ * v.replace('swan', 'wa', 'u');
+ * // => 'sun'
+ *
+ * v.replace('domestic duck', /domestic\s/, '');
+ * // => 'duck'
+ *
+ * v.replace('nice duck', /(nice)(duck)/, function(match, nice, duck) {
+ *   return 'the ' + duck + ' is ' + nice;
+ * });
+ * // => 'the duck is nice'
+ */
+function replace(subject, pattern, replacement) {
+  var subjectString = coerceToString(subject);
+  return subjectString.replace(pattern, replacement);
+}
+
+/**
+ * Get the flags string from a regular expression object.
+ *
+ * @ignore
+ * @param {RegExp} regExp The regular expression object.
+ * @return {string} Returns the string with flags chars.
+ */
+function getRegExpFlags(regExp) {
+  return regExp.toString().match(REGEXP_FLAGS)[0];
+}
+
+/**
+ * Checks whether `subject` includes `search` starting from `position`.
+ *
+ * @function includes
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string where to search.
+ * @param {string} search The string to search.
+ * @param {number} [position=0] The position to start searching.
+ * @return {boolean} Returns `true` if `subject` includes `search` or `false` otherwise.
+ * @example
+ * v.includes('starship', 'star');
+ * // => true
+ *
+ * v.includes('galaxy', 'g', 1);
+ * // => false
+ */
+function includes(subject, search, position) {
+  var subjectString = coerceToString(subject);
+  var searchString = toString(search);
+  if (searchString === null) {
+    return false;
+  }
+  if (searchString === '') {
+    return true;
+  }
+  position = isNil(position) ? 0 : clipNumber(toInteger(position), 0, subjectString.length);
+  return subjectString.indexOf(searchString, position) !== -1;
+}
+
+/**
+ * Append flag to a regular expression.
+ *
+ * @ignore
+ * @param {RegExp} pattern The pattern to coerce.
+ * @param {string} appendFlag The flag to append to regular expression.
+ * @return {RegExp} The regular expression with added flag.
+ */
+function appendFlagToRegExp(pattern, appendFlag) {
+  var regularExpressionFlags = getRegExpFlags(pattern);
+  if (!includes(regularExpressionFlags, appendFlag)) {
+    return new RegExp(pattern.source, regularExpressionFlags + appendFlag);
+  }
+  return pattern;
+}
+
+/**
+ * Replaces all matches of `pattern` with `replacement`. <br/>
+ *
+ * @function replaceAll
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to verify.
+ * @param {string|RegExp} pattern The pattern which match is replaced. If `pattern` is a string, a simple string match is evaluated.
+ * All matches are replaced.
+ * @param {string|Function} replacement The string or function which invocation result replaces `pattern` match.
+ * @return {string} Returns the replacement result.
+ * @example
+ * v.replaceAll('good morning', 'o', '*');
+ * // => 'g**d m*rning'
+ * v.replaceAll('evening', /n/, 's');
+ * // => 'evesisg'
+ *
+ */
+function replaceAll(subject, pattern, replacement) {
+  var subjectString = coerceToString(subject);
+  var regExp = pattern;
+  if (!(pattern instanceof RegExp)) {
+    regExp = new RegExp(escapeRegExp(pattern), 'g');
+  } else if (!pattern.global) {
+    regExp = appendFlagToRegExp(pattern, 'g');
+  }
+  return subjectString.replace(regExp, replacement);
+}
+
+/**
+ * Reverses the `subject`.
+ *
+ * @function reverse
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to reverse.
+ * @return {string} Returns the reversed string.
+ * @example
+ * v.reverse('winter');
+ * // => 'retniw'
+ */
+function reverse(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.split('').reverse().join('');
+}
+
+/**
+ * Reverses the `subject` taking care of
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#24surrogatepairs">surrogate pairs</a> and
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#25combiningmarks">combining marks</a>.
+ *
+ * @function reverseGrapheme
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to reverse.
+ * @return {string} Returns the reversed string.
+ * @example
+ * v.reverseGrapheme('summer');
+ * // => 'remmus'
+ *
+ * v.reverseGrapheme('𝌆 bar mañana mañana');
+ * // => 'anañam anañam rab 𝌆'
+ */
+function reverseGrapheme(subject) {
+  var subjectString = coerceToString(subject);
+  /**
+   * @see https://github.com/mathiasbynens/esrever
+   */
+  subjectString = subjectString.replace(REGEXP_COMBINING_MARKS, function ($0, $1, $2) {
+    return reverseGrapheme($2) + $1;
+  }).replace(REGEXP_SURROGATE_PAIRS, '$2$1');
+  var reversedString = '';
+  var index = subjectString.length;
+  while (index--) {
+    reversedString += subjectString.charAt(index);
+  }
+  return reversedString;
+}
+
+/**
+ * Slugifies the `subject`. Cleans the `subject` by replacing diacritics with corresponding latin characters.
+ *
+ * @function slugify
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to slugify.
+ * @return {string} Returns the slugified string.
+ * @example
+ * v.slugify('Italian cappuccino drink');
+ * // => 'italian-cappuccino-drink'
+ *
+ * v.slugify('caffé latté');
+ * // => 'caffe-latte'
+ *
+ * v.slugify('хорошая погода');
+ * // => 'horoshaya-pogoda'
+ */
+function slugify(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  var cleanSubjectString = latinise(subjectString).replace(REGEXP_NON_LATIN, '-');
+  return kebabCase(cleanSubjectString);
+}
+
+/**
+ * Changes `subject` by deleting `deleteCount` of characters starting at position `start`. Places a new string
+ * `toAdd` instead of deleted characters.
+ *
+ * @function splice
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string where to insert.
+ * @param {string} start The position to start changing the string. For a negative position will start from the end of
+ * the string.
+ * @param {number} [deleteCount=subject.length-start] The number of characters to delete from string.
+ * @param {string} [toAdd=''] The string to be added instead of deleted characters.
+ * @return {string} Returns the modified string.
+ * @example
+ * v.splice('new year', 0, 4);
+ * // => 'year'
+ *
+ * v.splice('new year', 0, 3, 'happy');
+ * // => 'happy year'
+ *
+ * v.splice('new year', -4, 4, 'day');
+ * // => 'new day'
+ */
+function splice(subject, start, deleteCount, toAdd) {
+  var subjectString = coerceToString(subject);
+  var toAddString = coerceToString(toAdd);
+  var startPosition = coerceToNumber(start);
+  if (startPosition < 0) {
+    startPosition = subjectString.length + startPosition;
+    if (startPosition < 0) {
+      startPosition = 0;
+    }
+  } else if (startPosition > subjectString.length) {
+    startPosition = subjectString.length;
+  }
+  var deleteCountNumber = coerceToNumber(deleteCount, subjectString.length - startPosition);
+  if (deleteCountNumber < 0) {
+    deleteCountNumber = 0;
+  }
+  return subjectString.slice(0, startPosition) + toAddString + subjectString.slice(startPosition + deleteCountNumber);
+}
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+/**
+ * Translates characters or replaces substrings in `subject`.
+ *
+ * @function tr
+ * @static
+ * @since 1.3.0
+ * @memberOf Manipulate
+ * @param  {string} [subject=''] The string to translate.
+ * @param  {string|Object} from The string of characters to translate from. Or an object, then the object keys are replaced with corresponding values (longest keys are tried first).
+ * @param  {string} to The string of characters to translate to. Ignored when `from` is an object.
+ * @return {string} Returns the translated string.
+ * @example
+ * v.tr('hello', 'el', 'ip');
+ * // => 'hippo'
+ * 
+ * v.tr('légèreté', 'éè', 'ee');
+ * // => 'legerete'
+ * 
+ * v.tr('Yes. The fire rises.', {
+ *   'Yes': 'Awesome',
+ *   'fire': 'flame'
+ * })
+ * // => 'Awesome. The flame rises.'
+ * 
+ * v.tr(':where is the birthplace of :what', {
+ *   ':where': 'Africa',
+ *   ':what': 'Humanity'
+ * });
+ * // => 'Africa is the birthplace of Humanity'
+ * 
+ */
+function tr(subject, from, to) {
+  var subjectString = coerceToString(subject);
+  var keys = void 0;
+  var values = void 0;
+  if (isString(from) && isString(to)) {
+    keys = from.split('');
+    values = to.split('');
+  } else {
+    var _extractKeysAndValues = extractKeysAndValues(nilDefault(from, {}));
+
+    var _extractKeysAndValues2 = _slicedToArray(_extractKeysAndValues, 2);
+
+    keys = _extractKeysAndValues2[0];
+    values = _extractKeysAndValues2[1];
+  }
+  if (keys.length === 0) {
+    return subjectString;
+  }
+  var result = '';
+  var valuesLength = values.length;
+  var keysLength = keys.length;
+  for (var index = 0; index < subjectString.length; index++) {
+    var isMatch = false;
+    var matchValue = void 0;
+    for (var keyIndex = 0; keyIndex < keysLength && keyIndex < valuesLength; keyIndex++) {
+      var key = keys[keyIndex];
+      if (subjectString.substr(index, key.length) === key) {
+        isMatch = true;
+        matchValue = values[keyIndex];
+        index = index + key.length - 1;
+        break;
+      }
+    }
+    result += isMatch ? matchValue : subjectString[index];
+  }
+  return result;
+}
+
+function extractKeysAndValues(object) {
+  var keys = Object.keys(object);
+  var values = keys.sort(sortStringByLength).map(function (key) {
+    return object[key];
+  });
+  return [keys, values];
+}
+
+function sortStringByLength(str1, str2) {
+  if (str1.length === str2.length) {
+    return 0;
+  }
+  return str1.length < str2.length ? 1 : -1;
+}
+
+var reduce$1 = Array.prototype.reduce;
+
+/**
+ * Removes whitespaces from the left side of the `subject`.
+ *
+ * @function trimLeft
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to trim.
+ * @param {string} [whitespace=whitespace] The whitespace characters to trim. List all characters that you want to be stripped.
+ * @return {string} Returns the trimmed string.
+ * @example
+ * v.trimLeft('  Starship Troopers');
+ * // => 'Starship Troopers'
+ *
+ * v.trimLeft('***Mobile Infantry', '*');
+ * // => 'Mobile Infantry'
+ */
+function trimLeft(subject, whitespace$$1) {
+  var subjectString = coerceToString(subject);
+  if (whitespace$$1 === '' || subjectString === '') {
+    return subjectString;
+  }
+  var whitespaceString = toString(whitespace$$1);
+  if (isNil(whitespaceString)) {
+    return subjectString.replace(REGEXP_TRIM_LEFT, '');
+  }
+  var matchWhitespace = true;
+  return reduce$1.call(subjectString, function (trimmed, character) {
+    if (matchWhitespace && includes(whitespaceString, character)) {
+      return trimmed;
+    }
+    matchWhitespace = false;
+    return trimmed + character;
+  }, '');
+}
+
+var reduceRight = Array.prototype.reduceRight;
+
+/**
+ * Removes whitespaces from the right side of the `subject`.
+ *
+ * @function trimRight
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to trim.
+ * @param {string} [whitespace=whitespace] The whitespace characters to trim. List all characters that you want to be stripped.
+ * @return {string} Returns the trimmed string.
+ * @example
+ * v.trimRight('the fire rises   ');
+ * // => 'the fire rises'
+ *
+ * v.trimRight('do you feel in charge?!!!', '!');
+ * // => 'do you feel in charge?'
+ */
+function trimRight(subject, whitespace$$1) {
+  var subjectString = coerceToString(subject);
+  if (whitespace$$1 === '' || subjectString === '') {
+    return subjectString;
+  }
+  var whitespaceString = toString(whitespace$$1);
+  if (isNil(whitespaceString)) {
+    return subjectString.replace(REGEXP_TRIM_RIGHT, '');
+  }
+  var matchWhitespace = true;
+  return reduceRight.call(subjectString, function (trimmed, character) {
+    if (matchWhitespace && includes(whitespaceString, character)) {
+      return trimmed;
+    }
+    matchWhitespace = false;
+    return character + trimmed;
+  }, '');
+}
+
+/**
+ * Removes whitespaces from left and right sides of the `subject`.
+ *
+ * @function trim
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param {string} [subject=''] The string to trim.
+ * @param {string} [whitespace=whitespace] The whitespace characters to trim. List all characters that you want to be stripped.
+ * @return {string} Returns the trimmed string.
+ * @example
+ * v.trim(' Mother nature ');
+ * // => 'Mother nature'
+ *
+ * v.trim('--Earth--', '-');
+ * // => 'Earth'
+ */
+function trim(subject, whitespace) {
+  var subjectString = coerceToString(subject);
+  if (whitespace === '' || subjectString === '') {
+    return subjectString;
+  }
+  var whitespaceString = toString(whitespace);
+  if (isNil(whitespaceString)) {
+    return subjectString.trim();
+  }
+  return trimRight(trimLeft(subjectString, whitespaceString), whitespaceString);
+}
+
+var OPTION_WIDTH = 'width';
+var OPTION_NEW_LINE = 'newLine';
+var OPTION_INDENT = 'indent';
+var OPTION_CUT = 'cut';
+
+/**
+ * Wraps `subject` to a given number of characters using a string break character.
+ *
+ * @function wordWrap
+ * @static
+ * @since 1.0.0
+ * @memberOf Manipulate
+ * @param  {string} [subject=''] The string to wrap.
+ * @param  {Object} [options={}] The wrap options.
+ * @param  {number} [options.width=75] The number of characters at which to wrap.
+ * @param  {string} [options.newLine='\n'] The string to add at the end of line.
+ * @param  {string} [options.indent='']  The string to intend the line.
+ * @param  {boolean} [options.cut=false] When `false` (default) does not split the word even if word length is bigger than `width`. <br/>
+ *                                       When `true` breaks the word that has length bigger than `width`.
+ *
+ * @return {string} Returns wrapped string.
+ * @example
+ * v.wordWrap('Hello world', {
+ *   width: 5
+ * });
+ * // => 'Hello\nworld'
+ *
+ * v.wordWrap('Hello world', {
+ *   width: 5,
+ *   newLine: '<br/>',
+ *   indent: '__'
+ * });
+ * // => '__Hello<br/>__world'
+ *
+ * v.wordWrap('Wonderful world', {
+ *   width: 5,
+ *   cut: true
+ * });
+ * // => 'Wonde\nrful\nworld'
+ *
+ */
+function wordWrap(subject) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  var subjectString = coerceToString(subject);
+
+  var _determineOptions = determineOptions(options),
+      width = _determineOptions.width,
+      newLine = _determineOptions.newLine,
+      indent = _determineOptions.indent,
+      cut = _determineOptions.cut;
+
+  if (subjectString === '' || width <= 0) {
+    return indent;
+  }
+  var subjectLength = subjectString.length;
+  var substring = subjectString.substring.bind(subjectString);
+  var offset = 0;
+  var wrappedLine = '';
+  while (subjectLength - offset > width) {
+    if (subjectString[offset] === ' ') {
+      offset++;
+      continue;
+    }
+    var spaceToWrapAt = subjectString.lastIndexOf(' ', width + offset);
+    if (spaceToWrapAt >= offset) {
+      wrappedLine += indent + substring(offset, spaceToWrapAt) + newLine;
+      offset = spaceToWrapAt + 1;
+    } else {
+      if (cut) {
+        wrappedLine += indent + substring(offset, width + offset) + newLine;
+        offset += width;
+      } else {
+        spaceToWrapAt = subjectString.indexOf(' ', width + offset);
+        if (spaceToWrapAt >= 0) {
+          wrappedLine += indent + substring(offset, spaceToWrapAt) + newLine;
+          offset = spaceToWrapAt + 1;
+        } else {
+          wrappedLine += indent + substring(offset);
+          offset = subjectLength;
+        }
+      }
+    }
+  }
+  if (offset < subjectLength) {
+    wrappedLine += indent + substring(offset);
+  }
+  return wrappedLine;
+}
+
+/**
+ * Determine the word wrap options. The missing values are filled with defaults.
+ *
+ * @param  {Object} options  The options object.
+ * @return {Object}          The word wrap options, with default settings if necessary.
+ * @ignore
+ */
+function determineOptions(options) {
+  return {
+    width: coerceToNumber(options[OPTION_WIDTH], 75),
+    newLine: coerceToString(options[OPTION_NEW_LINE], '\n'),
+    indent: coerceToString(options[OPTION_INDENT], ''),
+    cut: coerceToBoolean(options[OPTION_CUT], false)
+  };
+}
+
+/**
+ * Checks whether `subject` ends with `end`.
+ *
+ * @function endsWith
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @param {string} end The ending string.
+ * @param {number} [position=subject.length] Search within `subject` as if the string were only `position` long.
+ * @return {boolean} Returns `true` if `subject` ends with `end` or `false` otherwise.
+ * @example
+ * v.endsWith('red alert', 'alert');
+ * // => true
+ *
+ * v.endsWith('metro south', 'metro');
+ * // => false
+ *
+ * v.endsWith('Murphy', 'ph', 5);
+ * // => true
+ */
+function endsWith(subject, end, position) {
+  if (isNil(end)) {
+    return false;
+  }
+  var subjectString = coerceToString(subject);
+  var endString = coerceToString(end);
+  if (endString === '') {
+    return true;
+  }
+  position = isNil(position) ? subjectString.length : clipNumber(toInteger(position), 0, subjectString.length);
+  position -= endString.length;
+  var lastIndex = subjectString.indexOf(endString, position);
+  return lastIndex !== -1 && lastIndex === position;
+}
+
+/**
+ * Checks whether `subject` contains only alpha characters.
+ *
+ * @function isAlpha
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` contains only alpha characters or `false` otherwise.
+ * @example
+ * v.isAlpha('bart');
+ * // => true
+ *
+ * v.isAlpha('lisa!');
+ * // => false
+ *
+ * v.isAlpha('lisa and bart');
+ * // => false
+ */
+function isAlpha(subject) {
+  var subjectString = coerceToString(subject);
+  return REGEXP_ALPHA.test(subjectString);
+}
+
+/**
+ * Checks whether `subject` contains only alpha and digit characters.
+ *
+ * @function isAlphaDigit
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` contains only alpha and digit characters or `false` otherwise.
+ * @example
+ * v.isAlphaDigit('year2020');
+ * // => true
+ *
+ * v.isAlphaDigit('1448');
+ * // => true
+ *
+ * v.isAlphaDigit('40-20');
+ * // => false
+ */
+function isAlphaDigit(subject) {
+  var subjectString = coerceToString(subject);
+  return REGEXP_ALPHA_DIGIT.test(subjectString);
+}
+
+/**
+ * Checks whether `subject` is empty or contains only whitespaces.
+ *
+ * @function isBlank
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` is empty or contains only whitespaces or `false` otherwise.
+ * @example
+ * v.isBlank('');
+ * // => true
+ *
+ * v.isBlank('  ');
+ * // => true
+ *
+ * v.isBlank('World');
+ * // => false
+ */
+function isBlank(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.trim().length === 0;
+}
+
+/**
+ * Checks whether `subject` contains only digit characters.
+ *
+ * @function isDigit
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` contains only digit characters or `false` otherwise.
+ * @example
+ * v.isDigit('35');
+ * // => true
+ *
+ * v.isDigit('1.5');
+ * // => false
+ *
+ * v.isDigit('ten');
+ * // => false
+ */
+function isDigit(subject) {
+  var subjectString = coerceToString(subject);
+  return REGEXP_DIGIT.test(subjectString);
+}
+
+/**
+ * Checks whether `subject` is empty.
+ *
+ * @function isEmpty
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` is empty or `false` otherwise
+ * @example
+ * v.isEmpty('');
+ * // => true
+ *
+ * v.isEmpty('  ');
+ * // => false
+ *
+ * v.isEmpty('sun');
+ * // => false
+ */
+function isEmpty(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.length === 0;
+}
+
+/**
+ * Checks whether `subject` has only lower case characters.
+ *
+ * @function isLowerCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` is lower case or `false` otherwise.
+ * @example
+ * v.isLowerCase('motorcycle');
+ * // => true
+ *
+ * v.isLowerCase('John');
+ * // => false
+ *
+ * v.isLowerCase('T1000');
+ * // => false
+ */
+function isLowerCase(subject) {
+  var valueString = coerceToString(subject);
+  return isAlpha(valueString) && valueString.toLowerCase() === valueString;
+}
+
+/**
+ * Checks whether `subject` is numeric.
+ *
+ * @function isNumeric
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` is numeric or `false` otherwise.
+ * @example
+ * v.isNumeric('350');
+ * // => true
+ *
+ * v.isNumeric('-20.5');
+ * // => true
+ *
+ * v.isNumeric('1.5E+2');
+ * // => true
+ *
+ * v.isNumeric('five');
+ * // => false
+ */
+function isNumeric(subject) {
+  var valueNumeric = typeof subject === 'object' && !isNil(subject) ? Number(subject) : subject;
+  return (typeof valueNumeric === 'number' || typeof valueNumeric === 'string') && !isNaN(valueNumeric - parseFloat(valueNumeric));
+}
+
+/**
+ * Checks whether `subject` contains only upper case characters.
+ *
+ * @function isUpperCase
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @return {boolean} Returns `true` if `subject` is upper case or `false` otherwise.
+ * @example
+ * v.isUpperCase('ACDC');
+ * // => true
+ *
+ * v.isUpperCase('Morning');
+ * // => false
+ */
+function isUpperCase(subject) {
+  var subjectString = coerceToString(subject);
+  return isAlpha(subjectString) && subjectString.toUpperCase() === subjectString;
+}
+
+/**
+ * Checks whether `subject` matches the regular expression `pattern`.
+ *
+ * @function matches
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @param {RegExp|string} pattern The pattern to match. If `pattern` is not RegExp, it is transformed to `new RegExp(pattern, flags)`.
+ * @param {string} [flags=''] The regular expression flags. Applies when `pattern` is string type.
+ * @return {boolean} Returns `true` if `subject` matches `pattern` or `false` otherwise.
+ * @example
+ * v.matches('pluto', /plu.{2}/);
+ * // => true
+ *
+ * v.matches('sun', 'S', 'i');
+ * // => true
+ *
+ * v.matches('apollo 11', '\\d{3}');
+ * // => false
+ */
+function matches(subject, pattern, flags) {
+  var subjectString = coerceToString(subject);
+  var flagsString = coerceToString(flags);
+  var patternString = void 0;
+  if (!(pattern instanceof RegExp)) {
+    patternString = toString(pattern);
+    if (patternString === null) {
+      return false;
+    }
+    pattern = new RegExp(patternString, flagsString);
+  }
+  return pattern.test(subjectString);
+}
+
+/**
+ * Checks whether `subject` starts with `start`.
+ *
+ * @function startsWith
+ * @static
+ * @since 1.0.0
+ * @memberOf Query
+ * @param {string} [subject=''] The string to verify.
+ * @param {string} start The starting string.
+ * @param {number} [position=0] The position to start searching.
+ * @return {boolean} Returns `true` if `subject` starts with `start` or `false` otherwise.
+ * @example
+ * v.startsWith('say hello to my little friend', 'say hello');
+ * // => true
+ *
+ * v.startsWith('tony', 'on', 1);
+ * // => true
+ *
+ * v.startsWith('the world is yours', 'world');
+ * // => false
+ */
+function startsWith(subject, start, position) {
+  var subjectString = coerceToString(subject);
+  var startString = toString(start);
+  if (startString === null) {
+    return false;
+  }
+  if (startString === '') {
+    return true;
+  }
+  position = isNil(position) ? 0 : clipNumber(toInteger(position), 0, subjectString.length);
+  return subjectString.substr(position, startString.length) === startString;
+}
+
+/**
+ * Splits `subject` into an array of characters.
+ *
+ * @function chars
+ * @static
+ * @since 1.0.0
+ * @memberOf Split
+ * @param {string} [subject=''] The string to split into characters.
+ * @return {Array} Returns the array of characters.
+ * @example
+ * v.chars('cloud');
+ * // => ['c', 'l', 'o', 'u', 'd']
+ */
+function chars(subject) {
+  var subjectString = coerceToString(subject);
+  return subjectString.split('');
+}
+
+/**
+ * Returns an array of Unicode code point values from characters of `subject`.
+ *
+ * @function codePoints
+ * @static
+ * @since 1.0.0
+ * @memberOf Split
+ * @param  {string} [subject=''] The string to extract from.
+ * @return {Array} Returns an array of non-negative numbers less than or equal to `0x10FFFF`.
+ * @example
+ * v.codePoints('rain');
+ * // => [114, 97, 105, 110], or
+ * //    [0x72, 0x61, 0x69, 0x6E]
+ *
+ * v.codePoints('\uD83D\uDE00 smile'); // or '😀 smile'
+ * // => [128512, 32, 115, 109, 105, 108, 101], or
+ * //    [0x1F600, 0x20, 0x73, 0x6D, 0x69, 0x6C, 0x65]
+ */
+function codePoints(subject) {
+  var subjectString = coerceToString(subject);
+  var subjectStringLength = subjectString.length;
+  var codePointArray = [];
+  var index = 0;
+  var codePointNumber = void 0;
+  while (index < subjectStringLength) {
+    codePointNumber = codePointAt(subjectString, index);
+    codePointArray.push(codePointNumber);
+    index += codePointNumber > 0xFFFF ? 2 : 1;
+  }
+  return codePointArray;
+}
+
+/**
+ * Splits `subject` into an array of graphemes taking care of
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#24surrogatepairs">surrogate pairs</a> and
+ * <a href="https://rainsoft.io/what-every-javascript-developer-should-know-about-unicode/#25combiningmarks">combining marks</a>.
+ *
+ * @function graphemes
+ * @static
+ * @since 1.0.0
+ * @memberOf Split
+ * @param {string} [subject=''] The string to split into characters.
+ * @return {Array} Returns the array of graphemes.
+ * @example
+ * v.graphemes('\uD835\uDC00\uD835\uDC01'); // or '𝐀𝐁'
+ * // => ['\uD835\uDC00', '\uD835\uDC01'], or
+ * //    ['𝐀', '𝐁']
+ *
+ * v.graphemes('cafe\u0301'); // or 'café'
+ * // => ['c', 'a', 'f', 'e\u0301'], or
+ * //    ['c', 'a', 'f', 'é']
+ */
+function graphemes(subject) {
+  var subjectString = coerceToString(subject);
+  return nilDefault(subjectString.match(REGEXP_UNICODE_CHARACTER), []);
+}
+
+/**
+ * Splits `subject` into an array of chunks by `separator`.
+ *
+ * @function split
+ * @static
+ * @since 1.0.0
+ * @memberOf Split
+ * @param {string} [subject=''] The string to split into characters.
+ * @param {string|RegExp} [separator] The pattern to match the separator.
+ * @param {number} [limit] Limit the number of chunks to be found.
+ * @return {Array} Returns the array of chunks.
+ * @example
+ * v.split('rage against the dying of the light', ' ');
+ * // => ['rage', 'against', 'the', 'dying', 'of', 'the', 'light']
+ *
+ * v.split('the dying of the light', /\s/, 3);
+ * // => ['the', 'dying', 'of']
+ */
+function split(subject, separator, limit) {
+  var subjectString = coerceToString(subject);
+  return subjectString.split(separator, limit);
+}
+
+var BYRE_ORDER_MARK = '\uFEFF';
+
+/**
+ * Strips the byte order mark (BOM) from the beginning of `subject`.
+ *
+ * @function stripBom
+ * @static
+ * @since 1.2.0
+ * @memberOf Strip
+ * @param {string} [subject=''] The string to strip from.
+ * @return {string} Returns the stripped string.
+ * @example
+ *
+ * v.stripBom('\uFEFFsummertime sadness');
+ * // => 'summertime sadness'
+ *
+ * v.stripBom('summertime happiness');
+ * // => 'summertime happiness'
+ *
+ */
+function trim$1(subject) {
+  var subjectString = coerceToString(subject);
+  if (subjectString === '') {
+    return '';
+  }
+  if (subjectString[0] === BYRE_ORDER_MARK) {
+    return subjectString.substring(1);
+  }
+  return subjectString;
+}
+
+/**
+ * Checks whether `subject` contains substring at specific `index`.
+ *
+ * @ignore
+ * @param {string} subject The subject to search in.
+ * @param {string} substring The substring to search/
+ * @param {number} index The index to search substring.
+ * @param {boolean} lookBehind Whether to look behind (true) or ahead (false).
+ * @return {boolean} Returns a boolean whether the substring exists.
+ */
+function hasSubstringAtIndex(subject, substring, index) {
+  var lookBehind = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
+  var indexOffset = 0;
+  if (lookBehind) {
+    indexOffset = -substring.length + 1;
+  }
+  var extractedSubstring = subject.substr(index + indexOffset, substring.length);
+  return extractedSubstring.toLowerCase() === substring;
+}
+
+/**
+ * Parses the tags from the string '<tag1><tag2>...<tagN>'.
+ *
+ * @ignore
+ * @param {string} tags The string that contains the tags.
+ * @return {string[]} Returns the array of tag names.
+ */
+function parseTagList(tags) {
+  var tagsList = [];
+  var match = void 0;
+  while ((match = REGEXP_TAG_LIST.exec(tags)) !== null) {
+    tagsList.push(match[1]);
+  }
+  return tagsList;
+}
+
+var STATE_START_TAG = 0;
+var STATE_NON_WHITESPACE = 1;
+var STATE_DONE = 2;
+
+/**
+ * Parses the tag name from html content.
+ *
+ * @ignore
+ * @param {string} tagContent The tag content.
+ * @return {string} Returns the tag name.
+ */
+function parseTagName(tagContent) {
+  var state = STATE_START_TAG;
+  var tagName = '';
+  var index = 0;
+  while (state !== STATE_DONE) {
+    var char = tagContent[index++].toLowerCase();
+    switch (char) {
+      case '<':
+        break;
+      case '>':
+        state = STATE_DONE;
+        break;
+      default:
+        if (REGEXP_WHITESPACE.test(char)) {
+          if (state === STATE_NON_WHITESPACE) {
+            state = STATE_DONE;
+          }
+        } else {
+          if (state === STATE_START_TAG) {
+            state = STATE_NON_WHITESPACE;
+          }
+          if (char !== '/') {
+            tagName += char;
+          }
+        }
+        break;
+    }
+  }
+  return tagName;
+}
+
+var STATE_OUTPUT = 0;
+var STATE_HTML = 1;
+var STATE_EXCLAMATION = 2;
+var STATE_COMMENT = 3;
+
+/**
+ * Strips HTML tags from `subject`.
+ *
+ * @function stripTags
+ * @static
+ * @since 1.1.0
+ * @memberOf Strip
+ * @param {string} [subject=''] The string to strip from.
+ * @param {string|Array} [allowableTags] The string `'<tag1><tag2>'` or array `['tag1', 'tag2']` of tags that should not be stripped.
+ * @param {string} [replacement=''] The string to replace the stripped tag.
+ * @return {string} Returns the stripped string.
+ * @example
+ *
+ * v.stripTags('<span><a href="#">Summer</a> is nice</span>');
+ * // => 'Summer is nice'
+ *
+ * v.stripTags('<span><i>Winter</i> is <b>cold</b></span>', ['b', 'i']);
+ * // => '<i>Winter</i> is <b>cold</b>'
+ *
+ * v.stripTags('Sun<br/>set', '', '-');
+ * // => 'Sun-set'
+ */
+function trim$2(subject, allowableTags, replacement) {
+  subject = coerceToString(subject);
+  if (subject === '') {
+    return '';
+  }
+  if (!Array.isArray(allowableTags)) {
+    var allowableTagsString = coerceToString(allowableTags);
+    allowableTags = allowableTagsString === '' ? [] : parseTagList(allowableTagsString);
+  }
+  var replacementString = coerceToString(replacement);
+  var length = subject.length;
+  var hasAllowableTags = allowableTags.length > 0;
+  var hasSubstring = hasSubstringAtIndex.bind(null, subject);
+  var state = STATE_OUTPUT;
+  var depth = 0;
+  var output = '';
+  var tagContent = '';
+  var quote = null;
+  for (var index = 0; index < length; index++) {
+    var char = subject[index];
+    var advance = false;
+    switch (char) {
+      case '<':
+        if (quote) {
+          break;
+        }
+        if (hasSubstring('< ', index, false)) {
+          advance = true;
+          break;
+        }
+        if (state === STATE_OUTPUT) {
+          advance = true;
+          state = STATE_HTML;
+          break;
+        }
+        if (state === STATE_HTML) {
+          depth++;
+          break;
+        }
+        advance = true;
+        break;
+      case '!':
+        if (state === STATE_HTML && hasSubstring('<!', index)) {
+          state = STATE_EXCLAMATION;
+          break;
+        }
+        advance = true;
+        break;
+      case '-':
+        if (state === STATE_EXCLAMATION && hasSubstring('!--', index)) {
+          state = STATE_COMMENT;
+          break;
+        }
+        advance = true;
+        break;
+      case '"':
+      case "'":
+        if (state === STATE_HTML) {
+          if (quote === char) {
+            quote = null;
+          } else if (!quote) {
+            quote = char;
+          }
+        }
+        advance = true;
+        break;
+      case 'E':
+      case 'e':
+        if (state === STATE_EXCLAMATION && hasSubstring('doctype', index)) {
+          state = STATE_HTML;
+          break;
+        }
+        advance = true;
+        break;
+      case '>':
+        if (depth > 0) {
+          depth--;
+          break;
+        }
+        if (quote) {
+          break;
+        }
+        if (state === STATE_HTML) {
+          quote = null;
+          state = STATE_OUTPUT;
+          if (hasAllowableTags) {
+            tagContent += '>';
+            var tagName = parseTagName(tagContent);
+            if (allowableTags.indexOf(tagName.toLowerCase()) !== -1) {
+              output += tagContent;
+            } else {
+              output += replacementString;
+            }
+            tagContent = '';
+          } else {
+            output += replacementString;
+          }
+          break;
+        }
+        if (state === STATE_EXCLAMATION || state === STATE_COMMENT && hasSubstring('-->', index)) {
+          quote = null;
+          state = STATE_OUTPUT;
+          tagContent = '';
+          break;
+        }
+        advance = true;
+        break;
+      default:
+        advance = true;
+    }
+    if (advance) {
+      switch (state) {
+        case STATE_OUTPUT:
+          output += char;
+          break;
+        case STATE_HTML:
+          if (hasAllowableTags) {
+            tagContent += char;
+          }
+          break;
+      }
+    }
+  }
+  return output;
+}
+
+var globalObject$1 = null;
+
+function getGlobalObject() {
+  if (globalObject$1 !== null) {
+    return globalObject$1;
+  }
+  /* istanbul ignore next */
+  // It's hard to mock the global variables. This code surely works fine. I hope :)
+  if (typeof global === 'object' && global.Object === Object) {
+    // NodeJS global object
+    globalObject$1 = global;
+  } else if (typeof self === 'object' && self.Object === Object) {
+    // self property from Window object
+    globalObject$1 = self;
+  } else {
+    // Other cases. Function constructor always has the context as global object
+    globalObject$1 = new Function('return this')();
+  }
+  return globalObject$1;
+}
+
+var globalObject = getGlobalObject();
+var previousV = globalObject.v;
+
+/**
+ * Restores `v` variable to previous value and returns Voca library instance.
+ *
+ * @function noConflict
+ * @static
+ * @since 1.0.0
+ * @memberOf Util
+ * @return {Object} Returns Voca library instance.
+ * @example
+ * var voca = v.noConflict();
+ * voca.isAlpha('Hello');
+ * // => true
+ */
+function noConflict() {
+  if (this === globalObject.v) {
+    globalObject.v = previousV;
+  }
+  return this;
+}
+
+/**
+ * A property that contains the library <a href="http://semver.org/">semantic version number</a>.
+ * @name version
+ * @static
+ * @since 1.0.0
+ * @memberOf Util
+ * @type string
+ * @example
+ * v.version
+ * // => '1.3.0'
+ */
+var version = '1.3.0';
+
+/* eslint sort-imports: "off" */
+
+/**
+ * Functions to change the case
+ * @namespace Case
+ */
+/**
+ * Chain functions
+ * @namespace Chain
+ */
+
+/**
+ * Functions to cut a string
+ * @namespace Chop
+ */
+/**
+ * Functions to count characters in a string
+ * @namespace Count
+ */
+/**
+ * Functions to format
+ * @namespace Format
+ */
+/**
+ * Functions to escape RegExp special characters
+ * @namespace Escape
+ */
+/**
+ * Functions to find index
+ * @namespace Index
+ */
+/**
+ * Functions to manipulate a string
+ * @namespace Manipulate
+ */
+/**
+ * Functions to query a string
+ * @namespace Query
+ */
+/**
+ * Functions to split a string
+ * @namespace Split
+ */
+/**
+ * Functions to strip a string
+ * @namespace Strip
+ */
+/**
+ * Util functions and properties
+ * @namespace Util
+ */
+var functions = {
+  camelCase: camelCase,
+  capitalize: capitalize,
+  decapitalize: decapitalize,
+  kebabCase: kebabCase,
+  lowerCase: lowerCase,
+  snakeCase: snakeCase,
+  swapCase: swapCase,
+  titleCase: titleCase,
+  upperCase: upperCase,
+
+  count: count,
+  countGraphemes: countGrapheme,
+  countSubstrings: countSubstrings,
+  countWhere: countWhere,
+  countWords: countWords,
+
+  escapeHtml: escapeHtml,
+  escapeRegExp: escapeRegExp,
+  unescapeHtml: unescapeHtml,
+
+  sprintf: sprintf,
+  vprintf: vprintf,
+
+  indexOf: indexOf,
+  lastIndexOf: lastIndexOf,
+  search: search,
+
+  charAt: charAt,
+  codePointAt: codePointAt,
+  first: first,
+  graphemeAt: graphemeAt,
+  last: last,
+  prune: prune,
+  slice: slice,
+  substr: substr,
+  substring: substring,
+  truncate: truncate,
+
+  insert: insert,
+  latinise: latinise,
+  pad: pad,
+  padLeft: padLeft,
+  padRight: padRight,
+  repeat: repeat,
+  replace: replace,
+  replaceAll: replaceAll,
+  reverse: reverse,
+  reverseGrapheme: reverseGrapheme,
+  slugify: slugify,
+  splice: splice,
+  tr: tr,
+  trim: trim,
+  trimLeft: trimLeft,
+  trimRight: trimRight,
+  wordWrap: wordWrap,
+
+  endsWith: endsWith,
+  includes: includes,
+  isAlpha: isAlpha,
+  isAlphaDigit: isAlphaDigit,
+  isBlank: isBlank,
+  isDigit: isDigit,
+  isEmpty: isEmpty,
+  isLowerCase: isLowerCase,
+  isNumeric: isNumeric,
+  isString: isString,
+  isUpperCase: isUpperCase,
+  matches: matches,
+  startsWith: startsWith,
+
+  chars: chars,
+  codePoints: codePoints,
+  graphemes: graphemes,
+  split: split,
+  words: words,
+
+  stripBom: trim$1,
+  stripTags: trim$2,
+
+  noConflict: noConflict,
+  version: version
+};
+
+/**
+ * The chain wrapper constructor.
+ *
+ * @ignore
+ * @param  {string}       subject               The string to be wrapped.
+ * @param  {boolean}      [explicitChain=false] A boolean that indicates if the chain sequence is explicit or implicit.
+ * @return {ChainWrapper}                       Returns a new instance of `ChainWrapper`
+ * @constructor
+ */
+function ChainWrapper(subject, explicitChain) {
+  this._wrappedValue = subject;
+  this._explicitChain = explicitChain;
+}
+
+/**
+ * Unwraps the chain sequence wrapped value.
+ *
+ * @memberof Chain
+ * @since 1.0.0
+ * @function __proto__value
+ * @return {*} Returns the unwrapped value.
+ * @example
+ * v
+ *  .chain('Hello world')
+ *  .replace('Hello', 'Hi')
+ *  .lowerCase()
+ *  .slugify()
+ *  .value()
+ * // => 'hi-world'
+ *
+ * v(' Space travel ')
+ *  .trim()
+ *  .truncate(8)
+ *  .value()
+ * // => 'Space...'
+ */
+ChainWrapper.prototype.value = function () {
+  return this._wrappedValue;
+};
+
+/**
+ * Override the default object valueOf().
+ *
+ * @ignore
+ * @return {*} Returns the wrapped value.
+ */
+ChainWrapper.prototype.valueOf = function () {
+  return this.value();
+};
+
+/**
+ * Returns the wrapped value to be used in JSON.stringify().
+ *
+ * @ignore
+ * @return {*} Returns the wrapped value.
+ */
+ChainWrapper.prototype.toJSON = function () {
+  return this.value();
+};
+
+/**
+ * Returns the string representation of the wrapped value.
+ *
+ * @ignore
+ * @return {string} Returns the string representation.
+ */
+ChainWrapper.prototype.toString = function () {
+  return String(this.value());
+};
+
+/**
+ * Creates a new chain object that enables <i>explicit</i> chain sequences.
+ * Use `v.prototype.value()` to unwrap the result. <br/>
+ * Does not modify the wrapped value.
+ *
+ * @memberof Chain
+ * @since 1.0.0
+ * @function __proto__chain
+ * @return {Object} Returns the wrapper in <i>explicit</i> mode.
+ * @example
+ * v('Back to School')
+ *  .chain()
+ *  .lowerCase()
+ *  .words()
+ *  .value()
+ * // => ['back', 'to', 'school']
+ *
+ * v(" Back to School ")
+ *  .chain()
+ *  .trim()
+ *  .truncate(7)
+ *  .value()
+ * // => 'Back...'
+ */
+ChainWrapper.prototype.chain = function () {
+  return new ChainWrapper(this._wrappedValue, true);
+};
+
+/**
+ * Modifies the wrapped value with the invocation result of `changer` function. The current wrapped value is the
+ * argument of `changer` invocation.
+ *
+ * @memberof Chain
+ * @since 1.0.0
+ * @function __proto__thru
+ * @param  {Function} changer The function to invoke.
+ * @return {Object}           Returns the new wrapper that wraps the invocation result of `changer`.
+ * @example
+ * v
+ *  .chain('sun is shining')
+ *  .words()
+ *  .thru(function(words) {
+ *    return words[0];
+ *  })
+ *  .value()
+ * // => 'sun'
+ *
+ */
+ChainWrapper.prototype.thru = function (changer) {
+  if (typeof changer === 'function') {
+    return new ChainWrapper(changer(this._wrappedValue), this._explicitChain);
+  }
+  return this;
+};
+
+/**
+ * A boolean that indicates if the chain sequence is explicit or implicit.
+ * @ignore
+ * @type {boolean}
+ * @private
+ */
+ChainWrapper.prototype._explicitChain = true;
+
+/**
+ * Make a voca function chainable.
+ *
+ * @ignore
+ * @param  {Function} functionInstance The function to make chainable
+ * @return {Function}                  Returns the chainable function
+ */
+function makeFunctionChainable(functionInstance) {
+  return function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var result = functionInstance.apply(undefined, [this._wrappedValue].concat(args));
+    if (this._explicitChain || typeof result === 'string') {
+      return new ChainWrapper(result, this._explicitChain);
+    } else {
+      return result;
+    }
+  };
+}
+
+Object.keys(functions).forEach(function (name) {
+  ChainWrapper.prototype[name] = makeFunctionChainable(functions[name]);
+});
+
+/**
+ * Creates a chain object that wraps `subject`, enabling <i>explicit</i> chain sequences. <br/>
+ * Use `v.prototype.value()` to unwrap the result.
+ *
+ * @memberOf Chain
+ * @since 1.0.0
+ * @function chain
+ * @param  {string} subject The string to wrap.
+ * @return {Object}         Returns the new wrapper object.
+ * @example
+ * v
+ *  .chain('Back to School')
+ *  .lowerCase()
+ *  .words()
+ *  .value()
+ * // => ['back', 'to', 'school']
+ */
+function chain(subject) {
+  return new ChainWrapper(subject, true);
+}
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+/**
+ * Creates a chain object that wraps `subject`, enabling <i>implicit</i> chain sequences.<br/>
+ * A function that returns `number`, `boolean` or `array` type <i>terminates</i> the chain sequence and returns the unwrapped value.
+ * Otherwise use `v.prototype.value()` to unwrap the result.
+ *
+ * @memberOf Chain
+ * @since 1.0.0
+ * @function v
+ * @param {string} subject The string to wrap.
+ * @return {Object}  Returns the new wrapper object.
+ * @example
+ * v('Back to School')
+ *  .lowerCase()
+ *  .words()
+ * // => ['back', 'to', 'school']
+ *
+ * v(" Back to School ")
+ *  .trim()
+ *  .truncate(7)
+ *  .value()
+ * // => 'Back...'
+ */
+function Voca(subject) {
+  return new ChainWrapper(subject, false);
+}
+
+_extends(Voca, functions, {
+  chain: chain
+});
+
+return Voca;
+
+})));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+
+/***/ }),
+/* 226 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_acacha_forms__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_acacha_forms___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_acacha_forms__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: new __WEBPACK_IMPORTED_MODULE_0_acacha_forms___default.a({ studies: '' }),
+            studies: []
+        };
+    },
+    methods: {
+        submit: function submit() {
+            this.form.post('/studies').then(function (response) {
+                console.log('TODO');
+            }).catch(function (error) {
+                console.log('ERROR');
+            });
+        },
+        initialitzeSelect2: function initialitzeSelect2() {
+            var component = this;
+            $(".select2").select2().on('TODO', function (event) {
+                component.form.set('studies', studies.id);
+                component.form.errors.clear();
+            });
+        },
+        fetchStudies: function fetchStudies() {
+            var _this = this;
+
+            axios.get('/studies').then(function (response) {
+                _this.studies = response.data;
+            });
+        }
+    },
+    mounted: function mounted() {
+        console.log('Component Form User mounted.');
+        this.initialitzeSelect2();
+        this.fetchStudies();
+    },
+
+    watch: {
+        'form.studies': function formStudies(studies) {
+            //TODO SELECT STUDIES
+        }
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(226),
+  /* template */
+  __webpack_require__(228),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/roger/Code/scool/enrollment_test/resources/assets/js/components/StudiesCourse.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] StudiesCourse.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-31a6425d", Component.options)
+  } else {
+    hotAPI.reload("data-v-31a6425d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('form', {
+    attrs: {
+      "method": "post"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.submit($event)
+      },
+      "keydown": function($event) {
+        _vm.form.errors.clear($event.target.user)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group has-feedback",
+    class: {
+      'has-error': _vm.form.errors.has('studies')
+    }
+  }, [_c('label', {
+    attrs: {
+      "for": "studies"
+    }
+  }, [_vm._v("Studies:")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control select2",
+    staticStyle: {
+      "width": "80%"
+    }
+  }, _vm._l((_vm.studies), function(studi) {
+    return _c('option', {
+      domProps: {
+        "value": _vm.studies.id
+      }
+    }, [_vm._v(_vm._s(_vm.studies.name))])
+  })), _vm._v(" "), (_vm.form.errors.has('studies')) ? _c('span', {
+    staticClass: "help-block",
+    domProps: {
+      "textContent": _vm._s(_vm.form.errors.get('name'))
+    }
+  }) : _vm._e()])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-31a6425d", module.exports)
+  }
+}
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Errors = function () {
+  /**
+  * Constructor.
+  *
+  */
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  /**
+   * Determine if we have any errors.
+   *
+   * @returns {boolean}
+   */
+
+
+  _createClass(Errors, [{
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length > 0;
+    }
+
+    /**
+     * Determine if we have any errors.
+     *
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "hasErrors",
+    value: function hasErrors() {
+      return this.any();
+    }
+
+    /**
+     * Get all of the raw errors for the collection.
+     *
+     * @returns {{}|*}
+     */
+
+  }, {
+    key: "all",
+    value: function all() {
+      return this.errors;
+    }
+
+    /**
+     * Check if exists error for a current field.
+     *
+     * @param field
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "has",
+    value: function has(field) {
+      return this.errors.hasOwnProperty(field);
+    }
+
+    /**
+     * Retrieve the error message for a field.
+     *
+     * @param field
+     * @returns {*}
+     */
+
+  }, {
+    key: "get",
+    value: function get(field) {
+      if (this.has(field)) {
+        return this.errors[field][0];
+      }
+    }
+
+    /**
+     * Record the new errors.
+     *
+     * @param errors
+     */
+
+  }, {
+    key: "record",
+    value: function record(errors) {
+      this.set(errors);
+    }
+
+    /**
+     * Set the raw errors for the collection.
+     *
+     * @param errors
+     */
+
+  }, {
+    key: "set",
+    value: function set(errors) {
+      this.errors = errors;
+    }
+
+    /**
+     * Clear one or all error fields.
+     *
+     * @param field
+     */
+
+  }, {
+    key: "clear",
+    value: function clear(field) {
+      if (field) {
+        delete this.errors[field];
+
+        return;
+      }
+
+      this.errors = {};
+    }
+
+    /**
+     * Clear all errors if no field parameter is provided
+     * or clear only field if provided.
+     *
+     * @param field
+     */
+
+  }, {
+    key: "forget",
+    value: function forget(field) {
+      this.clear(field);
+    }
+  }]);
+
+  return Errors;
+}();
+
+exports.default = Errors;
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Errors = __webpack_require__(229);
+
+var _Errors2 = _interopRequireDefault(_Errors);
+
+var _axios = __webpack_require__(18);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Form = function () {
+  /**
+   * Constructor.
+   *
+   * @param fields
+   */
+  function Form(fields) {
+    _classCallCheck(this, Form);
+
+    this.clearOnSubmit = false;
+
+    this.originalFields = fields;
+
+    this.errors = new _Errors2.default();
+
+    this.resetStatus();
+
+    for (var field in fields) {
+      this[field] = fields[field];
+    }
+  }
+
+  /**
+   * Retrieve the field form.
+   *
+   * @param field
+   * @returns {*}
+   */
+
+
+  _createClass(Form, [{
+    key: 'get',
+    value: function get(field) {
+      if (this.has(field)) {
+        return this[field];
+      }
+    }
+
+    /**
+     * Set the field value.
+     *
+     * @param field
+     * @param value
+     */
+
+  }, {
+    key: 'set',
+    value: function set(field, value) {
+      if (this.has(field)) {
+        this[field] = value;
+      }
+    }
+
+    /**
+     * Check if a field exists on form
+     *
+     * @param field
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'has',
+    value: function has(field) {
+      return this.hasOwnProperty(field);
+    }
+
+    /**
+     * Reset form.
+     *
+     */
+
+  }, {
+    key: 'reset',
+    value: function reset() {
+      this.fields = {};
+
+      for (var field in this.originalFields) {
+        this[field] = '';
+      }
+
+      this.errors.clear();
+    }
+
+    /**
+     * Activates form clearing/reset after submit.
+     *
+     */
+
+  }, {
+    key: 'clearOnSubmit',
+    value: function clearOnSubmit() {
+      this.clearOnSubmit = true;
+    }
+
+    /**
+     * Reset status.
+     *
+     */
+
+  }, {
+    key: 'resetStatus',
+    value: function resetStatus() {
+      this.errors.forget();
+      this.submitting = false;
+      this.submitted = false;
+      this.succeeded = false;
+    }
+
+    /**
+     * Get form data.
+     *
+     * @returns {{}}
+     */
+
+  }, {
+    key: 'data',
+    value: function data() {
+      var data = {};
+
+      for (var field in this.originalFields) {
+        data[field] = this[field];
+      }
+
+      return data;
+    }
+
+    /**
+     * Start processing the form.
+     *
+     */
+
+  }, {
+    key: 'startProcessing',
+    value: function startProcessing() {
+      this.errors.forget();
+      this.submitting = true;
+      this.succeeded = false;
+    }
+  }, {
+    key: 'finishProcessing',
+
+
+    /**
+     * Finish processing the form.
+     *
+     */
+    value: function finishProcessing() {
+      this.submitting = false;
+      this.submitted = false;
+      this.succeeded = true;
+    }
+
+    /**
+     * Finish processing the form on errors.
+     */
+
+  }, {
+    key: 'finishProcessingOnErrors',
+    value: function finishProcessingOnErrors() {
+      this.submitting = false;
+      this.submitted = false;
+      this.succeeded = false;
+    }
+
+    /**
+     * Send a POST request to the given URL.
+     *
+     * @param url
+     * @returns {*}
+     */
+
+  }, {
+    key: 'post',
+    value: function post(url) {
+      return this.submit('post', url);
+    }
+
+    /**
+     * Send a PUT request to the given URL.
+     *
+     * @param url
+     * @returns {*}
+     */
+
+  }, {
+    key: 'put',
+    value: function put(url) {
+      return this.submit('put', url);
+    }
+
+    /**
+     * Send a PATCH request to the given URL.
+     *
+     * @param url
+     * @returns {*}
+     */
+
+  }, {
+    key: 'patch',
+    value: function patch(url) {
+      return this.submit('patch', url);
+    }
+
+    /**
+     * Send a DELETE request to the given URL.
+     *
+     * @param url
+     * @returns {*}
+     */
+
+  }, {
+    key: 'delete',
+    value: function _delete(url) {
+      return this.submit('delete', url);
+    }
+
+    /**
+     * Submit the form to the back-end api/server.
+     *
+     * @param requesType
+     * @param url
+     * @returns {Promise}
+     */
+
+  }, {
+    key: 'submit',
+    value: function submit(requesType, url) {
+      var _this = this;
+
+      this.startProcessing();
+      return new Promise(function (resolve, reject) {
+        _axios2.default[requesType](url, _this.data()).then(function (response) {
+          _this.onSuccess();
+          resolve(response);
+        }).catch(function (error) {
+          _this.onFail(error.response.data);
+          reject(error);
+        });
+      });
+    }
+
+    /**
+     * Process on success.
+     */
+
+  }, {
+    key: 'onSuccess',
+    value: function onSuccess() {
+      this.finishProcessing();
+      if (this.clearOnSubmit) this.reset();
+    }
+
+    /**
+     * Process on fail.
+     *
+     * @param errors
+     */
+
+  }, {
+    key: 'onFail',
+    value: function onFail(errors) {
+      this.errors.record(errors);
+      this.finishProcessingOnErrors();
+    }
+
+    /**
+     * Set the errors on the form.
+     *
+     * @param errors
+     */
+
+  }, {
+    key: 'setErrors',
+    value: function setErrors(errors) {
+      this.submitting = false;
+      this.errors.set(errors);
+    }
+  }]);
+
+  return Form;
+}();
+
+exports.default = Form;
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
+ * Select2 4.0.3
+ * https://select2.github.io
+ *
+ * Released under the MIT license
+ * https://github.com/select2/select2/blob/master/LICENSE.md
+ */
+(function (factory) {
+  if (true) {
+    // AMD. Register as an anonymous module.
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports === 'object') {
+    // Node/CommonJS
+    factory(require('jquery'));
+  } else {
+    // Browser globals
+    factory(jQuery);
+  }
+}(function (jQuery) {
+  // This is needed so we can catch the AMD loader configuration and use it
+  // The inner file should be wrapped (by `banner.start.js`) in a function that
+  // returns the AMD loader references.
+  var S2 =
+(function () {
+  // Restore the Select2 AMD loader so it can be used
+  // Needed mostly in the language files, where the loader is not inserted
+  if (jQuery && jQuery.fn && jQuery.fn.select2 && jQuery.fn.select2.amd) {
+    var S2 = jQuery.fn.select2.amd;
+  }
+var S2;(function () { if (!S2 || !S2.requirejs) {
+if (!S2) { S2 = {}; } else { require = S2; }
+/**
+ * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/almond for details
+ */
+//Going sloppy to avoid 'use strict' string cost, but strict practices should
+//be followed.
+/*jslint sloppy: true */
+/*global setTimeout: false */
+
+var requirejs, require, define;
+(function (undef) {
+    var main, req, makeMap, handlers,
+        defined = {},
+        waiting = {},
+        config = {},
+        defining = {},
+        hasOwn = Object.prototype.hasOwnProperty,
+        aps = [].slice,
+        jsSuffixRegExp = /\.js$/;
+
+    function hasProp(obj, prop) {
+        return hasOwn.call(obj, prop);
+    }
+
+    /**
+     * Given a relative module name, like ./something, normalize it to
+     * a real name that can be mapped to a path.
+     * @param {String} name the relative name
+     * @param {String} baseName a real name that the name arg is relative
+     * to.
+     * @returns {String} normalized name
+     */
+    function normalize(name, baseName) {
+        var nameParts, nameSegment, mapValue, foundMap, lastIndex,
+            foundI, foundStarMap, starI, i, j, part,
+            baseParts = baseName && baseName.split("/"),
+            map = config.map,
+            starMap = (map && map['*']) || {};
+
+        //Adjust any relative paths.
+        if (name && name.charAt(0) === ".") {
+            //If have a base name, try to normalize against it,
+            //otherwise, assume it is a top-level require that will
+            //be relative to baseUrl in the end.
+            if (baseName) {
+                name = name.split('/');
+                lastIndex = name.length - 1;
+
+                // Node .js allowance:
+                if (config.nodeIdCompat && jsSuffixRegExp.test(name[lastIndex])) {
+                    name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
+                }
+
+                //Lop off the last part of baseParts, so that . matches the
+                //"directory" and not name of the baseName's module. For instance,
+                //baseName of "one/two/three", maps to "one/two/three.js", but we
+                //want the directory, "one/two" for this normalization.
+                name = baseParts.slice(0, baseParts.length - 1).concat(name);
+
+                //start trimDots
+                for (i = 0; i < name.length; i += 1) {
+                    part = name[i];
+                    if (part === ".") {
+                        name.splice(i, 1);
+                        i -= 1;
+                    } else if (part === "..") {
+                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
+                            //End of the line. Keep at least one non-dot
+                            //path segment at the front so it can be mapped
+                            //correctly to disk. Otherwise, there is likely
+                            //no path mapping for a path starting with '..'.
+                            //This can still fail, but catches the most reasonable
+                            //uses of ..
+                            break;
+                        } else if (i > 0) {
+                            name.splice(i - 1, 2);
+                            i -= 2;
+                        }
+                    }
+                }
+                //end trimDots
+
+                name = name.join("/");
+            } else if (name.indexOf('./') === 0) {
+                // No baseName, so this is ID is resolved relative
+                // to baseUrl, pull off the leading dot.
+                name = name.substring(2);
+            }
+        }
+
+        //Apply map config if available.
+        if ((baseParts || starMap) && map) {
+            nameParts = name.split('/');
+
+            for (i = nameParts.length; i > 0; i -= 1) {
+                nameSegment = nameParts.slice(0, i).join("/");
+
+                if (baseParts) {
+                    //Find the longest baseName segment match in the config.
+                    //So, do joins on the biggest to smallest lengths of baseParts.
+                    for (j = baseParts.length; j > 0; j -= 1) {
+                        mapValue = map[baseParts.slice(0, j).join('/')];
+
+                        //baseName segment has  config, find if it has one for
+                        //this name.
+                        if (mapValue) {
+                            mapValue = mapValue[nameSegment];
+                            if (mapValue) {
+                                //Match, update name to the new value.
+                                foundMap = mapValue;
+                                foundI = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (foundMap) {
+                    break;
+                }
+
+                //Check for a star map match, but just hold on to it,
+                //if there is a shorter segment match later in a matching
+                //config, then favor over this star map.
+                if (!foundStarMap && starMap && starMap[nameSegment]) {
+                    foundStarMap = starMap[nameSegment];
+                    starI = i;
+                }
+            }
+
+            if (!foundMap && foundStarMap) {
+                foundMap = foundStarMap;
+                foundI = starI;
+            }
+
+            if (foundMap) {
+                nameParts.splice(0, foundI, foundMap);
+                name = nameParts.join('/');
+            }
+        }
+
+        return name;
+    }
+
+    function makeRequire(relName, forceSync) {
+        return function () {
+            //A version of a require function that passes a moduleName
+            //value for items that may need to
+            //look up paths relative to the moduleName
+            var args = aps.call(arguments, 0);
+
+            //If first arg is not require('string'), and there is only
+            //one arg, it is the array form without a callback. Insert
+            //a null so that the following concat is correct.
+            if (typeof args[0] !== 'string' && args.length === 1) {
+                args.push(null);
+            }
+            return req.apply(undef, args.concat([relName, forceSync]));
+        };
+    }
+
+    function makeNormalize(relName) {
+        return function (name) {
+            return normalize(name, relName);
+        };
+    }
+
+    function makeLoad(depName) {
+        return function (value) {
+            defined[depName] = value;
+        };
+    }
+
+    function callDep(name) {
+        if (hasProp(waiting, name)) {
+            var args = waiting[name];
+            delete waiting[name];
+            defining[name] = true;
+            main.apply(undef, args);
+        }
+
+        if (!hasProp(defined, name) && !hasProp(defining, name)) {
+            throw new Error('No ' + name);
+        }
+        return defined[name];
+    }
+
+    //Turns a plugin!resource to [plugin, resource]
+    //with the plugin being undefined if the name
+    //did not have a plugin prefix.
+    function splitPrefix(name) {
+        var prefix,
+            index = name ? name.indexOf('!') : -1;
+        if (index > -1) {
+            prefix = name.substring(0, index);
+            name = name.substring(index + 1, name.length);
+        }
+        return [prefix, name];
+    }
+
+    /**
+     * Makes a name map, normalizing the name, and using a plugin
+     * for normalization if necessary. Grabs a ref to plugin
+     * too, as an optimization.
+     */
+    makeMap = function (name, relName) {
+        var plugin,
+            parts = splitPrefix(name),
+            prefix = parts[0];
+
+        name = parts[1];
+
+        if (prefix) {
+            prefix = normalize(prefix, relName);
+            plugin = callDep(prefix);
+        }
+
+        //Normalize according
+        if (prefix) {
+            if (plugin && plugin.normalize) {
+                name = plugin.normalize(name, makeNormalize(relName));
+            } else {
+                name = normalize(name, relName);
+            }
+        } else {
+            name = normalize(name, relName);
+            parts = splitPrefix(name);
+            prefix = parts[0];
+            name = parts[1];
+            if (prefix) {
+                plugin = callDep(prefix);
+            }
+        }
+
+        //Using ridiculous property names for space reasons
+        return {
+            f: prefix ? prefix + '!' + name : name, //fullName
+            n: name,
+            pr: prefix,
+            p: plugin
+        };
+    };
+
+    function makeConfig(name) {
+        return function () {
+            return (config && config.config && config.config[name]) || {};
+        };
+    }
+
+    handlers = {
+        require: function (name) {
+            return makeRequire(name);
+        },
+        exports: function (name) {
+            var e = defined[name];
+            if (typeof e !== 'undefined') {
+                return e;
+            } else {
+                return (defined[name] = {});
+            }
+        },
+        module: function (name) {
+            return {
+                id: name,
+                uri: '',
+                exports: defined[name],
+                config: makeConfig(name)
+            };
+        }
+    };
+
+    main = function (name, deps, callback, relName) {
+        var cjsModule, depName, ret, map, i,
+            args = [],
+            callbackType = typeof callback,
+            usingExports;
+
+        //Use name if no relName
+        relName = relName || name;
+
+        //Call the callback to define the module, if necessary.
+        if (callbackType === 'undefined' || callbackType === 'function') {
+            //Pull out the defined dependencies and pass the ordered
+            //values to the callback.
+            //Default to [require, exports, module] if no deps
+            deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+            for (i = 0; i < deps.length; i += 1) {
+                map = makeMap(deps[i], relName);
+                depName = map.f;
+
+                //Fast path CommonJS standard dependencies.
+                if (depName === "require") {
+                    args[i] = handlers.require(name);
+                } else if (depName === "exports") {
+                    //CommonJS module spec 1.1
+                    args[i] = handlers.exports(name);
+                    usingExports = true;
+                } else if (depName === "module") {
+                    //CommonJS module spec 1.1
+                    cjsModule = args[i] = handlers.module(name);
+                } else if (hasProp(defined, depName) ||
+                           hasProp(waiting, depName) ||
+                           hasProp(defining, depName)) {
+                    args[i] = callDep(depName);
+                } else if (map.p) {
+                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
+                    args[i] = defined[depName];
+                } else {
+                    throw new Error(name + ' missing ' + depName);
+                }
+            }
+
+            ret = callback ? callback.apply(defined[name], args) : undefined;
+
+            if (name) {
+                //If setting exports via "module" is in play,
+                //favor that over return value and exports. After that,
+                //favor a non-undefined return value over exports use.
+                if (cjsModule && cjsModule.exports !== undef &&
+                        cjsModule.exports !== defined[name]) {
+                    defined[name] = cjsModule.exports;
+                } else if (ret !== undef || !usingExports) {
+                    //Use the return value from the function.
+                    defined[name] = ret;
+                }
+            }
+        } else if (name) {
+            //May just be an object definition for the module. Only
+            //worry about defining if have a module name.
+            defined[name] = callback;
+        }
+    };
+
+    requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
+        if (typeof deps === "string") {
+            if (handlers[deps]) {
+                //callback in this case is really relName
+                return handlers[deps](callback);
+            }
+            //Just return the module wanted. In this scenario, the
+            //deps arg is the module name, and second arg (if passed)
+            //is just the relName.
+            //Normalize module name, if it contains . or ..
+            return callDep(makeMap(deps, callback).f);
+        } else if (!deps.splice) {
+            //deps is a config object, not an array.
+            config = deps;
+            if (config.deps) {
+                req(config.deps, config.callback);
+            }
+            if (!callback) {
+                return;
+            }
+
+            if (callback.splice) {
+                //callback is an array, which means it is a dependency list.
+                //Adjust args if there are dependencies
+                deps = callback;
+                callback = relName;
+                relName = null;
+            } else {
+                deps = undef;
+            }
+        }
+
+        //Support require(['a'])
+        callback = callback || function () {};
+
+        //If relName is a function, it is an errback handler,
+        //so remove it.
+        if (typeof relName === 'function') {
+            relName = forceSync;
+            forceSync = alt;
+        }
+
+        //Simulate async callback;
+        if (forceSync) {
+            main(undef, deps, callback, relName);
+        } else {
+            //Using a non-zero value because of concern for what old browsers
+            //do, and latest browsers "upgrade" to 4 if lower value is used:
+            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+            //If want a value immediately, use require('id') instead -- something
+            //that works in almond on the global level, but not guaranteed and
+            //unlikely to work in other AMD implementations.
+            setTimeout(function () {
+                main(undef, deps, callback, relName);
+            }, 4);
+        }
+
+        return req;
+    };
+
+    /**
+     * Just drops the config on the floor, but returns req in case
+     * the config return value is used.
+     */
+    req.config = function (cfg) {
+        return req(cfg);
+    };
+
+    /**
+     * Expose module registry for debugging and tooling
+     */
+    requirejs._defined = defined;
+
+    define = function (name, deps, callback) {
+        if (typeof name !== 'string') {
+            throw new Error('See almond README: incorrect module build, no module name');
+        }
+
+        //This module may not have dependencies
+        if (!deps.splice) {
+            //deps is not an array, so probably means
+            //an object literal or factory function for
+            //the value. Adjust args.
+            callback = deps;
+            deps = [];
+        }
+
+        if (!hasProp(defined, name) && !hasProp(waiting, name)) {
+            waiting[name] = [name, deps, callback];
+        }
+    };
+
+    define.amd = {
+        jQuery: true
+    };
+}());
+
+S2.requirejs = requirejs;S2.require = require;S2.define = define;
+}
+}());
+S2.define("almond", function(){});
+
+/* global jQuery:false, $:false */
+S2.define('jquery',[],function () {
+  var _$ = jQuery || $;
+
+  if (_$ == null && console && console.error) {
+    console.error(
+      'Select2: An instance of jQuery or a jQuery-compatible library was not ' +
+      'found. Make sure that you are including jQuery before Select2 on your ' +
+      'web page.'
+    );
+  }
+
+  return _$;
+});
+
+S2.define('select2/utils',[
+  'jquery'
+], function ($) {
+  var Utils = {};
+
+  Utils.Extend = function (ChildClass, SuperClass) {
+    var __hasProp = {}.hasOwnProperty;
+
+    function BaseConstructor () {
+      this.constructor = ChildClass;
+    }
+
+    for (var key in SuperClass) {
+      if (__hasProp.call(SuperClass, key)) {
+        ChildClass[key] = SuperClass[key];
+      }
+    }
+
+    BaseConstructor.prototype = SuperClass.prototype;
+    ChildClass.prototype = new BaseConstructor();
+    ChildClass.__super__ = SuperClass.prototype;
+
+    return ChildClass;
+  };
+
+  function getMethods (theClass) {
+    var proto = theClass.prototype;
+
+    var methods = [];
+
+    for (var methodName in proto) {
+      var m = proto[methodName];
+
+      if (typeof m !== 'function') {
+        continue;
+      }
+
+      if (methodName === 'constructor') {
+        continue;
+      }
+
+      methods.push(methodName);
+    }
+
+    return methods;
+  }
+
+  Utils.Decorate = function (SuperClass, DecoratorClass) {
+    var decoratedMethods = getMethods(DecoratorClass);
+    var superMethods = getMethods(SuperClass);
+
+    function DecoratedClass () {
+      var unshift = Array.prototype.unshift;
+
+      var argCount = DecoratorClass.prototype.constructor.length;
+
+      var calledConstructor = SuperClass.prototype.constructor;
+
+      if (argCount > 0) {
+        unshift.call(arguments, SuperClass.prototype.constructor);
+
+        calledConstructor = DecoratorClass.prototype.constructor;
+      }
+
+      calledConstructor.apply(this, arguments);
+    }
+
+    DecoratorClass.displayName = SuperClass.displayName;
+
+    function ctr () {
+      this.constructor = DecoratedClass;
+    }
+
+    DecoratedClass.prototype = new ctr();
+
+    for (var m = 0; m < superMethods.length; m++) {
+        var superMethod = superMethods[m];
+
+        DecoratedClass.prototype[superMethod] =
+          SuperClass.prototype[superMethod];
+    }
+
+    var calledMethod = function (methodName) {
+      // Stub out the original method if it's not decorating an actual method
+      var originalMethod = function () {};
+
+      if (methodName in DecoratedClass.prototype) {
+        originalMethod = DecoratedClass.prototype[methodName];
+      }
+
+      var decoratedMethod = DecoratorClass.prototype[methodName];
+
+      return function () {
+        var unshift = Array.prototype.unshift;
+
+        unshift.call(arguments, originalMethod);
+
+        return decoratedMethod.apply(this, arguments);
+      };
+    };
+
+    for (var d = 0; d < decoratedMethods.length; d++) {
+      var decoratedMethod = decoratedMethods[d];
+
+      DecoratedClass.prototype[decoratedMethod] = calledMethod(decoratedMethod);
+    }
+
+    return DecoratedClass;
+  };
+
+  var Observable = function () {
+    this.listeners = {};
+  };
+
+  Observable.prototype.on = function (event, callback) {
+    this.listeners = this.listeners || {};
+
+    if (event in this.listeners) {
+      this.listeners[event].push(callback);
+    } else {
+      this.listeners[event] = [callback];
+    }
+  };
+
+  Observable.prototype.trigger = function (event) {
+    var slice = Array.prototype.slice;
+    var params = slice.call(arguments, 1);
+
+    this.listeners = this.listeners || {};
+
+    // Params should always come in as an array
+    if (params == null) {
+      params = [];
+    }
+
+    // If there are no arguments to the event, use a temporary object
+    if (params.length === 0) {
+      params.push({});
+    }
+
+    // Set the `_type` of the first object to the event
+    params[0]._type = event;
+
+    if (event in this.listeners) {
+      this.invoke(this.listeners[event], slice.call(arguments, 1));
+    }
+
+    if ('*' in this.listeners) {
+      this.invoke(this.listeners['*'], arguments);
+    }
+  };
+
+  Observable.prototype.invoke = function (listeners, params) {
+    for (var i = 0, len = listeners.length; i < len; i++) {
+      listeners[i].apply(this, params);
+    }
+  };
+
+  Utils.Observable = Observable;
+
+  Utils.generateChars = function (length) {
+    var chars = '';
+
+    for (var i = 0; i < length; i++) {
+      var randomChar = Math.floor(Math.random() * 36);
+      chars += randomChar.toString(36);
+    }
+
+    return chars;
+  };
+
+  Utils.bind = function (func, context) {
+    return function () {
+      func.apply(context, arguments);
+    };
+  };
+
+  Utils._convertData = function (data) {
+    for (var originalKey in data) {
+      var keys = originalKey.split('-');
+
+      var dataLevel = data;
+
+      if (keys.length === 1) {
+        continue;
+      }
+
+      for (var k = 0; k < keys.length; k++) {
+        var key = keys[k];
+
+        // Lowercase the first letter
+        // By default, dash-separated becomes camelCase
+        key = key.substring(0, 1).toLowerCase() + key.substring(1);
+
+        if (!(key in dataLevel)) {
+          dataLevel[key] = {};
+        }
+
+        if (k == keys.length - 1) {
+          dataLevel[key] = data[originalKey];
+        }
+
+        dataLevel = dataLevel[key];
+      }
+
+      delete data[originalKey];
+    }
+
+    return data;
+  };
+
+  Utils.hasScroll = function (index, el) {
+    // Adapted from the function created by @ShadowScripter
+    // and adapted by @BillBarry on the Stack Exchange Code Review website.
+    // The original code can be found at
+    // http://codereview.stackexchange.com/q/13338
+    // and was designed to be used with the Sizzle selector engine.
+
+    var $el = $(el);
+    var overflowX = el.style.overflowX;
+    var overflowY = el.style.overflowY;
+
+    //Check both x and y declarations
+    if (overflowX === overflowY &&
+        (overflowY === 'hidden' || overflowY === 'visible')) {
+      return false;
+    }
+
+    if (overflowX === 'scroll' || overflowY === 'scroll') {
+      return true;
+    }
+
+    return ($el.innerHeight() < el.scrollHeight ||
+      $el.innerWidth() < el.scrollWidth);
+  };
+
+  Utils.escapeMarkup = function (markup) {
+    var replaceMap = {
+      '\\': '&#92;',
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      '\'': '&#39;',
+      '/': '&#47;'
+    };
+
+    // Do not try to escape the markup if it's not a string
+    if (typeof markup !== 'string') {
+      return markup;
+    }
+
+    return String(markup).replace(/[&<>"'\/\\]/g, function (match) {
+      return replaceMap[match];
+    });
+  };
+
+  // Append an array of jQuery nodes to a given element.
+  Utils.appendMany = function ($element, $nodes) {
+    // jQuery 1.7.x does not support $.fn.append() with an array
+    // Fall back to a jQuery object collection using $.fn.add()
+    if ($.fn.jquery.substr(0, 3) === '1.7') {
+      var $jqNodes = $();
+
+      $.map($nodes, function (node) {
+        $jqNodes = $jqNodes.add(node);
+      });
+
+      $nodes = $jqNodes;
+    }
+
+    $element.append($nodes);
+  };
+
+  return Utils;
+});
+
+S2.define('select2/results',[
+  'jquery',
+  './utils'
+], function ($, Utils) {
+  function Results ($element, options, dataAdapter) {
+    this.$element = $element;
+    this.data = dataAdapter;
+    this.options = options;
+
+    Results.__super__.constructor.call(this);
+  }
+
+  Utils.Extend(Results, Utils.Observable);
+
+  Results.prototype.render = function () {
+    var $results = $(
+      '<ul class="select2-results__options" role="tree"></ul>'
+    );
+
+    if (this.options.get('multiple')) {
+      $results.attr('aria-multiselectable', 'true');
+    }
+
+    this.$results = $results;
+
+    return $results;
+  };
+
+  Results.prototype.clear = function () {
+    this.$results.empty();
+  };
+
+  Results.prototype.displayMessage = function (params) {
+    var escapeMarkup = this.options.get('escapeMarkup');
+
+    this.clear();
+    this.hideLoading();
+
+    var $message = $(
+      '<li role="treeitem" aria-live="assertive"' +
+      ' class="select2-results__option"></li>'
+    );
+
+    var message = this.options.get('translations').get(params.message);
+
+    $message.append(
+      escapeMarkup(
+        message(params.args)
+      )
+    );
+
+    $message[0].className += ' select2-results__message';
+
+    this.$results.append($message);
+  };
+
+  Results.prototype.hideMessages = function () {
+    this.$results.find('.select2-results__message').remove();
+  };
+
+  Results.prototype.append = function (data) {
+    this.hideLoading();
+
+    var $options = [];
+
+    if (data.results == null || data.results.length === 0) {
+      if (this.$results.children().length === 0) {
+        this.trigger('results:message', {
+          message: 'noResults'
+        });
+      }
+
+      return;
+    }
+
+    data.results = this.sort(data.results);
+
+    for (var d = 0; d < data.results.length; d++) {
+      var item = data.results[d];
+
+      var $option = this.option(item);
+
+      $options.push($option);
+    }
+
+    this.$results.append($options);
+  };
+
+  Results.prototype.position = function ($results, $dropdown) {
+    var $resultsContainer = $dropdown.find('.select2-results');
+    $resultsContainer.append($results);
+  };
+
+  Results.prototype.sort = function (data) {
+    var sorter = this.options.get('sorter');
+
+    return sorter(data);
+  };
+
+  Results.prototype.highlightFirstItem = function () {
+    var $options = this.$results
+      .find('.select2-results__option[aria-selected]');
+
+    var $selected = $options.filter('[aria-selected=true]');
+
+    // Check if there are any selected options
+    if ($selected.length > 0) {
+      // If there are selected options, highlight the first
+      $selected.first().trigger('mouseenter');
+    } else {
+      // If there are no selected options, highlight the first option
+      // in the dropdown
+      $options.first().trigger('mouseenter');
+    }
+
+    this.ensureHighlightVisible();
+  };
+
+  Results.prototype.setClasses = function () {
+    var self = this;
+
+    this.data.current(function (selected) {
+      var selectedIds = $.map(selected, function (s) {
+        return s.id.toString();
+      });
+
+      var $options = self.$results
+        .find('.select2-results__option[aria-selected]');
+
+      $options.each(function () {
+        var $option = $(this);
+
+        var item = $.data(this, 'data');
+
+        // id needs to be converted to a string when comparing
+        var id = '' + item.id;
+
+        if ((item.element != null && item.element.selected) ||
+            (item.element == null && $.inArray(id, selectedIds) > -1)) {
+          $option.attr('aria-selected', 'true');
+        } else {
+          $option.attr('aria-selected', 'false');
+        }
+      });
+
+    });
+  };
+
+  Results.prototype.showLoading = function (params) {
+    this.hideLoading();
+
+    var loadingMore = this.options.get('translations').get('searching');
+
+    var loading = {
+      disabled: true,
+      loading: true,
+      text: loadingMore(params)
+    };
+    var $loading = this.option(loading);
+    $loading.className += ' loading-results';
+
+    this.$results.prepend($loading);
+  };
+
+  Results.prototype.hideLoading = function () {
+    this.$results.find('.loading-results').remove();
+  };
+
+  Results.prototype.option = function (data) {
+    var option = document.createElement('li');
+    option.className = 'select2-results__option';
+
+    var attrs = {
+      'role': 'treeitem',
+      'aria-selected': 'false'
+    };
+
+    if (data.disabled) {
+      delete attrs['aria-selected'];
+      attrs['aria-disabled'] = 'true';
+    }
+
+    if (data.id == null) {
+      delete attrs['aria-selected'];
+    }
+
+    if (data._resultId != null) {
+      option.id = data._resultId;
+    }
+
+    if (data.title) {
+      option.title = data.title;
+    }
+
+    if (data.children) {
+      attrs.role = 'group';
+      attrs['aria-label'] = data.text;
+      delete attrs['aria-selected'];
+    }
+
+    for (var attr in attrs) {
+      var val = attrs[attr];
+
+      option.setAttribute(attr, val);
+    }
+
+    if (data.children) {
+      var $option = $(option);
+
+      var label = document.createElement('strong');
+      label.className = 'select2-results__group';
+
+      var $label = $(label);
+      this.template(data, label);
+
+      var $children = [];
+
+      for (var c = 0; c < data.children.length; c++) {
+        var child = data.children[c];
+
+        var $child = this.option(child);
+
+        $children.push($child);
+      }
+
+      var $childrenContainer = $('<ul></ul>', {
+        'class': 'select2-results__options select2-results__options--nested'
+      });
+
+      $childrenContainer.append($children);
+
+      $option.append(label);
+      $option.append($childrenContainer);
+    } else {
+      this.template(data, option);
+    }
+
+    $.data(option, 'data', data);
+
+    return option;
+  };
+
+  Results.prototype.bind = function (container, $container) {
+    var self = this;
+
+    var id = container.id + '-results';
+
+    this.$results.attr('id', id);
+
+    container.on('results:all', function (params) {
+      self.clear();
+      self.append(params.data);
+
+      if (container.isOpen()) {
+        self.setClasses();
+        self.highlightFirstItem();
+      }
+    });
+
+    container.on('results:append', function (params) {
+      self.append(params.data);
+
+      if (container.isOpen()) {
+        self.setClasses();
+      }
+    });
+
+    container.on('query', function (params) {
+      self.hideMessages();
+      self.showLoading(params);
+    });
+
+    container.on('select', function () {
+      if (!container.isOpen()) {
+        return;
+      }
+
+      self.setClasses();
+      self.highlightFirstItem();
+    });
+
+    container.on('unselect', function () {
+      if (!container.isOpen()) {
+        return;
+      }
+
+      self.setClasses();
+      self.highlightFirstItem();
+    });
+
+    container.on('open', function () {
+      // When the dropdown is open, aria-expended="true"
+      self.$results.attr('aria-expanded', 'true');
+      self.$results.attr('aria-hidden', 'false');
+
+      self.setClasses();
+      self.ensureHighlightVisible();
+    });
+
+    container.on('close', function () {
+      // When the dropdown is closed, aria-expended="false"
+      self.$results.attr('aria-expanded', 'false');
+      self.$results.attr('aria-hidden', 'true');
+      self.$results.removeAttr('aria-activedescendant');
+    });
+
+    container.on('results:toggle', function () {
+      var $highlighted = self.getHighlightedResults();
+
+      if ($highlighted.length === 0) {
+        return;
+      }
+
+      $highlighted.trigger('mouseup');
+    });
+
+    container.on('results:select', function () {
+      var $highlighted = self.getHighlightedResults();
+
+      if ($highlighted.length === 0) {
+        return;
+      }
+
+      var data = $highlighted.data('data');
+
+      if ($highlighted.attr('aria-selected') == 'true') {
+        self.trigger('close', {});
+      } else {
+        self.trigger('select', {
+          data: data
+        });
+      }
+    });
+
+    container.on('results:previous', function () {
+      var $highlighted = self.getHighlightedResults();
+
+      var $options = self.$results.find('[aria-selected]');
+
+      var currentIndex = $options.index($highlighted);
+
+      // If we are already at te top, don't move further
+      if (currentIndex === 0) {
+        return;
+      }
+
+      var nextIndex = currentIndex - 1;
+
+      // If none are highlighted, highlight the first
+      if ($highlighted.length === 0) {
+        nextIndex = 0;
+      }
+
+      var $next = $options.eq(nextIndex);
+
+      $next.trigger('mouseenter');
+
+      var currentOffset = self.$results.offset().top;
+      var nextTop = $next.offset().top;
+      var nextOffset = self.$results.scrollTop() + (nextTop - currentOffset);
+
+      if (nextIndex === 0) {
+        self.$results.scrollTop(0);
+      } else if (nextTop - currentOffset < 0) {
+        self.$results.scrollTop(nextOffset);
+      }
+    });
+
+    container.on('results:next', function () {
+      var $highlighted = self.getHighlightedResults();
+
+      var $options = self.$results.find('[aria-selected]');
+
+      var currentIndex = $options.index($highlighted);
+
+      var nextIndex = currentIndex + 1;
+
+      // If we are at the last option, stay there
+      if (nextIndex >= $options.length) {
+        return;
+      }
+
+      var $next = $options.eq(nextIndex);
+
+      $next.trigger('mouseenter');
+
+      var currentOffset = self.$results.offset().top +
+        self.$results.outerHeight(false);
+      var nextBottom = $next.offset().top + $next.outerHeight(false);
+      var nextOffset = self.$results.scrollTop() + nextBottom - currentOffset;
+
+      if (nextIndex === 0) {
+        self.$results.scrollTop(0);
+      } else if (nextBottom > currentOffset) {
+        self.$results.scrollTop(nextOffset);
+      }
+    });
+
+    container.on('results:focus', function (params) {
+      params.element.addClass('select2-results__option--highlighted');
+    });
+
+    container.on('results:message', function (params) {
+      self.displayMessage(params);
+    });
+
+    if ($.fn.mousewheel) {
+      this.$results.on('mousewheel', function (e) {
+        var top = self.$results.scrollTop();
+
+        var bottom = self.$results.get(0).scrollHeight - top + e.deltaY;
+
+        var isAtTop = e.deltaY > 0 && top - e.deltaY <= 0;
+        var isAtBottom = e.deltaY < 0 && bottom <= self.$results.height();
+
+        if (isAtTop) {
+          self.$results.scrollTop(0);
+
+          e.preventDefault();
+          e.stopPropagation();
+        } else if (isAtBottom) {
+          self.$results.scrollTop(
+            self.$results.get(0).scrollHeight - self.$results.height()
+          );
+
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    }
+
+    this.$results.on('mouseup', '.select2-results__option[aria-selected]',
+      function (evt) {
+      var $this = $(this);
+
+      var data = $this.data('data');
+
+      if ($this.attr('aria-selected') === 'true') {
+        if (self.options.get('multiple')) {
+          self.trigger('unselect', {
+            originalEvent: evt,
+            data: data
+          });
+        } else {
+          self.trigger('close', {});
+        }
+
+        return;
+      }
+
+      self.trigger('select', {
+        originalEvent: evt,
+        data: data
+      });
+    });
+
+    this.$results.on('mouseenter', '.select2-results__option[aria-selected]',
+      function (evt) {
+      var data = $(this).data('data');
+
+      self.getHighlightedResults()
+          .removeClass('select2-results__option--highlighted');
+
+      self.trigger('results:focus', {
+        data: data,
+        element: $(this)
+      });
+    });
+  };
+
+  Results.prototype.getHighlightedResults = function () {
+    var $highlighted = this.$results
+    .find('.select2-results__option--highlighted');
+
+    return $highlighted;
+  };
+
+  Results.prototype.destroy = function () {
+    this.$results.remove();
+  };
+
+  Results.prototype.ensureHighlightVisible = function () {
+    var $highlighted = this.getHighlightedResults();
+
+    if ($highlighted.length === 0) {
+      return;
+    }
+
+    var $options = this.$results.find('[aria-selected]');
+
+    var currentIndex = $options.index($highlighted);
+
+    var currentOffset = this.$results.offset().top;
+    var nextTop = $highlighted.offset().top;
+    var nextOffset = this.$results.scrollTop() + (nextTop - currentOffset);
+
+    var offsetDelta = nextTop - currentOffset;
+    nextOffset -= $highlighted.outerHeight(false) * 2;
+
+    if (currentIndex <= 2) {
+      this.$results.scrollTop(0);
+    } else if (offsetDelta > this.$results.outerHeight() || offsetDelta < 0) {
+      this.$results.scrollTop(nextOffset);
+    }
+  };
+
+  Results.prototype.template = function (result, container) {
+    var template = this.options.get('templateResult');
+    var escapeMarkup = this.options.get('escapeMarkup');
+
+    var content = template(result, container);
+
+    if (content == null) {
+      container.style.display = 'none';
+    } else if (typeof content === 'string') {
+      container.innerHTML = escapeMarkup(content);
+    } else {
+      $(container).append(content);
+    }
+  };
+
+  return Results;
+});
+
+S2.define('select2/keys',[
+
+], function () {
+  var KEYS = {
+    BACKSPACE: 8,
+    TAB: 9,
+    ENTER: 13,
+    SHIFT: 16,
+    CTRL: 17,
+    ALT: 18,
+    ESC: 27,
+    SPACE: 32,
+    PAGE_UP: 33,
+    PAGE_DOWN: 34,
+    END: 35,
+    HOME: 36,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    DELETE: 46
+  };
+
+  return KEYS;
+});
+
+S2.define('select2/selection/base',[
+  'jquery',
+  '../utils',
+  '../keys'
+], function ($, Utils, KEYS) {
+  function BaseSelection ($element, options) {
+    this.$element = $element;
+    this.options = options;
+
+    BaseSelection.__super__.constructor.call(this);
+  }
+
+  Utils.Extend(BaseSelection, Utils.Observable);
+
+  BaseSelection.prototype.render = function () {
+    var $selection = $(
+      '<span class="select2-selection" role="combobox" ' +
+      ' aria-haspopup="true" aria-expanded="false">' +
+      '</span>'
+    );
+
+    this._tabindex = 0;
+
+    if (this.$element.data('old-tabindex') != null) {
+      this._tabindex = this.$element.data('old-tabindex');
+    } else if (this.$element.attr('tabindex') != null) {
+      this._tabindex = this.$element.attr('tabindex');
+    }
+
+    $selection.attr('title', this.$element.attr('title'));
+    $selection.attr('tabindex', this._tabindex);
+
+    this.$selection = $selection;
+
+    return $selection;
+  };
+
+  BaseSelection.prototype.bind = function (container, $container) {
+    var self = this;
+
+    var id = container.id + '-container';
+    var resultsId = container.id + '-results';
+
+    this.container = container;
+
+    this.$selection.on('focus', function (evt) {
+      self.trigger('focus', evt);
+    });
+
+    this.$selection.on('blur', function (evt) {
+      self._handleBlur(evt);
+    });
+
+    this.$selection.on('keydown', function (evt) {
+      self.trigger('keypress', evt);
+
+      if (evt.which === KEYS.SPACE) {
+        evt.preventDefault();
+      }
+    });
+
+    container.on('results:focus', function (params) {
+      self.$selection.attr('aria-activedescendant', params.data._resultId);
+    });
+
+    container.on('selection:update', function (params) {
+      self.update(params.data);
+    });
+
+    container.on('open', function () {
+      // When the dropdown is open, aria-expanded="true"
+      self.$selection.attr('aria-expanded', 'true');
+      self.$selection.attr('aria-owns', resultsId);
+
+      self._attachCloseHandler(container);
+    });
+
+    container.on('close', function () {
+      // When the dropdown is closed, aria-expanded="false"
+      self.$selection.attr('aria-expanded', 'false');
+      self.$selection.removeAttr('aria-activedescendant');
+      self.$selection.removeAttr('aria-owns');
+
+      self.$selection.focus();
+
+      self._detachCloseHandler(container);
+    });
+
+    container.on('enable', function () {
+      self.$selection.attr('tabindex', self._tabindex);
+    });
+
+    container.on('disable', function () {
+      self.$selection.attr('tabindex', '-1');
+    });
+  };
+
+  BaseSelection.prototype._handleBlur = function (evt) {
+    var self = this;
+
+    // This needs to be delayed as the active element is the body when the tab
+    // key is pressed, possibly along with others.
+    window.setTimeout(function () {
+      // Don't trigger `blur` if the focus is still in the selection
+      if (
+        (document.activeElement == self.$selection[0]) ||
+        ($.contains(self.$selection[0], document.activeElement))
+      ) {
+        return;
+      }
+
+      self.trigger('blur', evt);
+    }, 1);
+  };
+
+  BaseSelection.prototype._attachCloseHandler = function (container) {
+    var self = this;
+
+    $(document.body).on('mousedown.select2.' + container.id, function (e) {
+      var $target = $(e.target);
+
+      var $select = $target.closest('.select2');
+
+      var $all = $('.select2.select2-container--open');
+
+      $all.each(function () {
+        var $this = $(this);
+
+        if (this == $select[0]) {
+          return;
+        }
+
+        var $element = $this.data('element');
+
+        $element.select2('close');
+      });
+    });
+  };
+
+  BaseSelection.prototype._detachCloseHandler = function (container) {
+    $(document.body).off('mousedown.select2.' + container.id);
+  };
+
+  BaseSelection.prototype.position = function ($selection, $container) {
+    var $selectionContainer = $container.find('.selection');
+    $selectionContainer.append($selection);
+  };
+
+  BaseSelection.prototype.destroy = function () {
+    this._detachCloseHandler(this.container);
+  };
+
+  BaseSelection.prototype.update = function (data) {
+    throw new Error('The `update` method must be defined in child classes.');
+  };
+
+  return BaseSelection;
+});
+
+S2.define('select2/selection/single',[
+  'jquery',
+  './base',
+  '../utils',
+  '../keys'
+], function ($, BaseSelection, Utils, KEYS) {
+  function SingleSelection () {
+    SingleSelection.__super__.constructor.apply(this, arguments);
+  }
+
+  Utils.Extend(SingleSelection, BaseSelection);
+
+  SingleSelection.prototype.render = function () {
+    var $selection = SingleSelection.__super__.render.call(this);
+
+    $selection.addClass('select2-selection--single');
+
+    $selection.html(
+      '<span class="select2-selection__rendered"></span>' +
+      '<span class="select2-selection__arrow" role="presentation">' +
+        '<b role="presentation"></b>' +
+      '</span>'
+    );
+
+    return $selection;
+  };
+
+  SingleSelection.prototype.bind = function (container, $container) {
+    var self = this;
+
+    SingleSelection.__super__.bind.apply(this, arguments);
+
+    var id = container.id + '-container';
+
+    this.$selection.find('.select2-selection__rendered').attr('id', id);
+    this.$selection.attr('aria-labelledby', id);
+
+    this.$selection.on('mousedown', function (evt) {
+      // Only respond to left clicks
+      if (evt.which !== 1) {
+        return;
+      }
+
+      self.trigger('toggle', {
+        originalEvent: evt
+      });
+    });
+
+    this.$selection.on('focus', function (evt) {
+      // User focuses on the container
+    });
+
+    this.$selection.on('blur', function (evt) {
+      // User exits the container
+    });
+
+    container.on('focus', function (evt) {
+      if (!container.isOpen()) {
+        self.$selection.focus();
+      }
+    });
+
+    container.on('selection:update', function (params) {
+      self.update(params.data);
+    });
+  };
+
+  SingleSelection.prototype.clear = function () {
+    this.$selection.find('.select2-selection__rendered').empty();
+  };
+
+  SingleSelection.prototype.display = function (data, container) {
+    var template = this.options.get('templateSelection');
+    var escapeMarkup = this.options.get('escapeMarkup');
+
+    return escapeMarkup(template(data, container));
+  };
+
+  SingleSelection.prototype.selectionContainer = function () {
+    return $('<span></span>');
+  };
+
+  SingleSelection.prototype.update = function (data) {
+    if (data.length === 0) {
+      this.clear();
+      return;
+    }
+
+    var selection = data[0];
+
+    var $rendered = this.$selection.find('.select2-selection__rendered');
+    var formatted = this.display(selection, $rendered);
+
+    $rendered.empty().append(formatted);
+    $rendered.prop('title', selection.title || selection.text);
+  };
+
+  return SingleSelection;
+});
+
+S2.define('select2/selection/multiple',[
+  'jquery',
+  './base',
+  '../utils'
+], function ($, BaseSelection, Utils) {
+  function MultipleSelection ($element, options) {
+    MultipleSelection.__super__.constructor.apply(this, arguments);
+  }
+
+  Utils.Extend(MultipleSelection, BaseSelection);
+
+  MultipleSelection.prototype.render = function () {
+    var $selection = MultipleSelection.__super__.render.call(this);
+
+    $selection.addClass('select2-selection--multiple');
+
+    $selection.html(
+      '<ul class="select2-selection__rendered"></ul>'
+    );
+
+    return $selection;
+  };
+
+  MultipleSelection.prototype.bind = function (container, $container) {
+    var self = this;
+
+    MultipleSelection.__super__.bind.apply(this, arguments);
+
+    this.$selection.on('click', function (evt) {
+      self.trigger('toggle', {
+        originalEvent: evt
+      });
+    });
+
+    this.$selection.on(
+      'click',
+      '.select2-selection__choice__remove',
+      function (evt) {
+        // Ignore the event if it is disabled
+        if (self.options.get('disabled')) {
+          return;
+        }
+
+        var $remove = $(this);
+        var $selection = $remove.parent();
+
+        var data = $selection.data('data');
+
+        self.trigger('unselect', {
+          originalEvent: evt,
+          data: data
+        });
+      }
+    );
+  };
+
+  MultipleSelection.prototype.clear = function () {
+    this.$selection.find('.select2-selection__rendered').empty();
+  };
+
+  MultipleSelection.prototype.display = function (data, container) {
+    var template = this.options.get('templateSelection');
+    var escapeMarkup = this.options.get('escapeMarkup');
+
+    return escapeMarkup(template(data, container));
+  };
+
+  MultipleSelection.prototype.selectionContainer = function () {
+    var $container = $(
+      '<li class="select2-selection__choice">' +
+        '<span class="select2-selection__choice__remove" role="presentation">' +
+          '&times;' +
+        '</span>' +
+      '</li>'
+    );
+
+    return $container;
+  };
+
+  MultipleSelection.prototype.update = function (data) {
+    this.clear();
+
+    if (data.length === 0) {
+      return;
+    }
+
+    var $selections = [];
+
+    for (var d = 0; d < data.length; d++) {
+      var selection = data[d];
+
+      var $selection = this.selectionContainer();
+      var formatted = this.display(selection, $selection);
+
+      $selection.append(formatted);
+      $selection.prop('title', selection.title || selection.text);
+
+      $selection.data('data', selection);
+
+      $selections.push($selection);
+    }
+
+    var $rendered = this.$selection.find('.select2-selection__rendered');
+
+    Utils.appendMany($rendered, $selections);
+  };
+
+  return MultipleSelection;
+});
+
+S2.define('select2/selection/placeholder',[
+  '../utils'
+], function (Utils) {
+  function Placeholder (decorated, $element, options) {
+    this.placeholder = this.normalizePlaceholder(options.get('placeholder'));
+
+    decorated.call(this, $element, options);
+  }
+
+  Placeholder.prototype.normalizePlaceholder = function (_, placeholder) {
+    if (typeof placeholder === 'string') {
+      placeholder = {
+        id: '',
+        text: placeholder
+      };
+    }
+
+    return placeholder;
+  };
+
+  Placeholder.prototype.createPlaceholder = function (decorated, placeholder) {
+    var $placeholder = this.selectionContainer();
+
+    $placeholder.html(this.display(placeholder));
+    $placeholder.addClass('select2-selection__placeholder')
+                .removeClass('select2-selection__choice');
+
+    return $placeholder;
+  };
+
+  Placeholder.prototype.update = function (decorated, data) {
+    var singlePlaceholder = (
+      data.length == 1 && data[0].id != this.placeholder.id
+    );
+    var multipleSelections = data.length > 1;
+
+    if (multipleSelections || singlePlaceholder) {
+      return decorated.call(this, data);
+    }
+
+    this.clear();
+
+    var $placeholder = this.createPlaceholder(this.placeholder);
+
+    this.$selection.find('.select2-selection__rendered').append($placeholder);
+  };
+
+  return Placeholder;
+});
+
+S2.define('select2/selection/allowClear',[
+  'jquery',
+  '../keys'
+], function ($, KEYS) {
+  function AllowClear () { }
+
+  AllowClear.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    if (this.placeholder == null) {
+      if (this.options.get('debug') && window.console && console.error) {
+        console.error(
+          'Select2: The `allowClear` option should be used in combination ' +
+          'with the `placeholder` option.'
+        );
+      }
+    }
+
+    this.$selection.on('mousedown', '.select2-selection__clear',
+      function (evt) {
+        self._handleClear(evt);
+    });
+
+    container.on('keypress', function (evt) {
+      self._handleKeyboardClear(evt, container);
+    });
+  };
+
+  AllowClear.prototype._handleClear = function (_, evt) {
+    // Ignore the event if it is disabled
+    if (this.options.get('disabled')) {
+      return;
+    }
+
+    var $clear = this.$selection.find('.select2-selection__clear');
+
+    // Ignore the event if nothing has been selected
+    if ($clear.length === 0) {
+      return;
+    }
+
+    evt.stopPropagation();
+
+    var data = $clear.data('data');
+
+    for (var d = 0; d < data.length; d++) {
+      var unselectData = {
+        data: data[d]
+      };
+
+      // Trigger the `unselect` event, so people can prevent it from being
+      // cleared.
+      this.trigger('unselect', unselectData);
+
+      // If the event was prevented, don't clear it out.
+      if (unselectData.prevented) {
+        return;
+      }
+    }
+
+    this.$element.val(this.placeholder.id).trigger('change');
+
+    this.trigger('toggle', {});
+  };
+
+  AllowClear.prototype._handleKeyboardClear = function (_, evt, container) {
+    if (container.isOpen()) {
+      return;
+    }
+
+    if (evt.which == KEYS.DELETE || evt.which == KEYS.BACKSPACE) {
+      this._handleClear(evt);
+    }
+  };
+
+  AllowClear.prototype.update = function (decorated, data) {
+    decorated.call(this, data);
+
+    if (this.$selection.find('.select2-selection__placeholder').length > 0 ||
+        data.length === 0) {
+      return;
+    }
+
+    var $remove = $(
+      '<span class="select2-selection__clear">' +
+        '&times;' +
+      '</span>'
+    );
+    $remove.data('data', data);
+
+    this.$selection.find('.select2-selection__rendered').prepend($remove);
+  };
+
+  return AllowClear;
+});
+
+S2.define('select2/selection/search',[
+  'jquery',
+  '../utils',
+  '../keys'
+], function ($, Utils, KEYS) {
+  function Search (decorated, $element, options) {
+    decorated.call(this, $element, options);
+  }
+
+  Search.prototype.render = function (decorated) {
+    var $search = $(
+      '<li class="select2-search select2-search--inline">' +
+        '<input class="select2-search__field" type="search" tabindex="-1"' +
+        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
+        ' spellcheck="false" role="textbox" aria-autocomplete="list" />' +
+      '</li>'
+    );
+
+    this.$searchContainer = $search;
+    this.$search = $search.find('input');
+
+    var $rendered = decorated.call(this);
+
+    this._transferTabIndex();
+
+    return $rendered;
+  };
+
+  Search.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    container.on('open', function () {
+      self.$search.trigger('focus');
+    });
+
+    container.on('close', function () {
+      self.$search.val('');
+      self.$search.removeAttr('aria-activedescendant');
+      self.$search.trigger('focus');
+    });
+
+    container.on('enable', function () {
+      self.$search.prop('disabled', false);
+
+      self._transferTabIndex();
+    });
+
+    container.on('disable', function () {
+      self.$search.prop('disabled', true);
+    });
+
+    container.on('focus', function (evt) {
+      self.$search.trigger('focus');
+    });
+
+    container.on('results:focus', function (params) {
+      self.$search.attr('aria-activedescendant', params.id);
+    });
+
+    this.$selection.on('focusin', '.select2-search--inline', function (evt) {
+      self.trigger('focus', evt);
+    });
+
+    this.$selection.on('focusout', '.select2-search--inline', function (evt) {
+      self._handleBlur(evt);
+    });
+
+    this.$selection.on('keydown', '.select2-search--inline', function (evt) {
+      evt.stopPropagation();
+
+      self.trigger('keypress', evt);
+
+      self._keyUpPrevented = evt.isDefaultPrevented();
+
+      var key = evt.which;
+
+      if (key === KEYS.BACKSPACE && self.$search.val() === '') {
+        var $previousChoice = self.$searchContainer
+          .prev('.select2-selection__choice');
+
+        if ($previousChoice.length > 0) {
+          var item = $previousChoice.data('data');
+
+          self.searchRemoveChoice(item);
+
+          evt.preventDefault();
+        }
+      }
+    });
+
+    // Try to detect the IE version should the `documentMode` property that
+    // is stored on the document. This is only implemented in IE and is
+    // slightly cleaner than doing a user agent check.
+    // This property is not available in Edge, but Edge also doesn't have
+    // this bug.
+    var msie = document.documentMode;
+    var disableInputEvents = msie && msie <= 11;
+
+    // Workaround for browsers which do not support the `input` event
+    // This will prevent double-triggering of events for browsers which support
+    // both the `keyup` and `input` events.
+    this.$selection.on(
+      'input.searchcheck',
+      '.select2-search--inline',
+      function (evt) {
+        // IE will trigger the `input` event when a placeholder is used on a
+        // search box. To get around this issue, we are forced to ignore all
+        // `input` events in IE and keep using `keyup`.
+        if (disableInputEvents) {
+          self.$selection.off('input.search input.searchcheck');
+          return;
+        }
+
+        // Unbind the duplicated `keyup` event
+        self.$selection.off('keyup.search');
+      }
+    );
+
+    this.$selection.on(
+      'keyup.search input.search',
+      '.select2-search--inline',
+      function (evt) {
+        // IE will trigger the `input` event when a placeholder is used on a
+        // search box. To get around this issue, we are forced to ignore all
+        // `input` events in IE and keep using `keyup`.
+        if (disableInputEvents && evt.type === 'input') {
+          self.$selection.off('input.search input.searchcheck');
+          return;
+        }
+
+        var key = evt.which;
+
+        // We can freely ignore events from modifier keys
+        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT) {
+          return;
+        }
+
+        // Tabbing will be handled during the `keydown` phase
+        if (key == KEYS.TAB) {
+          return;
+        }
+
+        self.handleSearch(evt);
+      }
+    );
+  };
+
+  /**
+   * This method will transfer the tabindex attribute from the rendered
+   * selection to the search box. This allows for the search box to be used as
+   * the primary focus instead of the selection container.
+   *
+   * @private
+   */
+  Search.prototype._transferTabIndex = function (decorated) {
+    this.$search.attr('tabindex', this.$selection.attr('tabindex'));
+    this.$selection.attr('tabindex', '-1');
+  };
+
+  Search.prototype.createPlaceholder = function (decorated, placeholder) {
+    this.$search.attr('placeholder', placeholder.text);
+  };
+
+  Search.prototype.update = function (decorated, data) {
+    var searchHadFocus = this.$search[0] == document.activeElement;
+
+    this.$search.attr('placeholder', '');
+
+    decorated.call(this, data);
+
+    this.$selection.find('.select2-selection__rendered')
+                   .append(this.$searchContainer);
+
+    this.resizeSearch();
+    if (searchHadFocus) {
+      this.$search.focus();
+    }
+  };
+
+  Search.prototype.handleSearch = function () {
+    this.resizeSearch();
+
+    if (!this._keyUpPrevented) {
+      var input = this.$search.val();
+
+      this.trigger('query', {
+        term: input
+      });
+    }
+
+    this._keyUpPrevented = false;
+  };
+
+  Search.prototype.searchRemoveChoice = function (decorated, item) {
+    this.trigger('unselect', {
+      data: item
+    });
+
+    this.$search.val(item.text);
+    this.handleSearch();
+  };
+
+  Search.prototype.resizeSearch = function () {
+    this.$search.css('width', '25px');
+
+    var width = '';
+
+    if (this.$search.attr('placeholder') !== '') {
+      width = this.$selection.find('.select2-selection__rendered').innerWidth();
+    } else {
+      var minimumWidth = this.$search.val().length + 1;
+
+      width = (minimumWidth * 0.75) + 'em';
+    }
+
+    this.$search.css('width', width);
+  };
+
+  return Search;
+});
+
+S2.define('select2/selection/eventRelay',[
+  'jquery'
+], function ($) {
+  function EventRelay () { }
+
+  EventRelay.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+    var relayEvents = [
+      'open', 'opening',
+      'close', 'closing',
+      'select', 'selecting',
+      'unselect', 'unselecting'
+    ];
+
+    var preventableEvents = ['opening', 'closing', 'selecting', 'unselecting'];
+
+    decorated.call(this, container, $container);
+
+    container.on('*', function (name, params) {
+      // Ignore events that should not be relayed
+      if ($.inArray(name, relayEvents) === -1) {
+        return;
+      }
+
+      // The parameters should always be an object
+      params = params || {};
+
+      // Generate the jQuery event for the Select2 event
+      var evt = $.Event('select2:' + name, {
+        params: params
+      });
+
+      self.$element.trigger(evt);
+
+      // Only handle preventable events if it was one
+      if ($.inArray(name, preventableEvents) === -1) {
+        return;
+      }
+
+      params.prevented = evt.isDefaultPrevented();
+    });
+  };
+
+  return EventRelay;
+});
+
+S2.define('select2/translation',[
+  'jquery',
+  'require'
+], function ($, require) {
+  function Translation (dict) {
+    this.dict = dict || {};
+  }
+
+  Translation.prototype.all = function () {
+    return this.dict;
+  };
+
+  Translation.prototype.get = function (key) {
+    return this.dict[key];
+  };
+
+  Translation.prototype.extend = function (translation) {
+    this.dict = $.extend({}, translation.all(), this.dict);
+  };
+
+  // Static functions
+
+  Translation._cache = {};
+
+  Translation.loadPath = function (path) {
+    if (!(path in Translation._cache)) {
+      var translations = require(path);
+
+      Translation._cache[path] = translations;
+    }
+
+    return new Translation(Translation._cache[path]);
+  };
+
+  return Translation;
+});
+
+S2.define('select2/diacritics',[
+
+], function () {
+  var diacritics = {
+    '\u24B6': 'A',
+    '\uFF21': 'A',
+    '\u00C0': 'A',
+    '\u00C1': 'A',
+    '\u00C2': 'A',
+    '\u1EA6': 'A',
+    '\u1EA4': 'A',
+    '\u1EAA': 'A',
+    '\u1EA8': 'A',
+    '\u00C3': 'A',
+    '\u0100': 'A',
+    '\u0102': 'A',
+    '\u1EB0': 'A',
+    '\u1EAE': 'A',
+    '\u1EB4': 'A',
+    '\u1EB2': 'A',
+    '\u0226': 'A',
+    '\u01E0': 'A',
+    '\u00C4': 'A',
+    '\u01DE': 'A',
+    '\u1EA2': 'A',
+    '\u00C5': 'A',
+    '\u01FA': 'A',
+    '\u01CD': 'A',
+    '\u0200': 'A',
+    '\u0202': 'A',
+    '\u1EA0': 'A',
+    '\u1EAC': 'A',
+    '\u1EB6': 'A',
+    '\u1E00': 'A',
+    '\u0104': 'A',
+    '\u023A': 'A',
+    '\u2C6F': 'A',
+    '\uA732': 'AA',
+    '\u00C6': 'AE',
+    '\u01FC': 'AE',
+    '\u01E2': 'AE',
+    '\uA734': 'AO',
+    '\uA736': 'AU',
+    '\uA738': 'AV',
+    '\uA73A': 'AV',
+    '\uA73C': 'AY',
+    '\u24B7': 'B',
+    '\uFF22': 'B',
+    '\u1E02': 'B',
+    '\u1E04': 'B',
+    '\u1E06': 'B',
+    '\u0243': 'B',
+    '\u0182': 'B',
+    '\u0181': 'B',
+    '\u24B8': 'C',
+    '\uFF23': 'C',
+    '\u0106': 'C',
+    '\u0108': 'C',
+    '\u010A': 'C',
+    '\u010C': 'C',
+    '\u00C7': 'C',
+    '\u1E08': 'C',
+    '\u0187': 'C',
+    '\u023B': 'C',
+    '\uA73E': 'C',
+    '\u24B9': 'D',
+    '\uFF24': 'D',
+    '\u1E0A': 'D',
+    '\u010E': 'D',
+    '\u1E0C': 'D',
+    '\u1E10': 'D',
+    '\u1E12': 'D',
+    '\u1E0E': 'D',
+    '\u0110': 'D',
+    '\u018B': 'D',
+    '\u018A': 'D',
+    '\u0189': 'D',
+    '\uA779': 'D',
+    '\u01F1': 'DZ',
+    '\u01C4': 'DZ',
+    '\u01F2': 'Dz',
+    '\u01C5': 'Dz',
+    '\u24BA': 'E',
+    '\uFF25': 'E',
+    '\u00C8': 'E',
+    '\u00C9': 'E',
+    '\u00CA': 'E',
+    '\u1EC0': 'E',
+    '\u1EBE': 'E',
+    '\u1EC4': 'E',
+    '\u1EC2': 'E',
+    '\u1EBC': 'E',
+    '\u0112': 'E',
+    '\u1E14': 'E',
+    '\u1E16': 'E',
+    '\u0114': 'E',
+    '\u0116': 'E',
+    '\u00CB': 'E',
+    '\u1EBA': 'E',
+    '\u011A': 'E',
+    '\u0204': 'E',
+    '\u0206': 'E',
+    '\u1EB8': 'E',
+    '\u1EC6': 'E',
+    '\u0228': 'E',
+    '\u1E1C': 'E',
+    '\u0118': 'E',
+    '\u1E18': 'E',
+    '\u1E1A': 'E',
+    '\u0190': 'E',
+    '\u018E': 'E',
+    '\u24BB': 'F',
+    '\uFF26': 'F',
+    '\u1E1E': 'F',
+    '\u0191': 'F',
+    '\uA77B': 'F',
+    '\u24BC': 'G',
+    '\uFF27': 'G',
+    '\u01F4': 'G',
+    '\u011C': 'G',
+    '\u1E20': 'G',
+    '\u011E': 'G',
+    '\u0120': 'G',
+    '\u01E6': 'G',
+    '\u0122': 'G',
+    '\u01E4': 'G',
+    '\u0193': 'G',
+    '\uA7A0': 'G',
+    '\uA77D': 'G',
+    '\uA77E': 'G',
+    '\u24BD': 'H',
+    '\uFF28': 'H',
+    '\u0124': 'H',
+    '\u1E22': 'H',
+    '\u1E26': 'H',
+    '\u021E': 'H',
+    '\u1E24': 'H',
+    '\u1E28': 'H',
+    '\u1E2A': 'H',
+    '\u0126': 'H',
+    '\u2C67': 'H',
+    '\u2C75': 'H',
+    '\uA78D': 'H',
+    '\u24BE': 'I',
+    '\uFF29': 'I',
+    '\u00CC': 'I',
+    '\u00CD': 'I',
+    '\u00CE': 'I',
+    '\u0128': 'I',
+    '\u012A': 'I',
+    '\u012C': 'I',
+    '\u0130': 'I',
+    '\u00CF': 'I',
+    '\u1E2E': 'I',
+    '\u1EC8': 'I',
+    '\u01CF': 'I',
+    '\u0208': 'I',
+    '\u020A': 'I',
+    '\u1ECA': 'I',
+    '\u012E': 'I',
+    '\u1E2C': 'I',
+    '\u0197': 'I',
+    '\u24BF': 'J',
+    '\uFF2A': 'J',
+    '\u0134': 'J',
+    '\u0248': 'J',
+    '\u24C0': 'K',
+    '\uFF2B': 'K',
+    '\u1E30': 'K',
+    '\u01E8': 'K',
+    '\u1E32': 'K',
+    '\u0136': 'K',
+    '\u1E34': 'K',
+    '\u0198': 'K',
+    '\u2C69': 'K',
+    '\uA740': 'K',
+    '\uA742': 'K',
+    '\uA744': 'K',
+    '\uA7A2': 'K',
+    '\u24C1': 'L',
+    '\uFF2C': 'L',
+    '\u013F': 'L',
+    '\u0139': 'L',
+    '\u013D': 'L',
+    '\u1E36': 'L',
+    '\u1E38': 'L',
+    '\u013B': 'L',
+    '\u1E3C': 'L',
+    '\u1E3A': 'L',
+    '\u0141': 'L',
+    '\u023D': 'L',
+    '\u2C62': 'L',
+    '\u2C60': 'L',
+    '\uA748': 'L',
+    '\uA746': 'L',
+    '\uA780': 'L',
+    '\u01C7': 'LJ',
+    '\u01C8': 'Lj',
+    '\u24C2': 'M',
+    '\uFF2D': 'M',
+    '\u1E3E': 'M',
+    '\u1E40': 'M',
+    '\u1E42': 'M',
+    '\u2C6E': 'M',
+    '\u019C': 'M',
+    '\u24C3': 'N',
+    '\uFF2E': 'N',
+    '\u01F8': 'N',
+    '\u0143': 'N',
+    '\u00D1': 'N',
+    '\u1E44': 'N',
+    '\u0147': 'N',
+    '\u1E46': 'N',
+    '\u0145': 'N',
+    '\u1E4A': 'N',
+    '\u1E48': 'N',
+    '\u0220': 'N',
+    '\u019D': 'N',
+    '\uA790': 'N',
+    '\uA7A4': 'N',
+    '\u01CA': 'NJ',
+    '\u01CB': 'Nj',
+    '\u24C4': 'O',
+    '\uFF2F': 'O',
+    '\u00D2': 'O',
+    '\u00D3': 'O',
+    '\u00D4': 'O',
+    '\u1ED2': 'O',
+    '\u1ED0': 'O',
+    '\u1ED6': 'O',
+    '\u1ED4': 'O',
+    '\u00D5': 'O',
+    '\u1E4C': 'O',
+    '\u022C': 'O',
+    '\u1E4E': 'O',
+    '\u014C': 'O',
+    '\u1E50': 'O',
+    '\u1E52': 'O',
+    '\u014E': 'O',
+    '\u022E': 'O',
+    '\u0230': 'O',
+    '\u00D6': 'O',
+    '\u022A': 'O',
+    '\u1ECE': 'O',
+    '\u0150': 'O',
+    '\u01D1': 'O',
+    '\u020C': 'O',
+    '\u020E': 'O',
+    '\u01A0': 'O',
+    '\u1EDC': 'O',
+    '\u1EDA': 'O',
+    '\u1EE0': 'O',
+    '\u1EDE': 'O',
+    '\u1EE2': 'O',
+    '\u1ECC': 'O',
+    '\u1ED8': 'O',
+    '\u01EA': 'O',
+    '\u01EC': 'O',
+    '\u00D8': 'O',
+    '\u01FE': 'O',
+    '\u0186': 'O',
+    '\u019F': 'O',
+    '\uA74A': 'O',
+    '\uA74C': 'O',
+    '\u01A2': 'OI',
+    '\uA74E': 'OO',
+    '\u0222': 'OU',
+    '\u24C5': 'P',
+    '\uFF30': 'P',
+    '\u1E54': 'P',
+    '\u1E56': 'P',
+    '\u01A4': 'P',
+    '\u2C63': 'P',
+    '\uA750': 'P',
+    '\uA752': 'P',
+    '\uA754': 'P',
+    '\u24C6': 'Q',
+    '\uFF31': 'Q',
+    '\uA756': 'Q',
+    '\uA758': 'Q',
+    '\u024A': 'Q',
+    '\u24C7': 'R',
+    '\uFF32': 'R',
+    '\u0154': 'R',
+    '\u1E58': 'R',
+    '\u0158': 'R',
+    '\u0210': 'R',
+    '\u0212': 'R',
+    '\u1E5A': 'R',
+    '\u1E5C': 'R',
+    '\u0156': 'R',
+    '\u1E5E': 'R',
+    '\u024C': 'R',
+    '\u2C64': 'R',
+    '\uA75A': 'R',
+    '\uA7A6': 'R',
+    '\uA782': 'R',
+    '\u24C8': 'S',
+    '\uFF33': 'S',
+    '\u1E9E': 'S',
+    '\u015A': 'S',
+    '\u1E64': 'S',
+    '\u015C': 'S',
+    '\u1E60': 'S',
+    '\u0160': 'S',
+    '\u1E66': 'S',
+    '\u1E62': 'S',
+    '\u1E68': 'S',
+    '\u0218': 'S',
+    '\u015E': 'S',
+    '\u2C7E': 'S',
+    '\uA7A8': 'S',
+    '\uA784': 'S',
+    '\u24C9': 'T',
+    '\uFF34': 'T',
+    '\u1E6A': 'T',
+    '\u0164': 'T',
+    '\u1E6C': 'T',
+    '\u021A': 'T',
+    '\u0162': 'T',
+    '\u1E70': 'T',
+    '\u1E6E': 'T',
+    '\u0166': 'T',
+    '\u01AC': 'T',
+    '\u01AE': 'T',
+    '\u023E': 'T',
+    '\uA786': 'T',
+    '\uA728': 'TZ',
+    '\u24CA': 'U',
+    '\uFF35': 'U',
+    '\u00D9': 'U',
+    '\u00DA': 'U',
+    '\u00DB': 'U',
+    '\u0168': 'U',
+    '\u1E78': 'U',
+    '\u016A': 'U',
+    '\u1E7A': 'U',
+    '\u016C': 'U',
+    '\u00DC': 'U',
+    '\u01DB': 'U',
+    '\u01D7': 'U',
+    '\u01D5': 'U',
+    '\u01D9': 'U',
+    '\u1EE6': 'U',
+    '\u016E': 'U',
+    '\u0170': 'U',
+    '\u01D3': 'U',
+    '\u0214': 'U',
+    '\u0216': 'U',
+    '\u01AF': 'U',
+    '\u1EEA': 'U',
+    '\u1EE8': 'U',
+    '\u1EEE': 'U',
+    '\u1EEC': 'U',
+    '\u1EF0': 'U',
+    '\u1EE4': 'U',
+    '\u1E72': 'U',
+    '\u0172': 'U',
+    '\u1E76': 'U',
+    '\u1E74': 'U',
+    '\u0244': 'U',
+    '\u24CB': 'V',
+    '\uFF36': 'V',
+    '\u1E7C': 'V',
+    '\u1E7E': 'V',
+    '\u01B2': 'V',
+    '\uA75E': 'V',
+    '\u0245': 'V',
+    '\uA760': 'VY',
+    '\u24CC': 'W',
+    '\uFF37': 'W',
+    '\u1E80': 'W',
+    '\u1E82': 'W',
+    '\u0174': 'W',
+    '\u1E86': 'W',
+    '\u1E84': 'W',
+    '\u1E88': 'W',
+    '\u2C72': 'W',
+    '\u24CD': 'X',
+    '\uFF38': 'X',
+    '\u1E8A': 'X',
+    '\u1E8C': 'X',
+    '\u24CE': 'Y',
+    '\uFF39': 'Y',
+    '\u1EF2': 'Y',
+    '\u00DD': 'Y',
+    '\u0176': 'Y',
+    '\u1EF8': 'Y',
+    '\u0232': 'Y',
+    '\u1E8E': 'Y',
+    '\u0178': 'Y',
+    '\u1EF6': 'Y',
+    '\u1EF4': 'Y',
+    '\u01B3': 'Y',
+    '\u024E': 'Y',
+    '\u1EFE': 'Y',
+    '\u24CF': 'Z',
+    '\uFF3A': 'Z',
+    '\u0179': 'Z',
+    '\u1E90': 'Z',
+    '\u017B': 'Z',
+    '\u017D': 'Z',
+    '\u1E92': 'Z',
+    '\u1E94': 'Z',
+    '\u01B5': 'Z',
+    '\u0224': 'Z',
+    '\u2C7F': 'Z',
+    '\u2C6B': 'Z',
+    '\uA762': 'Z',
+    '\u24D0': 'a',
+    '\uFF41': 'a',
+    '\u1E9A': 'a',
+    '\u00E0': 'a',
+    '\u00E1': 'a',
+    '\u00E2': 'a',
+    '\u1EA7': 'a',
+    '\u1EA5': 'a',
+    '\u1EAB': 'a',
+    '\u1EA9': 'a',
+    '\u00E3': 'a',
+    '\u0101': 'a',
+    '\u0103': 'a',
+    '\u1EB1': 'a',
+    '\u1EAF': 'a',
+    '\u1EB5': 'a',
+    '\u1EB3': 'a',
+    '\u0227': 'a',
+    '\u01E1': 'a',
+    '\u00E4': 'a',
+    '\u01DF': 'a',
+    '\u1EA3': 'a',
+    '\u00E5': 'a',
+    '\u01FB': 'a',
+    '\u01CE': 'a',
+    '\u0201': 'a',
+    '\u0203': 'a',
+    '\u1EA1': 'a',
+    '\u1EAD': 'a',
+    '\u1EB7': 'a',
+    '\u1E01': 'a',
+    '\u0105': 'a',
+    '\u2C65': 'a',
+    '\u0250': 'a',
+    '\uA733': 'aa',
+    '\u00E6': 'ae',
+    '\u01FD': 'ae',
+    '\u01E3': 'ae',
+    '\uA735': 'ao',
+    '\uA737': 'au',
+    '\uA739': 'av',
+    '\uA73B': 'av',
+    '\uA73D': 'ay',
+    '\u24D1': 'b',
+    '\uFF42': 'b',
+    '\u1E03': 'b',
+    '\u1E05': 'b',
+    '\u1E07': 'b',
+    '\u0180': 'b',
+    '\u0183': 'b',
+    '\u0253': 'b',
+    '\u24D2': 'c',
+    '\uFF43': 'c',
+    '\u0107': 'c',
+    '\u0109': 'c',
+    '\u010B': 'c',
+    '\u010D': 'c',
+    '\u00E7': 'c',
+    '\u1E09': 'c',
+    '\u0188': 'c',
+    '\u023C': 'c',
+    '\uA73F': 'c',
+    '\u2184': 'c',
+    '\u24D3': 'd',
+    '\uFF44': 'd',
+    '\u1E0B': 'd',
+    '\u010F': 'd',
+    '\u1E0D': 'd',
+    '\u1E11': 'd',
+    '\u1E13': 'd',
+    '\u1E0F': 'd',
+    '\u0111': 'd',
+    '\u018C': 'd',
+    '\u0256': 'd',
+    '\u0257': 'd',
+    '\uA77A': 'd',
+    '\u01F3': 'dz',
+    '\u01C6': 'dz',
+    '\u24D4': 'e',
+    '\uFF45': 'e',
+    '\u00E8': 'e',
+    '\u00E9': 'e',
+    '\u00EA': 'e',
+    '\u1EC1': 'e',
+    '\u1EBF': 'e',
+    '\u1EC5': 'e',
+    '\u1EC3': 'e',
+    '\u1EBD': 'e',
+    '\u0113': 'e',
+    '\u1E15': 'e',
+    '\u1E17': 'e',
+    '\u0115': 'e',
+    '\u0117': 'e',
+    '\u00EB': 'e',
+    '\u1EBB': 'e',
+    '\u011B': 'e',
+    '\u0205': 'e',
+    '\u0207': 'e',
+    '\u1EB9': 'e',
+    '\u1EC7': 'e',
+    '\u0229': 'e',
+    '\u1E1D': 'e',
+    '\u0119': 'e',
+    '\u1E19': 'e',
+    '\u1E1B': 'e',
+    '\u0247': 'e',
+    '\u025B': 'e',
+    '\u01DD': 'e',
+    '\u24D5': 'f',
+    '\uFF46': 'f',
+    '\u1E1F': 'f',
+    '\u0192': 'f',
+    '\uA77C': 'f',
+    '\u24D6': 'g',
+    '\uFF47': 'g',
+    '\u01F5': 'g',
+    '\u011D': 'g',
+    '\u1E21': 'g',
+    '\u011F': 'g',
+    '\u0121': 'g',
+    '\u01E7': 'g',
+    '\u0123': 'g',
+    '\u01E5': 'g',
+    '\u0260': 'g',
+    '\uA7A1': 'g',
+    '\u1D79': 'g',
+    '\uA77F': 'g',
+    '\u24D7': 'h',
+    '\uFF48': 'h',
+    '\u0125': 'h',
+    '\u1E23': 'h',
+    '\u1E27': 'h',
+    '\u021F': 'h',
+    '\u1E25': 'h',
+    '\u1E29': 'h',
+    '\u1E2B': 'h',
+    '\u1E96': 'h',
+    '\u0127': 'h',
+    '\u2C68': 'h',
+    '\u2C76': 'h',
+    '\u0265': 'h',
+    '\u0195': 'hv',
+    '\u24D8': 'i',
+    '\uFF49': 'i',
+    '\u00EC': 'i',
+    '\u00ED': 'i',
+    '\u00EE': 'i',
+    '\u0129': 'i',
+    '\u012B': 'i',
+    '\u012D': 'i',
+    '\u00EF': 'i',
+    '\u1E2F': 'i',
+    '\u1EC9': 'i',
+    '\u01D0': 'i',
+    '\u0209': 'i',
+    '\u020B': 'i',
+    '\u1ECB': 'i',
+    '\u012F': 'i',
+    '\u1E2D': 'i',
+    '\u0268': 'i',
+    '\u0131': 'i',
+    '\u24D9': 'j',
+    '\uFF4A': 'j',
+    '\u0135': 'j',
+    '\u01F0': 'j',
+    '\u0249': 'j',
+    '\u24DA': 'k',
+    '\uFF4B': 'k',
+    '\u1E31': 'k',
+    '\u01E9': 'k',
+    '\u1E33': 'k',
+    '\u0137': 'k',
+    '\u1E35': 'k',
+    '\u0199': 'k',
+    '\u2C6A': 'k',
+    '\uA741': 'k',
+    '\uA743': 'k',
+    '\uA745': 'k',
+    '\uA7A3': 'k',
+    '\u24DB': 'l',
+    '\uFF4C': 'l',
+    '\u0140': 'l',
+    '\u013A': 'l',
+    '\u013E': 'l',
+    '\u1E37': 'l',
+    '\u1E39': 'l',
+    '\u013C': 'l',
+    '\u1E3D': 'l',
+    '\u1E3B': 'l',
+    '\u017F': 'l',
+    '\u0142': 'l',
+    '\u019A': 'l',
+    '\u026B': 'l',
+    '\u2C61': 'l',
+    '\uA749': 'l',
+    '\uA781': 'l',
+    '\uA747': 'l',
+    '\u01C9': 'lj',
+    '\u24DC': 'm',
+    '\uFF4D': 'm',
+    '\u1E3F': 'm',
+    '\u1E41': 'm',
+    '\u1E43': 'm',
+    '\u0271': 'm',
+    '\u026F': 'm',
+    '\u24DD': 'n',
+    '\uFF4E': 'n',
+    '\u01F9': 'n',
+    '\u0144': 'n',
+    '\u00F1': 'n',
+    '\u1E45': 'n',
+    '\u0148': 'n',
+    '\u1E47': 'n',
+    '\u0146': 'n',
+    '\u1E4B': 'n',
+    '\u1E49': 'n',
+    '\u019E': 'n',
+    '\u0272': 'n',
+    '\u0149': 'n',
+    '\uA791': 'n',
+    '\uA7A5': 'n',
+    '\u01CC': 'nj',
+    '\u24DE': 'o',
+    '\uFF4F': 'o',
+    '\u00F2': 'o',
+    '\u00F3': 'o',
+    '\u00F4': 'o',
+    '\u1ED3': 'o',
+    '\u1ED1': 'o',
+    '\u1ED7': 'o',
+    '\u1ED5': 'o',
+    '\u00F5': 'o',
+    '\u1E4D': 'o',
+    '\u022D': 'o',
+    '\u1E4F': 'o',
+    '\u014D': 'o',
+    '\u1E51': 'o',
+    '\u1E53': 'o',
+    '\u014F': 'o',
+    '\u022F': 'o',
+    '\u0231': 'o',
+    '\u00F6': 'o',
+    '\u022B': 'o',
+    '\u1ECF': 'o',
+    '\u0151': 'o',
+    '\u01D2': 'o',
+    '\u020D': 'o',
+    '\u020F': 'o',
+    '\u01A1': 'o',
+    '\u1EDD': 'o',
+    '\u1EDB': 'o',
+    '\u1EE1': 'o',
+    '\u1EDF': 'o',
+    '\u1EE3': 'o',
+    '\u1ECD': 'o',
+    '\u1ED9': 'o',
+    '\u01EB': 'o',
+    '\u01ED': 'o',
+    '\u00F8': 'o',
+    '\u01FF': 'o',
+    '\u0254': 'o',
+    '\uA74B': 'o',
+    '\uA74D': 'o',
+    '\u0275': 'o',
+    '\u01A3': 'oi',
+    '\u0223': 'ou',
+    '\uA74F': 'oo',
+    '\u24DF': 'p',
+    '\uFF50': 'p',
+    '\u1E55': 'p',
+    '\u1E57': 'p',
+    '\u01A5': 'p',
+    '\u1D7D': 'p',
+    '\uA751': 'p',
+    '\uA753': 'p',
+    '\uA755': 'p',
+    '\u24E0': 'q',
+    '\uFF51': 'q',
+    '\u024B': 'q',
+    '\uA757': 'q',
+    '\uA759': 'q',
+    '\u24E1': 'r',
+    '\uFF52': 'r',
+    '\u0155': 'r',
+    '\u1E59': 'r',
+    '\u0159': 'r',
+    '\u0211': 'r',
+    '\u0213': 'r',
+    '\u1E5B': 'r',
+    '\u1E5D': 'r',
+    '\u0157': 'r',
+    '\u1E5F': 'r',
+    '\u024D': 'r',
+    '\u027D': 'r',
+    '\uA75B': 'r',
+    '\uA7A7': 'r',
+    '\uA783': 'r',
+    '\u24E2': 's',
+    '\uFF53': 's',
+    '\u00DF': 's',
+    '\u015B': 's',
+    '\u1E65': 's',
+    '\u015D': 's',
+    '\u1E61': 's',
+    '\u0161': 's',
+    '\u1E67': 's',
+    '\u1E63': 's',
+    '\u1E69': 's',
+    '\u0219': 's',
+    '\u015F': 's',
+    '\u023F': 's',
+    '\uA7A9': 's',
+    '\uA785': 's',
+    '\u1E9B': 's',
+    '\u24E3': 't',
+    '\uFF54': 't',
+    '\u1E6B': 't',
+    '\u1E97': 't',
+    '\u0165': 't',
+    '\u1E6D': 't',
+    '\u021B': 't',
+    '\u0163': 't',
+    '\u1E71': 't',
+    '\u1E6F': 't',
+    '\u0167': 't',
+    '\u01AD': 't',
+    '\u0288': 't',
+    '\u2C66': 't',
+    '\uA787': 't',
+    '\uA729': 'tz',
+    '\u24E4': 'u',
+    '\uFF55': 'u',
+    '\u00F9': 'u',
+    '\u00FA': 'u',
+    '\u00FB': 'u',
+    '\u0169': 'u',
+    '\u1E79': 'u',
+    '\u016B': 'u',
+    '\u1E7B': 'u',
+    '\u016D': 'u',
+    '\u00FC': 'u',
+    '\u01DC': 'u',
+    '\u01D8': 'u',
+    '\u01D6': 'u',
+    '\u01DA': 'u',
+    '\u1EE7': 'u',
+    '\u016F': 'u',
+    '\u0171': 'u',
+    '\u01D4': 'u',
+    '\u0215': 'u',
+    '\u0217': 'u',
+    '\u01B0': 'u',
+    '\u1EEB': 'u',
+    '\u1EE9': 'u',
+    '\u1EEF': 'u',
+    '\u1EED': 'u',
+    '\u1EF1': 'u',
+    '\u1EE5': 'u',
+    '\u1E73': 'u',
+    '\u0173': 'u',
+    '\u1E77': 'u',
+    '\u1E75': 'u',
+    '\u0289': 'u',
+    '\u24E5': 'v',
+    '\uFF56': 'v',
+    '\u1E7D': 'v',
+    '\u1E7F': 'v',
+    '\u028B': 'v',
+    '\uA75F': 'v',
+    '\u028C': 'v',
+    '\uA761': 'vy',
+    '\u24E6': 'w',
+    '\uFF57': 'w',
+    '\u1E81': 'w',
+    '\u1E83': 'w',
+    '\u0175': 'w',
+    '\u1E87': 'w',
+    '\u1E85': 'w',
+    '\u1E98': 'w',
+    '\u1E89': 'w',
+    '\u2C73': 'w',
+    '\u24E7': 'x',
+    '\uFF58': 'x',
+    '\u1E8B': 'x',
+    '\u1E8D': 'x',
+    '\u24E8': 'y',
+    '\uFF59': 'y',
+    '\u1EF3': 'y',
+    '\u00FD': 'y',
+    '\u0177': 'y',
+    '\u1EF9': 'y',
+    '\u0233': 'y',
+    '\u1E8F': 'y',
+    '\u00FF': 'y',
+    '\u1EF7': 'y',
+    '\u1E99': 'y',
+    '\u1EF5': 'y',
+    '\u01B4': 'y',
+    '\u024F': 'y',
+    '\u1EFF': 'y',
+    '\u24E9': 'z',
+    '\uFF5A': 'z',
+    '\u017A': 'z',
+    '\u1E91': 'z',
+    '\u017C': 'z',
+    '\u017E': 'z',
+    '\u1E93': 'z',
+    '\u1E95': 'z',
+    '\u01B6': 'z',
+    '\u0225': 'z',
+    '\u0240': 'z',
+    '\u2C6C': 'z',
+    '\uA763': 'z',
+    '\u0386': '\u0391',
+    '\u0388': '\u0395',
+    '\u0389': '\u0397',
+    '\u038A': '\u0399',
+    '\u03AA': '\u0399',
+    '\u038C': '\u039F',
+    '\u038E': '\u03A5',
+    '\u03AB': '\u03A5',
+    '\u038F': '\u03A9',
+    '\u03AC': '\u03B1',
+    '\u03AD': '\u03B5',
+    '\u03AE': '\u03B7',
+    '\u03AF': '\u03B9',
+    '\u03CA': '\u03B9',
+    '\u0390': '\u03B9',
+    '\u03CC': '\u03BF',
+    '\u03CD': '\u03C5',
+    '\u03CB': '\u03C5',
+    '\u03B0': '\u03C5',
+    '\u03C9': '\u03C9',
+    '\u03C2': '\u03C3'
+  };
+
+  return diacritics;
+});
+
+S2.define('select2/data/base',[
+  '../utils'
+], function (Utils) {
+  function BaseAdapter ($element, options) {
+    BaseAdapter.__super__.constructor.call(this);
+  }
+
+  Utils.Extend(BaseAdapter, Utils.Observable);
+
+  BaseAdapter.prototype.current = function (callback) {
+    throw new Error('The `current` method must be defined in child classes.');
+  };
+
+  BaseAdapter.prototype.query = function (params, callback) {
+    throw new Error('The `query` method must be defined in child classes.');
+  };
+
+  BaseAdapter.prototype.bind = function (container, $container) {
+    // Can be implemented in subclasses
+  };
+
+  BaseAdapter.prototype.destroy = function () {
+    // Can be implemented in subclasses
+  };
+
+  BaseAdapter.prototype.generateResultId = function (container, data) {
+    var id = container.id + '-result-';
+
+    id += Utils.generateChars(4);
+
+    if (data.id != null) {
+      id += '-' + data.id.toString();
+    } else {
+      id += '-' + Utils.generateChars(4);
+    }
+    return id;
+  };
+
+  return BaseAdapter;
+});
+
+S2.define('select2/data/select',[
+  './base',
+  '../utils',
+  'jquery'
+], function (BaseAdapter, Utils, $) {
+  function SelectAdapter ($element, options) {
+    this.$element = $element;
+    this.options = options;
+
+    SelectAdapter.__super__.constructor.call(this);
+  }
+
+  Utils.Extend(SelectAdapter, BaseAdapter);
+
+  SelectAdapter.prototype.current = function (callback) {
+    var data = [];
+    var self = this;
+
+    this.$element.find(':selected').each(function () {
+      var $option = $(this);
+
+      var option = self.item($option);
+
+      data.push(option);
+    });
+
+    callback(data);
+  };
+
+  SelectAdapter.prototype.select = function (data) {
+    var self = this;
+
+    data.selected = true;
+
+    // If data.element is a DOM node, use it instead
+    if ($(data.element).is('option')) {
+      data.element.selected = true;
+
+      this.$element.trigger('change');
+
+      return;
+    }
+
+    if (this.$element.prop('multiple')) {
+      this.current(function (currentData) {
+        var val = [];
+
+        data = [data];
+        data.push.apply(data, currentData);
+
+        for (var d = 0; d < data.length; d++) {
+          var id = data[d].id;
+
+          if ($.inArray(id, val) === -1) {
+            val.push(id);
+          }
+        }
+
+        self.$element.val(val);
+        self.$element.trigger('change');
+      });
+    } else {
+      var val = data.id;
+
+      this.$element.val(val);
+      this.$element.trigger('change');
+    }
+  };
+
+  SelectAdapter.prototype.unselect = function (data) {
+    var self = this;
+
+    if (!this.$element.prop('multiple')) {
+      return;
+    }
+
+    data.selected = false;
+
+    if ($(data.element).is('option')) {
+      data.element.selected = false;
+
+      this.$element.trigger('change');
+
+      return;
+    }
+
+    this.current(function (currentData) {
+      var val = [];
+
+      for (var d = 0; d < currentData.length; d++) {
+        var id = currentData[d].id;
+
+        if (id !== data.id && $.inArray(id, val) === -1) {
+          val.push(id);
+        }
+      }
+
+      self.$element.val(val);
+
+      self.$element.trigger('change');
+    });
+  };
+
+  SelectAdapter.prototype.bind = function (container, $container) {
+    var self = this;
+
+    this.container = container;
+
+    container.on('select', function (params) {
+      self.select(params.data);
+    });
+
+    container.on('unselect', function (params) {
+      self.unselect(params.data);
+    });
+  };
+
+  SelectAdapter.prototype.destroy = function () {
+    // Remove anything added to child elements
+    this.$element.find('*').each(function () {
+      // Remove any custom data set by Select2
+      $.removeData(this, 'data');
+    });
+  };
+
+  SelectAdapter.prototype.query = function (params, callback) {
+    var data = [];
+    var self = this;
+
+    var $options = this.$element.children();
+
+    $options.each(function () {
+      var $option = $(this);
+
+      if (!$option.is('option') && !$option.is('optgroup')) {
+        return;
+      }
+
+      var option = self.item($option);
+
+      var matches = self.matches(params, option);
+
+      if (matches !== null) {
+        data.push(matches);
+      }
+    });
+
+    callback({
+      results: data
+    });
+  };
+
+  SelectAdapter.prototype.addOptions = function ($options) {
+    Utils.appendMany(this.$element, $options);
+  };
+
+  SelectAdapter.prototype.option = function (data) {
+    var option;
+
+    if (data.children) {
+      option = document.createElement('optgroup');
+      option.label = data.text;
+    } else {
+      option = document.createElement('option');
+
+      if (option.textContent !== undefined) {
+        option.textContent = data.text;
+      } else {
+        option.innerText = data.text;
+      }
+    }
+
+    if (data.id) {
+      option.value = data.id;
+    }
+
+    if (data.disabled) {
+      option.disabled = true;
+    }
+
+    if (data.selected) {
+      option.selected = true;
+    }
+
+    if (data.title) {
+      option.title = data.title;
+    }
+
+    var $option = $(option);
+
+    var normalizedData = this._normalizeItem(data);
+    normalizedData.element = option;
+
+    // Override the option's data with the combined data
+    $.data(option, 'data', normalizedData);
+
+    return $option;
+  };
+
+  SelectAdapter.prototype.item = function ($option) {
+    var data = {};
+
+    data = $.data($option[0], 'data');
+
+    if (data != null) {
+      return data;
+    }
+
+    if ($option.is('option')) {
+      data = {
+        id: $option.val(),
+        text: $option.text(),
+        disabled: $option.prop('disabled'),
+        selected: $option.prop('selected'),
+        title: $option.prop('title')
+      };
+    } else if ($option.is('optgroup')) {
+      data = {
+        text: $option.prop('label'),
+        children: [],
+        title: $option.prop('title')
+      };
+
+      var $children = $option.children('option');
+      var children = [];
+
+      for (var c = 0; c < $children.length; c++) {
+        var $child = $($children[c]);
+
+        var child = this.item($child);
+
+        children.push(child);
+      }
+
+      data.children = children;
+    }
+
+    data = this._normalizeItem(data);
+    data.element = $option[0];
+
+    $.data($option[0], 'data', data);
+
+    return data;
+  };
+
+  SelectAdapter.prototype._normalizeItem = function (item) {
+    if (!$.isPlainObject(item)) {
+      item = {
+        id: item,
+        text: item
+      };
+    }
+
+    item = $.extend({}, {
+      text: ''
+    }, item);
+
+    var defaults = {
+      selected: false,
+      disabled: false
+    };
+
+    if (item.id != null) {
+      item.id = item.id.toString();
+    }
+
+    if (item.text != null) {
+      item.text = item.text.toString();
+    }
+
+    if (item._resultId == null && item.id && this.container != null) {
+      item._resultId = this.generateResultId(this.container, item);
+    }
+
+    return $.extend({}, defaults, item);
+  };
+
+  SelectAdapter.prototype.matches = function (params, data) {
+    var matcher = this.options.get('matcher');
+
+    return matcher(params, data);
+  };
+
+  return SelectAdapter;
+});
+
+S2.define('select2/data/array',[
+  './select',
+  '../utils',
+  'jquery'
+], function (SelectAdapter, Utils, $) {
+  function ArrayAdapter ($element, options) {
+    var data = options.get('data') || [];
+
+    ArrayAdapter.__super__.constructor.call(this, $element, options);
+
+    this.addOptions(this.convertToOptions(data));
+  }
+
+  Utils.Extend(ArrayAdapter, SelectAdapter);
+
+  ArrayAdapter.prototype.select = function (data) {
+    var $option = this.$element.find('option').filter(function (i, elm) {
+      return elm.value == data.id.toString();
+    });
+
+    if ($option.length === 0) {
+      $option = this.option(data);
+
+      this.addOptions($option);
+    }
+
+    ArrayAdapter.__super__.select.call(this, data);
+  };
+
+  ArrayAdapter.prototype.convertToOptions = function (data) {
+    var self = this;
+
+    var $existing = this.$element.find('option');
+    var existingIds = $existing.map(function () {
+      return self.item($(this)).id;
+    }).get();
+
+    var $options = [];
+
+    // Filter out all items except for the one passed in the argument
+    function onlyItem (item) {
+      return function () {
+        return $(this).val() == item.id;
+      };
+    }
+
+    for (var d = 0; d < data.length; d++) {
+      var item = this._normalizeItem(data[d]);
+
+      // Skip items which were pre-loaded, only merge the data
+      if ($.inArray(item.id, existingIds) >= 0) {
+        var $existingOption = $existing.filter(onlyItem(item));
+
+        var existingData = this.item($existingOption);
+        var newData = $.extend(true, {}, item, existingData);
+
+        var $newOption = this.option(newData);
+
+        $existingOption.replaceWith($newOption);
+
+        continue;
+      }
+
+      var $option = this.option(item);
+
+      if (item.children) {
+        var $children = this.convertToOptions(item.children);
+
+        Utils.appendMany($option, $children);
+      }
+
+      $options.push($option);
+    }
+
+    return $options;
+  };
+
+  return ArrayAdapter;
+});
+
+S2.define('select2/data/ajax',[
+  './array',
+  '../utils',
+  'jquery'
+], function (ArrayAdapter, Utils, $) {
+  function AjaxAdapter ($element, options) {
+    this.ajaxOptions = this._applyDefaults(options.get('ajax'));
+
+    if (this.ajaxOptions.processResults != null) {
+      this.processResults = this.ajaxOptions.processResults;
+    }
+
+    AjaxAdapter.__super__.constructor.call(this, $element, options);
+  }
+
+  Utils.Extend(AjaxAdapter, ArrayAdapter);
+
+  AjaxAdapter.prototype._applyDefaults = function (options) {
+    var defaults = {
+      data: function (params) {
+        return $.extend({}, params, {
+          q: params.term
+        });
+      },
+      transport: function (params, success, failure) {
+        var $request = $.ajax(params);
+
+        $request.then(success);
+        $request.fail(failure);
+
+        return $request;
+      }
+    };
+
+    return $.extend({}, defaults, options, true);
+  };
+
+  AjaxAdapter.prototype.processResults = function (results) {
+    return results;
+  };
+
+  AjaxAdapter.prototype.query = function (params, callback) {
+    var matches = [];
+    var self = this;
+
+    if (this._request != null) {
+      // JSONP requests cannot always be aborted
+      if ($.isFunction(this._request.abort)) {
+        this._request.abort();
+      }
+
+      this._request = null;
+    }
+
+    var options = $.extend({
+      type: 'GET'
+    }, this.ajaxOptions);
+
+    if (typeof options.url === 'function') {
+      options.url = options.url.call(this.$element, params);
+    }
+
+    if (typeof options.data === 'function') {
+      options.data = options.data.call(this.$element, params);
+    }
+
+    function request () {
+      var $request = options.transport(options, function (data) {
+        var results = self.processResults(data, params);
+
+        if (self.options.get('debug') && window.console && console.error) {
+          // Check to make sure that the response included a `results` key.
+          if (!results || !results.results || !$.isArray(results.results)) {
+            console.error(
+              'Select2: The AJAX results did not return an array in the ' +
+              '`results` key of the response.'
+            );
+          }
+        }
+
+        callback(results);
+      }, function () {
+        // Attempt to detect if a request was aborted
+        // Only works if the transport exposes a status property
+        if ($request.status && $request.status === '0') {
+          return;
+        }
+
+        self.trigger('results:message', {
+          message: 'errorLoading'
+        });
+      });
+
+      self._request = $request;
+    }
+
+    if (this.ajaxOptions.delay && params.term != null) {
+      if (this._queryTimeout) {
+        window.clearTimeout(this._queryTimeout);
+      }
+
+      this._queryTimeout = window.setTimeout(request, this.ajaxOptions.delay);
+    } else {
+      request();
+    }
+  };
+
+  return AjaxAdapter;
+});
+
+S2.define('select2/data/tags',[
+  'jquery'
+], function ($) {
+  function Tags (decorated, $element, options) {
+    var tags = options.get('tags');
+
+    var createTag = options.get('createTag');
+
+    if (createTag !== undefined) {
+      this.createTag = createTag;
+    }
+
+    var insertTag = options.get('insertTag');
+
+    if (insertTag !== undefined) {
+        this.insertTag = insertTag;
+    }
+
+    decorated.call(this, $element, options);
+
+    if ($.isArray(tags)) {
+      for (var t = 0; t < tags.length; t++) {
+        var tag = tags[t];
+        var item = this._normalizeItem(tag);
+
+        var $option = this.option(item);
+
+        this.$element.append($option);
+      }
+    }
+  }
+
+  Tags.prototype.query = function (decorated, params, callback) {
+    var self = this;
+
+    this._removeOldTags();
+
+    if (params.term == null || params.page != null) {
+      decorated.call(this, params, callback);
+      return;
+    }
+
+    function wrapper (obj, child) {
+      var data = obj.results;
+
+      for (var i = 0; i < data.length; i++) {
+        var option = data[i];
+
+        var checkChildren = (
+          option.children != null &&
+          !wrapper({
+            results: option.children
+          }, true)
+        );
+
+        var checkText = option.text === params.term;
+
+        if (checkText || checkChildren) {
+          if (child) {
+            return false;
+          }
+
+          obj.data = data;
+          callback(obj);
+
+          return;
+        }
+      }
+
+      if (child) {
+        return true;
+      }
+
+      var tag = self.createTag(params);
+
+      if (tag != null) {
+        var $option = self.option(tag);
+        $option.attr('data-select2-tag', true);
+
+        self.addOptions([$option]);
+
+        self.insertTag(data, tag);
+      }
+
+      obj.results = data;
+
+      callback(obj);
+    }
+
+    decorated.call(this, params, wrapper);
+  };
+
+  Tags.prototype.createTag = function (decorated, params) {
+    var term = $.trim(params.term);
+
+    if (term === '') {
+      return null;
+    }
+
+    return {
+      id: term,
+      text: term
+    };
+  };
+
+  Tags.prototype.insertTag = function (_, data, tag) {
+    data.unshift(tag);
+  };
+
+  Tags.prototype._removeOldTags = function (_) {
+    var tag = this._lastTag;
+
+    var $options = this.$element.find('option[data-select2-tag]');
+
+    $options.each(function () {
+      if (this.selected) {
+        return;
+      }
+
+      $(this).remove();
+    });
+  };
+
+  return Tags;
+});
+
+S2.define('select2/data/tokenizer',[
+  'jquery'
+], function ($) {
+  function Tokenizer (decorated, $element, options) {
+    var tokenizer = options.get('tokenizer');
+
+    if (tokenizer !== undefined) {
+      this.tokenizer = tokenizer;
+    }
+
+    decorated.call(this, $element, options);
+  }
+
+  Tokenizer.prototype.bind = function (decorated, container, $container) {
+    decorated.call(this, container, $container);
+
+    this.$search =  container.dropdown.$search || container.selection.$search ||
+      $container.find('.select2-search__field');
+  };
+
+  Tokenizer.prototype.query = function (decorated, params, callback) {
+    var self = this;
+
+    function createAndSelect (data) {
+      // Normalize the data object so we can use it for checks
+      var item = self._normalizeItem(data);
+
+      // Check if the data object already exists as a tag
+      // Select it if it doesn't
+      var $existingOptions = self.$element.find('option').filter(function () {
+        return $(this).val() === item.id;
+      });
+
+      // If an existing option wasn't found for it, create the option
+      if (!$existingOptions.length) {
+        var $option = self.option(item);
+        $option.attr('data-select2-tag', true);
+
+        self._removeOldTags();
+        self.addOptions([$option]);
+      }
+
+      // Select the item, now that we know there is an option for it
+      select(item);
+    }
+
+    function select (data) {
+      self.trigger('select', {
+        data: data
+      });
+    }
+
+    params.term = params.term || '';
+
+    var tokenData = this.tokenizer(params, this.options, createAndSelect);
+
+    if (tokenData.term !== params.term) {
+      // Replace the search term if we have the search box
+      if (this.$search.length) {
+        this.$search.val(tokenData.term);
+        this.$search.focus();
+      }
+
+      params.term = tokenData.term;
+    }
+
+    decorated.call(this, params, callback);
+  };
+
+  Tokenizer.prototype.tokenizer = function (_, params, options, callback) {
+    var separators = options.get('tokenSeparators') || [];
+    var term = params.term;
+    var i = 0;
+
+    var createTag = this.createTag || function (params) {
+      return {
+        id: params.term,
+        text: params.term
+      };
+    };
+
+    while (i < term.length) {
+      var termChar = term[i];
+
+      if ($.inArray(termChar, separators) === -1) {
+        i++;
+
+        continue;
+      }
+
+      var part = term.substr(0, i);
+      var partParams = $.extend({}, params, {
+        term: part
+      });
+
+      var data = createTag(partParams);
+
+      if (data == null) {
+        i++;
+        continue;
+      }
+
+      callback(data);
+
+      // Reset the term to not include the tokenized portion
+      term = term.substr(i + 1) || '';
+      i = 0;
+    }
+
+    return {
+      term: term
+    };
+  };
+
+  return Tokenizer;
+});
+
+S2.define('select2/data/minimumInputLength',[
+
+], function () {
+  function MinimumInputLength (decorated, $e, options) {
+    this.minimumInputLength = options.get('minimumInputLength');
+
+    decorated.call(this, $e, options);
+  }
+
+  MinimumInputLength.prototype.query = function (decorated, params, callback) {
+    params.term = params.term || '';
+
+    if (params.term.length < this.minimumInputLength) {
+      this.trigger('results:message', {
+        message: 'inputTooShort',
+        args: {
+          minimum: this.minimumInputLength,
+          input: params.term,
+          params: params
+        }
+      });
+
+      return;
+    }
+
+    decorated.call(this, params, callback);
+  };
+
+  return MinimumInputLength;
+});
+
+S2.define('select2/data/maximumInputLength',[
+
+], function () {
+  function MaximumInputLength (decorated, $e, options) {
+    this.maximumInputLength = options.get('maximumInputLength');
+
+    decorated.call(this, $e, options);
+  }
+
+  MaximumInputLength.prototype.query = function (decorated, params, callback) {
+    params.term = params.term || '';
+
+    if (this.maximumInputLength > 0 &&
+        params.term.length > this.maximumInputLength) {
+      this.trigger('results:message', {
+        message: 'inputTooLong',
+        args: {
+          maximum: this.maximumInputLength,
+          input: params.term,
+          params: params
+        }
+      });
+
+      return;
+    }
+
+    decorated.call(this, params, callback);
+  };
+
+  return MaximumInputLength;
+});
+
+S2.define('select2/data/maximumSelectionLength',[
+
+], function (){
+  function MaximumSelectionLength (decorated, $e, options) {
+    this.maximumSelectionLength = options.get('maximumSelectionLength');
+
+    decorated.call(this, $e, options);
+  }
+
+  MaximumSelectionLength.prototype.query =
+    function (decorated, params, callback) {
+      var self = this;
+
+      this.current(function (currentData) {
+        var count = currentData != null ? currentData.length : 0;
+        if (self.maximumSelectionLength > 0 &&
+          count >= self.maximumSelectionLength) {
+          self.trigger('results:message', {
+            message: 'maximumSelected',
+            args: {
+              maximum: self.maximumSelectionLength
+            }
+          });
+          return;
+        }
+        decorated.call(self, params, callback);
+      });
+  };
+
+  return MaximumSelectionLength;
+});
+
+S2.define('select2/dropdown',[
+  'jquery',
+  './utils'
+], function ($, Utils) {
+  function Dropdown ($element, options) {
+    this.$element = $element;
+    this.options = options;
+
+    Dropdown.__super__.constructor.call(this);
+  }
+
+  Utils.Extend(Dropdown, Utils.Observable);
+
+  Dropdown.prototype.render = function () {
+    var $dropdown = $(
+      '<span class="select2-dropdown">' +
+        '<span class="select2-results"></span>' +
+      '</span>'
+    );
+
+    $dropdown.attr('dir', this.options.get('dir'));
+
+    this.$dropdown = $dropdown;
+
+    return $dropdown;
+  };
+
+  Dropdown.prototype.bind = function () {
+    // Should be implemented in subclasses
+  };
+
+  Dropdown.prototype.position = function ($dropdown, $container) {
+    // Should be implmented in subclasses
+  };
+
+  Dropdown.prototype.destroy = function () {
+    // Remove the dropdown from the DOM
+    this.$dropdown.remove();
+  };
+
+  return Dropdown;
+});
+
+S2.define('select2/dropdown/search',[
+  'jquery',
+  '../utils'
+], function ($, Utils) {
+  function Search () { }
+
+  Search.prototype.render = function (decorated) {
+    var $rendered = decorated.call(this);
+
+    var $search = $(
+      '<span class="select2-search select2-search--dropdown">' +
+        '<input class="select2-search__field" type="search" tabindex="-1"' +
+        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
+        ' spellcheck="false" role="textbox" />' +
+      '</span>'
+    );
+
+    this.$searchContainer = $search;
+    this.$search = $search.find('input');
+
+    $rendered.prepend($search);
+
+    return $rendered;
+  };
+
+  Search.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    this.$search.on('keydown', function (evt) {
+      self.trigger('keypress', evt);
+
+      self._keyUpPrevented = evt.isDefaultPrevented();
+    });
+
+    // Workaround for browsers which do not support the `input` event
+    // This will prevent double-triggering of events for browsers which support
+    // both the `keyup` and `input` events.
+    this.$search.on('input', function (evt) {
+      // Unbind the duplicated `keyup` event
+      $(this).off('keyup');
+    });
+
+    this.$search.on('keyup input', function (evt) {
+      self.handleSearch(evt);
+    });
+
+    container.on('open', function () {
+      self.$search.attr('tabindex', 0);
+
+      self.$search.focus();
+
+      window.setTimeout(function () {
+        self.$search.focus();
+      }, 0);
+    });
+
+    container.on('close', function () {
+      self.$search.attr('tabindex', -1);
+
+      self.$search.val('');
+    });
+
+    container.on('focus', function () {
+      if (container.isOpen()) {
+        self.$search.focus();
+      }
+    });
+
+    container.on('results:all', function (params) {
+      if (params.query.term == null || params.query.term === '') {
+        var showSearch = self.showSearch(params);
+
+        if (showSearch) {
+          self.$searchContainer.removeClass('select2-search--hide');
+        } else {
+          self.$searchContainer.addClass('select2-search--hide');
+        }
+      }
+    });
+  };
+
+  Search.prototype.handleSearch = function (evt) {
+    if (!this._keyUpPrevented) {
+      var input = this.$search.val();
+
+      this.trigger('query', {
+        term: input
+      });
+    }
+
+    this._keyUpPrevented = false;
+  };
+
+  Search.prototype.showSearch = function (_, params) {
+    return true;
+  };
+
+  return Search;
+});
+
+S2.define('select2/dropdown/hidePlaceholder',[
+
+], function () {
+  function HidePlaceholder (decorated, $element, options, dataAdapter) {
+    this.placeholder = this.normalizePlaceholder(options.get('placeholder'));
+
+    decorated.call(this, $element, options, dataAdapter);
+  }
+
+  HidePlaceholder.prototype.append = function (decorated, data) {
+    data.results = this.removePlaceholder(data.results);
+
+    decorated.call(this, data);
+  };
+
+  HidePlaceholder.prototype.normalizePlaceholder = function (_, placeholder) {
+    if (typeof placeholder === 'string') {
+      placeholder = {
+        id: '',
+        text: placeholder
+      };
+    }
+
+    return placeholder;
+  };
+
+  HidePlaceholder.prototype.removePlaceholder = function (_, data) {
+    var modifiedData = data.slice(0);
+
+    for (var d = data.length - 1; d >= 0; d--) {
+      var item = data[d];
+
+      if (this.placeholder.id === item.id) {
+        modifiedData.splice(d, 1);
+      }
+    }
+
+    return modifiedData;
+  };
+
+  return HidePlaceholder;
+});
+
+S2.define('select2/dropdown/infiniteScroll',[
+  'jquery'
+], function ($) {
+  function InfiniteScroll (decorated, $element, options, dataAdapter) {
+    this.lastParams = {};
+
+    decorated.call(this, $element, options, dataAdapter);
+
+    this.$loadingMore = this.createLoadingMore();
+    this.loading = false;
+  }
+
+  InfiniteScroll.prototype.append = function (decorated, data) {
+    this.$loadingMore.remove();
+    this.loading = false;
+
+    decorated.call(this, data);
+
+    if (this.showLoadingMore(data)) {
+      this.$results.append(this.$loadingMore);
+    }
+  };
+
+  InfiniteScroll.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    container.on('query', function (params) {
+      self.lastParams = params;
+      self.loading = true;
+    });
+
+    container.on('query:append', function (params) {
+      self.lastParams = params;
+      self.loading = true;
+    });
+
+    this.$results.on('scroll', function () {
+      var isLoadMoreVisible = $.contains(
+        document.documentElement,
+        self.$loadingMore[0]
+      );
+
+      if (self.loading || !isLoadMoreVisible) {
+        return;
+      }
+
+      var currentOffset = self.$results.offset().top +
+        self.$results.outerHeight(false);
+      var loadingMoreOffset = self.$loadingMore.offset().top +
+        self.$loadingMore.outerHeight(false);
+
+      if (currentOffset + 50 >= loadingMoreOffset) {
+        self.loadMore();
+      }
+    });
+  };
+
+  InfiniteScroll.prototype.loadMore = function () {
+    this.loading = true;
+
+    var params = $.extend({}, {page: 1}, this.lastParams);
+
+    params.page++;
+
+    this.trigger('query:append', params);
+  };
+
+  InfiniteScroll.prototype.showLoadingMore = function (_, data) {
+    return data.pagination && data.pagination.more;
+  };
+
+  InfiniteScroll.prototype.createLoadingMore = function () {
+    var $option = $(
+      '<li ' +
+      'class="select2-results__option select2-results__option--load-more"' +
+      'role="treeitem" aria-disabled="true"></li>'
+    );
+
+    var message = this.options.get('translations').get('loadingMore');
+
+    $option.html(message(this.lastParams));
+
+    return $option;
+  };
+
+  return InfiniteScroll;
+});
+
+S2.define('select2/dropdown/attachBody',[
+  'jquery',
+  '../utils'
+], function ($, Utils) {
+  function AttachBody (decorated, $element, options) {
+    this.$dropdownParent = options.get('dropdownParent') || $(document.body);
+
+    decorated.call(this, $element, options);
+  }
+
+  AttachBody.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    var setupResultsEvents = false;
+
+    decorated.call(this, container, $container);
+
+    container.on('open', function () {
+      self._showDropdown();
+      self._attachPositioningHandler(container);
+
+      if (!setupResultsEvents) {
+        setupResultsEvents = true;
+
+        container.on('results:all', function () {
+          self._positionDropdown();
+          self._resizeDropdown();
+        });
+
+        container.on('results:append', function () {
+          self._positionDropdown();
+          self._resizeDropdown();
+        });
+      }
+    });
+
+    container.on('close', function () {
+      self._hideDropdown();
+      self._detachPositioningHandler(container);
+    });
+
+    this.$dropdownContainer.on('mousedown', function (evt) {
+      evt.stopPropagation();
+    });
+  };
+
+  AttachBody.prototype.destroy = function (decorated) {
+    decorated.call(this);
+
+    this.$dropdownContainer.remove();
+  };
+
+  AttachBody.prototype.position = function (decorated, $dropdown, $container) {
+    // Clone all of the container classes
+    $dropdown.attr('class', $container.attr('class'));
+
+    $dropdown.removeClass('select2');
+    $dropdown.addClass('select2-container--open');
+
+    $dropdown.css({
+      position: 'absolute',
+      top: -999999
+    });
+
+    this.$container = $container;
+  };
+
+  AttachBody.prototype.render = function (decorated) {
+    var $container = $('<span></span>');
+
+    var $dropdown = decorated.call(this);
+    $container.append($dropdown);
+
+    this.$dropdownContainer = $container;
+
+    return $container;
+  };
+
+  AttachBody.prototype._hideDropdown = function (decorated) {
+    this.$dropdownContainer.detach();
+  };
+
+  AttachBody.prototype._attachPositioningHandler =
+      function (decorated, container) {
+    var self = this;
+
+    var scrollEvent = 'scroll.select2.' + container.id;
+    var resizeEvent = 'resize.select2.' + container.id;
+    var orientationEvent = 'orientationchange.select2.' + container.id;
+
+    var $watchers = this.$container.parents().filter(Utils.hasScroll);
+    $watchers.each(function () {
+      $(this).data('select2-scroll-position', {
+        x: $(this).scrollLeft(),
+        y: $(this).scrollTop()
+      });
+    });
+
+    $watchers.on(scrollEvent, function (ev) {
+      var position = $(this).data('select2-scroll-position');
+      $(this).scrollTop(position.y);
+    });
+
+    $(window).on(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent,
+      function (e) {
+      self._positionDropdown();
+      self._resizeDropdown();
+    });
+  };
+
+  AttachBody.prototype._detachPositioningHandler =
+      function (decorated, container) {
+    var scrollEvent = 'scroll.select2.' + container.id;
+    var resizeEvent = 'resize.select2.' + container.id;
+    var orientationEvent = 'orientationchange.select2.' + container.id;
+
+    var $watchers = this.$container.parents().filter(Utils.hasScroll);
+    $watchers.off(scrollEvent);
+
+    $(window).off(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent);
+  };
+
+  AttachBody.prototype._positionDropdown = function () {
+    var $window = $(window);
+
+    var isCurrentlyAbove = this.$dropdown.hasClass('select2-dropdown--above');
+    var isCurrentlyBelow = this.$dropdown.hasClass('select2-dropdown--below');
+
+    var newDirection = null;
+
+    var offset = this.$container.offset();
+
+    offset.bottom = offset.top + this.$container.outerHeight(false);
+
+    var container = {
+      height: this.$container.outerHeight(false)
+    };
+
+    container.top = offset.top;
+    container.bottom = offset.top + container.height;
+
+    var dropdown = {
+      height: this.$dropdown.outerHeight(false)
+    };
+
+    var viewport = {
+      top: $window.scrollTop(),
+      bottom: $window.scrollTop() + $window.height()
+    };
+
+    var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
+    var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
+
+    var css = {
+      left: offset.left,
+      top: container.bottom
+    };
+
+    // Determine what the parent element is to use for calciulating the offset
+    var $offsetParent = this.$dropdownParent;
+
+    // For statically positoned elements, we need to get the element
+    // that is determining the offset
+    if ($offsetParent.css('position') === 'static') {
+      $offsetParent = $offsetParent.offsetParent();
+    }
+
+    var parentOffset = $offsetParent.offset();
+
+    css.top -= parentOffset.top;
+    css.left -= parentOffset.left;
+
+    if (!isCurrentlyAbove && !isCurrentlyBelow) {
+      newDirection = 'below';
+    }
+
+    if (!enoughRoomBelow && enoughRoomAbove && !isCurrentlyAbove) {
+      newDirection = 'above';
+    } else if (!enoughRoomAbove && enoughRoomBelow && isCurrentlyAbove) {
+      newDirection = 'below';
+    }
+
+    if (newDirection == 'above' ||
+      (isCurrentlyAbove && newDirection !== 'below')) {
+      css.top = container.top - parentOffset.top - dropdown.height;
+    }
+
+    if (newDirection != null) {
+      this.$dropdown
+        .removeClass('select2-dropdown--below select2-dropdown--above')
+        .addClass('select2-dropdown--' + newDirection);
+      this.$container
+        .removeClass('select2-container--below select2-container--above')
+        .addClass('select2-container--' + newDirection);
+    }
+
+    this.$dropdownContainer.css(css);
+  };
+
+  AttachBody.prototype._resizeDropdown = function () {
+    var css = {
+      width: this.$container.outerWidth(false) + 'px'
+    };
+
+    if (this.options.get('dropdownAutoWidth')) {
+      css.minWidth = css.width;
+      css.position = 'relative';
+      css.width = 'auto';
+    }
+
+    this.$dropdown.css(css);
+  };
+
+  AttachBody.prototype._showDropdown = function (decorated) {
+    this.$dropdownContainer.appendTo(this.$dropdownParent);
+
+    this._positionDropdown();
+    this._resizeDropdown();
+  };
+
+  return AttachBody;
+});
+
+S2.define('select2/dropdown/minimumResultsForSearch',[
+
+], function () {
+  function countResults (data) {
+    var count = 0;
+
+    for (var d = 0; d < data.length; d++) {
+      var item = data[d];
+
+      if (item.children) {
+        count += countResults(item.children);
+      } else {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  function MinimumResultsForSearch (decorated, $element, options, dataAdapter) {
+    this.minimumResultsForSearch = options.get('minimumResultsForSearch');
+
+    if (this.minimumResultsForSearch < 0) {
+      this.minimumResultsForSearch = Infinity;
+    }
+
+    decorated.call(this, $element, options, dataAdapter);
+  }
+
+  MinimumResultsForSearch.prototype.showSearch = function (decorated, params) {
+    if (countResults(params.data.results) < this.minimumResultsForSearch) {
+      return false;
+    }
+
+    return decorated.call(this, params);
+  };
+
+  return MinimumResultsForSearch;
+});
+
+S2.define('select2/dropdown/selectOnClose',[
+
+], function () {
+  function SelectOnClose () { }
+
+  SelectOnClose.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    container.on('close', function (params) {
+      self._handleSelectOnClose(params);
+    });
+  };
+
+  SelectOnClose.prototype._handleSelectOnClose = function (_, params) {
+    if (params && params.originalSelect2Event != null) {
+      var event = params.originalSelect2Event;
+
+      // Don't select an item if the close event was triggered from a select or
+      // unselect event
+      if (event._type === 'select' || event._type === 'unselect') {
+        return;
+      }
+    }
+
+    var $highlightedResults = this.getHighlightedResults();
+
+    // Only select highlighted results
+    if ($highlightedResults.length < 1) {
+      return;
+    }
+
+    var data = $highlightedResults.data('data');
+
+    // Don't re-select already selected resulte
+    if (
+      (data.element != null && data.element.selected) ||
+      (data.element == null && data.selected)
+    ) {
+      return;
+    }
+
+    this.trigger('select', {
+        data: data
+    });
+  };
+
+  return SelectOnClose;
+});
+
+S2.define('select2/dropdown/closeOnSelect',[
+
+], function () {
+  function CloseOnSelect () { }
+
+  CloseOnSelect.prototype.bind = function (decorated, container, $container) {
+    var self = this;
+
+    decorated.call(this, container, $container);
+
+    container.on('select', function (evt) {
+      self._selectTriggered(evt);
+    });
+
+    container.on('unselect', function (evt) {
+      self._selectTriggered(evt);
+    });
+  };
+
+  CloseOnSelect.prototype._selectTriggered = function (_, evt) {
+    var originalEvent = evt.originalEvent;
+
+    // Don't close if the control key is being held
+    if (originalEvent && originalEvent.ctrlKey) {
+      return;
+    }
+
+    this.trigger('close', {
+      originalEvent: originalEvent,
+      originalSelect2Event: evt
+    });
+  };
+
+  return CloseOnSelect;
+});
+
+S2.define('select2/i18n/en',[],function () {
+  // English
+  return {
+    errorLoading: function () {
+      return 'The results could not be loaded.';
+    },
+    inputTooLong: function (args) {
+      var overChars = args.input.length - args.maximum;
+
+      var message = 'Please delete ' + overChars + ' character';
+
+      if (overChars != 1) {
+        message += 's';
+      }
+
+      return message;
+    },
+    inputTooShort: function (args) {
+      var remainingChars = args.minimum - args.input.length;
+
+      var message = 'Please enter ' + remainingChars + ' or more characters';
+
+      return message;
+    },
+    loadingMore: function () {
+      return 'Loading more results…';
+    },
+    maximumSelected: function (args) {
+      var message = 'You can only select ' + args.maximum + ' item';
+
+      if (args.maximum != 1) {
+        message += 's';
+      }
+
+      return message;
+    },
+    noResults: function () {
+      return 'No results found';
+    },
+    searching: function () {
+      return 'Searching…';
+    }
+  };
+});
+
+S2.define('select2/defaults',[
+  'jquery',
+  'require',
+
+  './results',
+
+  './selection/single',
+  './selection/multiple',
+  './selection/placeholder',
+  './selection/allowClear',
+  './selection/search',
+  './selection/eventRelay',
+
+  './utils',
+  './translation',
+  './diacritics',
+
+  './data/select',
+  './data/array',
+  './data/ajax',
+  './data/tags',
+  './data/tokenizer',
+  './data/minimumInputLength',
+  './data/maximumInputLength',
+  './data/maximumSelectionLength',
+
+  './dropdown',
+  './dropdown/search',
+  './dropdown/hidePlaceholder',
+  './dropdown/infiniteScroll',
+  './dropdown/attachBody',
+  './dropdown/minimumResultsForSearch',
+  './dropdown/selectOnClose',
+  './dropdown/closeOnSelect',
+
+  './i18n/en'
+], function ($, require,
+
+             ResultsList,
+
+             SingleSelection, MultipleSelection, Placeholder, AllowClear,
+             SelectionSearch, EventRelay,
+
+             Utils, Translation, DIACRITICS,
+
+             SelectData, ArrayData, AjaxData, Tags, Tokenizer,
+             MinimumInputLength, MaximumInputLength, MaximumSelectionLength,
+
+             Dropdown, DropdownSearch, HidePlaceholder, InfiniteScroll,
+             AttachBody, MinimumResultsForSearch, SelectOnClose, CloseOnSelect,
+
+             EnglishTranslation) {
+  function Defaults () {
+    this.reset();
+  }
+
+  Defaults.prototype.apply = function (options) {
+    options = $.extend(true, {}, this.defaults, options);
+
+    if (options.dataAdapter == null) {
+      if (options.ajax != null) {
+        options.dataAdapter = AjaxData;
+      } else if (options.data != null) {
+        options.dataAdapter = ArrayData;
+      } else {
+        options.dataAdapter = SelectData;
+      }
+
+      if (options.minimumInputLength > 0) {
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          MinimumInputLength
+        );
+      }
+
+      if (options.maximumInputLength > 0) {
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          MaximumInputLength
+        );
+      }
+
+      if (options.maximumSelectionLength > 0) {
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          MaximumSelectionLength
+        );
+      }
+
+      if (options.tags) {
+        options.dataAdapter = Utils.Decorate(options.dataAdapter, Tags);
+      }
+
+      if (options.tokenSeparators != null || options.tokenizer != null) {
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          Tokenizer
+        );
+      }
+
+      if (options.query != null) {
+        var Query = require(options.amdBase + 'compat/query');
+
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          Query
+        );
+      }
+
+      if (options.initSelection != null) {
+        var InitSelection = require(options.amdBase + 'compat/initSelection');
+
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          InitSelection
+        );
+      }
+    }
+
+    if (options.resultsAdapter == null) {
+      options.resultsAdapter = ResultsList;
+
+      if (options.ajax != null) {
+        options.resultsAdapter = Utils.Decorate(
+          options.resultsAdapter,
+          InfiniteScroll
+        );
+      }
+
+      if (options.placeholder != null) {
+        options.resultsAdapter = Utils.Decorate(
+          options.resultsAdapter,
+          HidePlaceholder
+        );
+      }
+
+      if (options.selectOnClose) {
+        options.resultsAdapter = Utils.Decorate(
+          options.resultsAdapter,
+          SelectOnClose
+        );
+      }
+    }
+
+    if (options.dropdownAdapter == null) {
+      if (options.multiple) {
+        options.dropdownAdapter = Dropdown;
+      } else {
+        var SearchableDropdown = Utils.Decorate(Dropdown, DropdownSearch);
+
+        options.dropdownAdapter = SearchableDropdown;
+      }
+
+      if (options.minimumResultsForSearch !== 0) {
+        options.dropdownAdapter = Utils.Decorate(
+          options.dropdownAdapter,
+          MinimumResultsForSearch
+        );
+      }
+
+      if (options.closeOnSelect) {
+        options.dropdownAdapter = Utils.Decorate(
+          options.dropdownAdapter,
+          CloseOnSelect
+        );
+      }
+
+      if (
+        options.dropdownCssClass != null ||
+        options.dropdownCss != null ||
+        options.adaptDropdownCssClass != null
+      ) {
+        var DropdownCSS = require(options.amdBase + 'compat/dropdownCss');
+
+        options.dropdownAdapter = Utils.Decorate(
+          options.dropdownAdapter,
+          DropdownCSS
+        );
+      }
+
+      options.dropdownAdapter = Utils.Decorate(
+        options.dropdownAdapter,
+        AttachBody
+      );
+    }
+
+    if (options.selectionAdapter == null) {
+      if (options.multiple) {
+        options.selectionAdapter = MultipleSelection;
+      } else {
+        options.selectionAdapter = SingleSelection;
+      }
+
+      // Add the placeholder mixin if a placeholder was specified
+      if (options.placeholder != null) {
+        options.selectionAdapter = Utils.Decorate(
+          options.selectionAdapter,
+          Placeholder
+        );
+      }
+
+      if (options.allowClear) {
+        options.selectionAdapter = Utils.Decorate(
+          options.selectionAdapter,
+          AllowClear
+        );
+      }
+
+      if (options.multiple) {
+        options.selectionAdapter = Utils.Decorate(
+          options.selectionAdapter,
+          SelectionSearch
+        );
+      }
+
+      if (
+        options.containerCssClass != null ||
+        options.containerCss != null ||
+        options.adaptContainerCssClass != null
+      ) {
+        var ContainerCSS = require(options.amdBase + 'compat/containerCss');
+
+        options.selectionAdapter = Utils.Decorate(
+          options.selectionAdapter,
+          ContainerCSS
+        );
+      }
+
+      options.selectionAdapter = Utils.Decorate(
+        options.selectionAdapter,
+        EventRelay
+      );
+    }
+
+    if (typeof options.language === 'string') {
+      // Check if the language is specified with a region
+      if (options.language.indexOf('-') > 0) {
+        // Extract the region information if it is included
+        var languageParts = options.language.split('-');
+        var baseLanguage = languageParts[0];
+
+        options.language = [options.language, baseLanguage];
+      } else {
+        options.language = [options.language];
+      }
+    }
+
+    if ($.isArray(options.language)) {
+      var languages = new Translation();
+      options.language.push('en');
+
+      var languageNames = options.language;
+
+      for (var l = 0; l < languageNames.length; l++) {
+        var name = languageNames[l];
+        var language = {};
+
+        try {
+          // Try to load it with the original name
+          language = Translation.loadPath(name);
+        } catch (e) {
+          try {
+            // If we couldn't load it, check if it wasn't the full path
+            name = this.defaults.amdLanguageBase + name;
+            language = Translation.loadPath(name);
+          } catch (ex) {
+            // The translation could not be loaded at all. Sometimes this is
+            // because of a configuration problem, other times this can be
+            // because of how Select2 helps load all possible translation files.
+            if (options.debug && window.console && console.warn) {
+              console.warn(
+                'Select2: The language file for "' + name + '" could not be ' +
+                'automatically loaded. A fallback will be used instead.'
+              );
+            }
+
+            continue;
+          }
+        }
+
+        languages.extend(language);
+      }
+
+      options.translations = languages;
+    } else {
+      var baseTranslation = Translation.loadPath(
+        this.defaults.amdLanguageBase + 'en'
+      );
+      var customTranslation = new Translation(options.language);
+
+      customTranslation.extend(baseTranslation);
+
+      options.translations = customTranslation;
+    }
+
+    return options;
+  };
+
+  Defaults.prototype.reset = function () {
+    function stripDiacritics (text) {
+      // Used 'uni range + named function' from http://jsperf.com/diacritics/18
+      function match(a) {
+        return DIACRITICS[a] || a;
+      }
+
+      return text.replace(/[^\u0000-\u007E]/g, match);
+    }
+
+    function matcher (params, data) {
+      // Always return the object if there is nothing to compare
+      if ($.trim(params.term) === '') {
+        return data;
+      }
+
+      // Do a recursive check for options with children
+      if (data.children && data.children.length > 0) {
+        // Clone the data object if there are children
+        // This is required as we modify the object to remove any non-matches
+        var match = $.extend(true, {}, data);
+
+        // Check each child of the option
+        for (var c = data.children.length - 1; c >= 0; c--) {
+          var child = data.children[c];
+
+          var matches = matcher(params, child);
+
+          // If there wasn't a match, remove the object in the array
+          if (matches == null) {
+            match.children.splice(c, 1);
+          }
+        }
+
+        // If any children matched, return the new object
+        if (match.children.length > 0) {
+          return match;
+        }
+
+        // If there were no matching children, check just the plain object
+        return matcher(params, match);
+      }
+
+      var original = stripDiacritics(data.text).toUpperCase();
+      var term = stripDiacritics(params.term).toUpperCase();
+
+      // Check if the text contains the term
+      if (original.indexOf(term) > -1) {
+        return data;
+      }
+
+      // If it doesn't contain the term, don't return anything
+      return null;
+    }
+
+    this.defaults = {
+      amdBase: './',
+      amdLanguageBase: './i18n/',
+      closeOnSelect: true,
+      debug: false,
+      dropdownAutoWidth: false,
+      escapeMarkup: Utils.escapeMarkup,
+      language: EnglishTranslation,
+      matcher: matcher,
+      minimumInputLength: 0,
+      maximumInputLength: 0,
+      maximumSelectionLength: 0,
+      minimumResultsForSearch: 0,
+      selectOnClose: false,
+      sorter: function (data) {
+        return data;
+      },
+      templateResult: function (result) {
+        return result.text;
+      },
+      templateSelection: function (selection) {
+        return selection.text;
+      },
+      theme: 'default',
+      width: 'resolve'
+    };
+  };
+
+  Defaults.prototype.set = function (key, value) {
+    var camelKey = $.camelCase(key);
+
+    var data = {};
+    data[camelKey] = value;
+
+    var convertedData = Utils._convertData(data);
+
+    $.extend(this.defaults, convertedData);
+  };
+
+  var defaults = new Defaults();
+
+  return defaults;
+});
+
+S2.define('select2/options',[
+  'require',
+  'jquery',
+  './defaults',
+  './utils'
+], function (require, $, Defaults, Utils) {
+  function Options (options, $element) {
+    this.options = options;
+
+    if ($element != null) {
+      this.fromElement($element);
+    }
+
+    this.options = Defaults.apply(this.options);
+
+    if ($element && $element.is('input')) {
+      var InputCompat = require(this.get('amdBase') + 'compat/inputData');
+
+      this.options.dataAdapter = Utils.Decorate(
+        this.options.dataAdapter,
+        InputCompat
+      );
+    }
+  }
+
+  Options.prototype.fromElement = function ($e) {
+    var excludedData = ['select2'];
+
+    if (this.options.multiple == null) {
+      this.options.multiple = $e.prop('multiple');
+    }
+
+    if (this.options.disabled == null) {
+      this.options.disabled = $e.prop('disabled');
+    }
+
+    if (this.options.language == null) {
+      if ($e.prop('lang')) {
+        this.options.language = $e.prop('lang').toLowerCase();
+      } else if ($e.closest('[lang]').prop('lang')) {
+        this.options.language = $e.closest('[lang]').prop('lang');
+      }
+    }
+
+    if (this.options.dir == null) {
+      if ($e.prop('dir')) {
+        this.options.dir = $e.prop('dir');
+      } else if ($e.closest('[dir]').prop('dir')) {
+        this.options.dir = $e.closest('[dir]').prop('dir');
+      } else {
+        this.options.dir = 'ltr';
+      }
+    }
+
+    $e.prop('disabled', this.options.disabled);
+    $e.prop('multiple', this.options.multiple);
+
+    if ($e.data('select2Tags')) {
+      if (this.options.debug && window.console && console.warn) {
+        console.warn(
+          'Select2: The `data-select2-tags` attribute has been changed to ' +
+          'use the `data-data` and `data-tags="true"` attributes and will be ' +
+          'removed in future versions of Select2.'
+        );
+      }
+
+      $e.data('data', $e.data('select2Tags'));
+      $e.data('tags', true);
+    }
+
+    if ($e.data('ajaxUrl')) {
+      if (this.options.debug && window.console && console.warn) {
+        console.warn(
+          'Select2: The `data-ajax-url` attribute has been changed to ' +
+          '`data-ajax--url` and support for the old attribute will be removed' +
+          ' in future versions of Select2.'
+        );
+      }
+
+      $e.attr('ajax--url', $e.data('ajaxUrl'));
+      $e.data('ajax--url', $e.data('ajaxUrl'));
+    }
+
+    var dataset = {};
+
+    // Prefer the element's `dataset` attribute if it exists
+    // jQuery 1.x does not correctly handle data attributes with multiple dashes
+    if ($.fn.jquery && $.fn.jquery.substr(0, 2) == '1.' && $e[0].dataset) {
+      dataset = $.extend(true, {}, $e[0].dataset, $e.data());
+    } else {
+      dataset = $e.data();
+    }
+
+    var data = $.extend(true, {}, dataset);
+
+    data = Utils._convertData(data);
+
+    for (var key in data) {
+      if ($.inArray(key, excludedData) > -1) {
+        continue;
+      }
+
+      if ($.isPlainObject(this.options[key])) {
+        $.extend(this.options[key], data[key]);
+      } else {
+        this.options[key] = data[key];
+      }
+    }
+
+    return this;
+  };
+
+  Options.prototype.get = function (key) {
+    return this.options[key];
+  };
+
+  Options.prototype.set = function (key, val) {
+    this.options[key] = val;
+  };
+
+  return Options;
+});
+
+S2.define('select2/core',[
+  'jquery',
+  './options',
+  './utils',
+  './keys'
+], function ($, Options, Utils, KEYS) {
+  var Select2 = function ($element, options) {
+    if ($element.data('select2') != null) {
+      $element.data('select2').destroy();
+    }
+
+    this.$element = $element;
+
+    this.id = this._generateId($element);
+
+    options = options || {};
+
+    this.options = new Options(options, $element);
+
+    Select2.__super__.constructor.call(this);
+
+    // Set up the tabindex
+
+    var tabindex = $element.attr('tabindex') || 0;
+    $element.data('old-tabindex', tabindex);
+    $element.attr('tabindex', '-1');
+
+    // Set up containers and adapters
+
+    var DataAdapter = this.options.get('dataAdapter');
+    this.dataAdapter = new DataAdapter($element, this.options);
+
+    var $container = this.render();
+
+    this._placeContainer($container);
+
+    var SelectionAdapter = this.options.get('selectionAdapter');
+    this.selection = new SelectionAdapter($element, this.options);
+    this.$selection = this.selection.render();
+
+    this.selection.position(this.$selection, $container);
+
+    var DropdownAdapter = this.options.get('dropdownAdapter');
+    this.dropdown = new DropdownAdapter($element, this.options);
+    this.$dropdown = this.dropdown.render();
+
+    this.dropdown.position(this.$dropdown, $container);
+
+    var ResultsAdapter = this.options.get('resultsAdapter');
+    this.results = new ResultsAdapter($element, this.options, this.dataAdapter);
+    this.$results = this.results.render();
+
+    this.results.position(this.$results, this.$dropdown);
+
+    // Bind events
+
+    var self = this;
+
+    // Bind the container to all of the adapters
+    this._bindAdapters();
+
+    // Register any DOM event handlers
+    this._registerDomEvents();
+
+    // Register any internal event handlers
+    this._registerDataEvents();
+    this._registerSelectionEvents();
+    this._registerDropdownEvents();
+    this._registerResultsEvents();
+    this._registerEvents();
+
+    // Set the initial state
+    this.dataAdapter.current(function (initialData) {
+      self.trigger('selection:update', {
+        data: initialData
+      });
+    });
+
+    // Hide the original select
+    $element.addClass('select2-hidden-accessible');
+    $element.attr('aria-hidden', 'true');
+
+    // Synchronize any monitored attributes
+    this._syncAttributes();
+
+    $element.data('select2', this);
+  };
+
+  Utils.Extend(Select2, Utils.Observable);
+
+  Select2.prototype._generateId = function ($element) {
+    var id = '';
+
+    if ($element.attr('id') != null) {
+      id = $element.attr('id');
+    } else if ($element.attr('name') != null) {
+      id = $element.attr('name') + '-' + Utils.generateChars(2);
+    } else {
+      id = Utils.generateChars(4);
+    }
+
+    id = id.replace(/(:|\.|\[|\]|,)/g, '');
+    id = 'select2-' + id;
+
+    return id;
+  };
+
+  Select2.prototype._placeContainer = function ($container) {
+    $container.insertAfter(this.$element);
+
+    var width = this._resolveWidth(this.$element, this.options.get('width'));
+
+    if (width != null) {
+      $container.css('width', width);
+    }
+  };
+
+  Select2.prototype._resolveWidth = function ($element, method) {
+    var WIDTH = /^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i;
+
+    if (method == 'resolve') {
+      var styleWidth = this._resolveWidth($element, 'style');
+
+      if (styleWidth != null) {
+        return styleWidth;
+      }
+
+      return this._resolveWidth($element, 'element');
+    }
+
+    if (method == 'element') {
+      var elementWidth = $element.outerWidth(false);
+
+      if (elementWidth <= 0) {
+        return 'auto';
+      }
+
+      return elementWidth + 'px';
+    }
+
+    if (method == 'style') {
+      var style = $element.attr('style');
+
+      if (typeof(style) !== 'string') {
+        return null;
+      }
+
+      var attrs = style.split(';');
+
+      for (var i = 0, l = attrs.length; i < l; i = i + 1) {
+        var attr = attrs[i].replace(/\s/g, '');
+        var matches = attr.match(WIDTH);
+
+        if (matches !== null && matches.length >= 1) {
+          return matches[1];
+        }
+      }
+
+      return null;
+    }
+
+    return method;
+  };
+
+  Select2.prototype._bindAdapters = function () {
+    this.dataAdapter.bind(this, this.$container);
+    this.selection.bind(this, this.$container);
+
+    this.dropdown.bind(this, this.$container);
+    this.results.bind(this, this.$container);
+  };
+
+  Select2.prototype._registerDomEvents = function () {
+    var self = this;
+
+    this.$element.on('change.select2', function () {
+      self.dataAdapter.current(function (data) {
+        self.trigger('selection:update', {
+          data: data
+        });
+      });
+    });
+
+    this.$element.on('focus.select2', function (evt) {
+      self.trigger('focus', evt);
+    });
+
+    this._syncA = Utils.bind(this._syncAttributes, this);
+    this._syncS = Utils.bind(this._syncSubtree, this);
+
+    if (this.$element[0].attachEvent) {
+      this.$element[0].attachEvent('onpropertychange', this._syncA);
+    }
+
+    var observer = window.MutationObserver ||
+      window.WebKitMutationObserver ||
+      window.MozMutationObserver
+    ;
+
+    if (observer != null) {
+      this._observer = new observer(function (mutations) {
+        $.each(mutations, self._syncA);
+        $.each(mutations, self._syncS);
+      });
+      this._observer.observe(this.$element[0], {
+        attributes: true,
+        childList: true,
+        subtree: false
+      });
+    } else if (this.$element[0].addEventListener) {
+      this.$element[0].addEventListener(
+        'DOMAttrModified',
+        self._syncA,
+        false
+      );
+      this.$element[0].addEventListener(
+        'DOMNodeInserted',
+        self._syncS,
+        false
+      );
+      this.$element[0].addEventListener(
+        'DOMNodeRemoved',
+        self._syncS,
+        false
+      );
+    }
+  };
+
+  Select2.prototype._registerDataEvents = function () {
+    var self = this;
+
+    this.dataAdapter.on('*', function (name, params) {
+      self.trigger(name, params);
+    });
+  };
+
+  Select2.prototype._registerSelectionEvents = function () {
+    var self = this;
+    var nonRelayEvents = ['toggle', 'focus'];
+
+    this.selection.on('toggle', function () {
+      self.toggleDropdown();
+    });
+
+    this.selection.on('focus', function (params) {
+      self.focus(params);
+    });
+
+    this.selection.on('*', function (name, params) {
+      if ($.inArray(name, nonRelayEvents) !== -1) {
+        return;
+      }
+
+      self.trigger(name, params);
+    });
+  };
+
+  Select2.prototype._registerDropdownEvents = function () {
+    var self = this;
+
+    this.dropdown.on('*', function (name, params) {
+      self.trigger(name, params);
+    });
+  };
+
+  Select2.prototype._registerResultsEvents = function () {
+    var self = this;
+
+    this.results.on('*', function (name, params) {
+      self.trigger(name, params);
+    });
+  };
+
+  Select2.prototype._registerEvents = function () {
+    var self = this;
+
+    this.on('open', function () {
+      self.$container.addClass('select2-container--open');
+    });
+
+    this.on('close', function () {
+      self.$container.removeClass('select2-container--open');
+    });
+
+    this.on('enable', function () {
+      self.$container.removeClass('select2-container--disabled');
+    });
+
+    this.on('disable', function () {
+      self.$container.addClass('select2-container--disabled');
+    });
+
+    this.on('blur', function () {
+      self.$container.removeClass('select2-container--focus');
+    });
+
+    this.on('query', function (params) {
+      if (!self.isOpen()) {
+        self.trigger('open', {});
+      }
+
+      this.dataAdapter.query(params, function (data) {
+        self.trigger('results:all', {
+          data: data,
+          query: params
+        });
+      });
+    });
+
+    this.on('query:append', function (params) {
+      this.dataAdapter.query(params, function (data) {
+        self.trigger('results:append', {
+          data: data,
+          query: params
+        });
+      });
+    });
+
+    this.on('keypress', function (evt) {
+      var key = evt.which;
+
+      if (self.isOpen()) {
+        if (key === KEYS.ESC || key === KEYS.TAB ||
+            (key === KEYS.UP && evt.altKey)) {
+          self.close();
+
+          evt.preventDefault();
+        } else if (key === KEYS.ENTER) {
+          self.trigger('results:select', {});
+
+          evt.preventDefault();
+        } else if ((key === KEYS.SPACE && evt.ctrlKey)) {
+          self.trigger('results:toggle', {});
+
+          evt.preventDefault();
+        } else if (key === KEYS.UP) {
+          self.trigger('results:previous', {});
+
+          evt.preventDefault();
+        } else if (key === KEYS.DOWN) {
+          self.trigger('results:next', {});
+
+          evt.preventDefault();
+        }
+      } else {
+        if (key === KEYS.ENTER || key === KEYS.SPACE ||
+            (key === KEYS.DOWN && evt.altKey)) {
+          self.open();
+
+          evt.preventDefault();
+        }
+      }
+    });
+  };
+
+  Select2.prototype._syncAttributes = function () {
+    this.options.set('disabled', this.$element.prop('disabled'));
+
+    if (this.options.get('disabled')) {
+      if (this.isOpen()) {
+        this.close();
+      }
+
+      this.trigger('disable', {});
+    } else {
+      this.trigger('enable', {});
+    }
+  };
+
+  Select2.prototype._syncSubtree = function (evt, mutations) {
+    var changed = false;
+    var self = this;
+
+    // Ignore any mutation events raised for elements that aren't options or
+    // optgroups. This handles the case when the select element is destroyed
+    if (
+      evt && evt.target && (
+        evt.target.nodeName !== 'OPTION' && evt.target.nodeName !== 'OPTGROUP'
+      )
+    ) {
+      return;
+    }
+
+    if (!mutations) {
+      // If mutation events aren't supported, then we can only assume that the
+      // change affected the selections
+      changed = true;
+    } else if (mutations.addedNodes && mutations.addedNodes.length > 0) {
+      for (var n = 0; n < mutations.addedNodes.length; n++) {
+        var node = mutations.addedNodes[n];
+
+        if (node.selected) {
+          changed = true;
+        }
+      }
+    } else if (mutations.removedNodes && mutations.removedNodes.length > 0) {
+      changed = true;
+    }
+
+    // Only re-pull the data if we think there is a change
+    if (changed) {
+      this.dataAdapter.current(function (currentData) {
+        self.trigger('selection:update', {
+          data: currentData
+        });
+      });
+    }
+  };
+
+  /**
+   * Override the trigger method to automatically trigger pre-events when
+   * there are events that can be prevented.
+   */
+  Select2.prototype.trigger = function (name, args) {
+    var actualTrigger = Select2.__super__.trigger;
+    var preTriggerMap = {
+      'open': 'opening',
+      'close': 'closing',
+      'select': 'selecting',
+      'unselect': 'unselecting'
+    };
+
+    if (args === undefined) {
+      args = {};
+    }
+
+    if (name in preTriggerMap) {
+      var preTriggerName = preTriggerMap[name];
+      var preTriggerArgs = {
+        prevented: false,
+        name: name,
+        args: args
+      };
+
+      actualTrigger.call(this, preTriggerName, preTriggerArgs);
+
+      if (preTriggerArgs.prevented) {
+        args.prevented = true;
+
+        return;
+      }
+    }
+
+    actualTrigger.call(this, name, args);
+  };
+
+  Select2.prototype.toggleDropdown = function () {
+    if (this.options.get('disabled')) {
+      return;
+    }
+
+    if (this.isOpen()) {
+      this.close();
+    } else {
+      this.open();
+    }
+  };
+
+  Select2.prototype.open = function () {
+    if (this.isOpen()) {
+      return;
+    }
+
+    this.trigger('query', {});
+  };
+
+  Select2.prototype.close = function () {
+    if (!this.isOpen()) {
+      return;
+    }
+
+    this.trigger('close', {});
+  };
+
+  Select2.prototype.isOpen = function () {
+    return this.$container.hasClass('select2-container--open');
+  };
+
+  Select2.prototype.hasFocus = function () {
+    return this.$container.hasClass('select2-container--focus');
+  };
+
+  Select2.prototype.focus = function (data) {
+    // No need to re-trigger focus events if we are already focused
+    if (this.hasFocus()) {
+      return;
+    }
+
+    this.$container.addClass('select2-container--focus');
+    this.trigger('focus', {});
+  };
+
+  Select2.prototype.enable = function (args) {
+    if (this.options.get('debug') && window.console && console.warn) {
+      console.warn(
+        'Select2: The `select2("enable")` method has been deprecated and will' +
+        ' be removed in later Select2 versions. Use $element.prop("disabled")' +
+        ' instead.'
+      );
+    }
+
+    if (args == null || args.length === 0) {
+      args = [true];
+    }
+
+    var disabled = !args[0];
+
+    this.$element.prop('disabled', disabled);
+  };
+
+  Select2.prototype.data = function () {
+    if (this.options.get('debug') &&
+        arguments.length > 0 && window.console && console.warn) {
+      console.warn(
+        'Select2: Data can no longer be set using `select2("data")`. You ' +
+        'should consider setting the value instead using `$element.val()`.'
+      );
+    }
+
+    var data = [];
+
+    this.dataAdapter.current(function (currentData) {
+      data = currentData;
+    });
+
+    return data;
+  };
+
+  Select2.prototype.val = function (args) {
+    if (this.options.get('debug') && window.console && console.warn) {
+      console.warn(
+        'Select2: The `select2("val")` method has been deprecated and will be' +
+        ' removed in later Select2 versions. Use $element.val() instead.'
+      );
+    }
+
+    if (args == null || args.length === 0) {
+      return this.$element.val();
+    }
+
+    var newVal = args[0];
+
+    if ($.isArray(newVal)) {
+      newVal = $.map(newVal, function (obj) {
+        return obj.toString();
+      });
+    }
+
+    this.$element.val(newVal).trigger('change');
+  };
+
+  Select2.prototype.destroy = function () {
+    this.$container.remove();
+
+    if (this.$element[0].detachEvent) {
+      this.$element[0].detachEvent('onpropertychange', this._syncA);
+    }
+
+    if (this._observer != null) {
+      this._observer.disconnect();
+      this._observer = null;
+    } else if (this.$element[0].removeEventListener) {
+      this.$element[0]
+        .removeEventListener('DOMAttrModified', this._syncA, false);
+      this.$element[0]
+        .removeEventListener('DOMNodeInserted', this._syncS, false);
+      this.$element[0]
+        .removeEventListener('DOMNodeRemoved', this._syncS, false);
+    }
+
+    this._syncA = null;
+    this._syncS = null;
+
+    this.$element.off('.select2');
+    this.$element.attr('tabindex', this.$element.data('old-tabindex'));
+
+    this.$element.removeClass('select2-hidden-accessible');
+    this.$element.attr('aria-hidden', 'false');
+    this.$element.removeData('select2');
+
+    this.dataAdapter.destroy();
+    this.selection.destroy();
+    this.dropdown.destroy();
+    this.results.destroy();
+
+    this.dataAdapter = null;
+    this.selection = null;
+    this.dropdown = null;
+    this.results = null;
+  };
+
+  Select2.prototype.render = function () {
+    var $container = $(
+      '<span class="select2 select2-container">' +
+        '<span class="selection"></span>' +
+        '<span class="dropdown-wrapper" aria-hidden="true"></span>' +
+      '</span>'
+    );
+
+    $container.attr('dir', this.options.get('dir'));
+
+    this.$container = $container;
+
+    this.$container.addClass('select2-container--' + this.options.get('theme'));
+
+    $container.data('element', this.$element);
+
+    return $container;
+  };
+
+  return Select2;
+});
+
+S2.define('jquery-mousewheel',[
+  'jquery'
+], function ($) {
+  // Used to shim jQuery.mousewheel for non-full builds.
+  return $;
+});
+
+S2.define('jquery.select2',[
+  'jquery',
+  'jquery-mousewheel',
+
+  './select2/core',
+  './select2/defaults'
+], function ($, _, Select2, Defaults) {
+  if ($.fn.select2 == null) {
+    // All methods that should return the element
+    var thisMethods = ['open', 'close', 'destroy'];
+
+    $.fn.select2 = function (options) {
+      options = options || {};
+
+      if (typeof options === 'object') {
+        this.each(function () {
+          var instanceOptions = $.extend(true, {}, options);
+
+          var instance = new Select2($(this), instanceOptions);
+        });
+
+        return this;
+      } else if (typeof options === 'string') {
+        var ret;
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        this.each(function () {
+          var instance = $(this).data('select2');
+
+          if (instance == null && window.console && console.error) {
+            console.error(
+              'The select2(\'' + options + '\') method was called on an ' +
+              'element that is not using Select2.'
+            );
+          }
+
+          ret = instance[options].apply(instance, args);
+        });
+
+        // Check if we should be returning `this`
+        if ($.inArray(options, thisMethods) > -1) {
+          return this;
+        }
+
+        return ret;
+      } else {
+        throw new Error('Invalid arguments for Select2: ' + options);
+      }
+    };
+  }
+
+  if ($.fn.select2.defaults == null) {
+    $.fn.select2.defaults = Defaults;
+  }
+
+  return Select2;
+});
+
+  // Return the AMD loader configuration so it can be used outside of this file
+  return {
+    define: S2.define,
+    require: S2.require
+  };
+}());
+
+  // Autoload the jQuery bindings
+  // We know that all of the modules exist above this, so we're safe
+  var select2 = S2.require('jquery.select2');
+
+  // Hold the AMD module references on the jQuery function that was just loaded
+  // This allows Select2 to use the internal loader outside of this file, such
+  // as in the language files.
+  jQuery.fn.select2.amd = S2;
+
+  // Return the Select2 instance for anyone who is importing it.
+  return select2;
+}));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ })
 /******/ ]);
