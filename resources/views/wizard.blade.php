@@ -17,7 +17,8 @@
                 </wizard-step>
                 <wizard-step title="Estudis i Curs">
                     Step 3: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti, harum.
-                    <studies-course></studies-course>
+                    <studies></studies>
+                    <course></course>
                 </wizard-step>
                 <wizard-step title="Moduls Professionals">
                     Step 4: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, quod.

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import {state, store} from './Store';
+    import {state, store} from './Content/Store';
     export default {
         data () {
             return {

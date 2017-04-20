@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/wizard', function (){
+    Route::get('/enrollment_wizard', function (){
         return view('wizard');
     });
     //    Route::get('/link1', function ()    {
