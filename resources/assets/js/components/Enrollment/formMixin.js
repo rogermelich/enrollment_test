@@ -1,7 +1,7 @@
 export default {
     props: {
         submitButton:{
-            type:Boolean,
+            type: Boolean,
             default: true
         }
     },
@@ -14,5 +14,8 @@ export default {
     },
     mounted() {
         this.onWizardNext()
+        const header = {
+            'Authorization': 'Bearer ' + response.data.access_token
+        };
     }
 }

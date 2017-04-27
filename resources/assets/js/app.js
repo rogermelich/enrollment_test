@@ -13,12 +13,17 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+/* Wizard */
+Vue.component('wizard', require('./components/Wizard/Wizard.vue'));
+Vue.component('wizard-step', require('./components/Wizard/WizardSteps.vue'));
+/*Wizard Taps*/
+Vue.component('user', require('./components/Enrollment/User.vue'));
+Vue.component('person', require('./components/Enrollment/Person.vue'));
+Vue.component('study', require('./components/Enrollment/Study.vue'));
+Vue.component('course', require('./components/Enrollment/Course.vue'));
+Vue.component('module', require('./components/Enrollment/Module.vue'));
+Vue.component('submodule', require('./components/Enrollment/SubModule.vue'));
 
-Vue.component('wizard', require('./components/Enrollment/Wizard/Wizard.vue'));
-Vue.component('wizard-step', require('./components/Enrollment/Wizard/WizardSteps.vue'));
-Vue.component('studies', require('./components/Enrollment/Wizard/Content/Studies.vue'));
-Vue.component('course', require('./components/Enrollment/Wizard/Content/Course.vue'));
 
 const app = new Vue({
     el: '#app'

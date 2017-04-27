@@ -6,7 +6,7 @@
 
 <script>
     import voca from 'voca'
-    import {state,store} from './Content/Store'
+    import {state,store} from './Store'
     export default {
         data () {
             return {

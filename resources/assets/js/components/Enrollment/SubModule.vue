@@ -1,18 +1,18 @@
 <template>
-    <form method="post" @submit.prevent="submit" @keydown="form.errors.clear($event.target.user)">
+    <form method="post" @submit.prevent="submit" @keydown="form.errors.clear($event.target.subsubmodule)">
         <div class="form-group has-feedback" :class="{ 'has-error': form.errors.has('studies') }">
 
             <!-- WET -->
-            <label for="courses">Courses: </label>
+            <div for="subsubmodule" class="form-group">
+                <div class="checkbox" v-for="subsubmodule in subsubmodules" :value="submodule.id">
+                    <label>
+                        <input :visible="true" type="checkbox">
+                        {{ submodule.name }}
+                    </label>
+                </div>
+            </div>
 
-            <select class="form-control select2" style="width: 80%;">
-
-                <option v-for="course in courses" :value="course.id">{{ course.name }}</option>
-
-            </select>
-
-
-            <span class="help-block" v-if="form.errors.has('courses')" v-text="form.errors.get('name')"></span>
+            <span class="help-block" v-if="form.errors.has('submodule')" v-text="form.errors.get('name')"></span>
 
         </div>
         <!--<button type="submit" class="btn btn-primary btn-block btn-flat" :disabled="form.errors.any()"><i v-if="form.submitting" class="fa fa-refresh fa-spin"></i> Next</button>-->
@@ -26,13 +26,14 @@
         mixins: [FormMixin],
         data: function () {
             return {
-                form: new Form( { courses: ''} ),
-                courses: []
+                form: new Form( { submodule: ''} ),
+                submodules: [],
+                visible: true
             }
         },
         methods: {
             submit() {
-                this.form.post('/courses')
+                this.form.post('api/v1/submodules')
                     .then( response => {
                         console.log('TODO')
                     })
@@ -40,26 +41,18 @@
                         console.log('ERROR')
                     })
             },
-            initialitzeSelect2() {
-                var component = this
-                $(".select2").select2().on('TODO', function(event){
-                    component.form.set('courses',courses.id)
-                    component.form.errors.clear()
-                })
-            },
-            fetchStudies() {
-                axios.get('/courses').then(response => {
-                    this.courses = response.data
+            fetchCourses() {
+                axios.get('api/v1/submodules').then(response => {
+                    this.submodule = response.data
                 });
             }
         },
         mounted() {
             console.log('Component Form User mounted.')
-            this.initialitzeSelect2()
             this.fetchCourses()
         },
         watch: {
-            'form.courses': function (studies) {
+            'form.submodule': function (studies) {
                 //TODO SELECT STUDIES
             }
         },

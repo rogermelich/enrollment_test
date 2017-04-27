@@ -4,7 +4,7 @@
 
             <label for="user">User:</label>
 
-            <select class="form-control select2" style="width: 100%;">
+            <select class="form-control select2" style="width: 80%;">
 
                 <option v-for="user in users" :value="user.id">{{ user.name }}</option>
 
@@ -29,7 +29,7 @@
         },
         methods: {
             submit() {
-                this.form.post('/user')
+                this.form.post('/api/v1/user')
                     .then( response => {
                         console.log('Enrollment user form submitted ok')
                         this.$bus.$emit('formSubmit')
@@ -41,12 +41,12 @@
             initialitzeSelect2() {
                 var component = this
                 $(".select2").select2().on('TODO', function(event){
-                    component.form.set('user',userid)
+                    component.form.set('user',user.id)
                     component.form.errors.clear()
                 })
             },
             fetchUsers() {
-                axios.get('/users').then(response => {
+                axios.get('/api/v1/user').then(response => {
                     this.users = response.data
                 });
             }
