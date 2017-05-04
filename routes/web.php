@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/enrollment_wizard', function (){
         return view('wizard');
     });
+//    Route::get('user', 'UserController@fetchUsers');
     //    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });

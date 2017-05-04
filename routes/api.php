@@ -18,10 +18,11 @@ use Illuminate\Http\Request;
 //})->middleware('auth:api');
 
 Route::group(['prefix' => 'v1','middleware' => 'api'], function () {
-    //    Route::resource('task', 'TasksController');
-    Route::get('/user', function () {
-        return Auth::user();
-    });
+    Route::get('user', 'UserController@fetchUsers');
+//    Route::resource('user', 'UserController');
+//    Route::get('/user', function () {
+//        return Auth::user();
+//    });
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_api_routes

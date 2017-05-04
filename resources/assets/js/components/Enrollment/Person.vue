@@ -3,7 +3,7 @@
         <div class="form-group has-feedback" :class="{ 'has-error': form.errors.has('person') }">
 
             <!-- WET -->
-                <div align="left" class="col-md-3">
+                <div align="left" class="col-lg-3">
                     <div class="form-group">
                         <div class="input-group">
                             <img src="/img/avatar.png" alt="User Image" width="150px" height="150px"/>
@@ -14,7 +14,9 @@
                         <!-- /.input group -->
                     </div>
                 </div>
-                <div class="col-xs-4">
+            <br>
+            <br>
+                <div class="col-lg-4">
                     <label>DNI/NIE/Passaport:</label>
 
                     <div class="input-group">
@@ -27,7 +29,7 @@
                     </div>
 
                 </div>
-                <div class="col-xs-4">
+                <div class="col-lg-4">
                     <label>TSI:</label>
 
                     <div class="input-group">
@@ -38,7 +40,13 @@
                                data-required="true">
                     </div>
                 </div>
-                <div class="col-xs-3">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+                <div class="col-lg-4">
                     <label>Name:</label>
 
                     <div class="input-group">
@@ -50,7 +58,7 @@
                     </div>
 
                 </div>
-                <div class="col-xs-3">
+                <div class="col-lg-4">
                     <label>Firts Surname:</label>
 
                     <div class="input-group">
@@ -62,7 +70,7 @@
                                data-required="true">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <label>Second Surname:</label>
 
                     <div class="input-group">

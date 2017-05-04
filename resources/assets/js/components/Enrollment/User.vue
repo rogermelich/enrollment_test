@@ -29,14 +29,14 @@
         },
         methods: {
             submit() {
-                this.form.post('/api/v1/user')
-                    .then( response => {
-                        console.log('Enrollment user form submitted ok')
-                        this.$bus.$emit('formSubmit')
-                    })
-                    .catch( error => {
-                        console.log('Enrollment user form error submitting: ' + error)
-                    })
+//                this.form.post('/user')
+//                    .then( response => {
+//                        console.log('Enrollment user form submitted ok')
+//                        this.$bus.$emit('formSubmit')
+//                    })
+//                    .catch( error => {
+//                        console.log('Enrollment user form error submitting: ' + error)
+//                    })
             },
             initialitzeSelect2() {
                 var component = this
