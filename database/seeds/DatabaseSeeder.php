@@ -2,7 +2,12 @@
 
 use Illuminate\Database\Seeder;
 use Scool\Curriculum\Database\Seeds\CurriculumSeeder;
+use Scool\Curriculum\Database\Seeds\LawsTableSeeder;
+use Scool\Curriculum\Database\Seeds\SubmoduleTypesTableSeeder;
+use Scool\Enrollment\Database\Seeds\EnrollmentPermissionsTableSeeder;
 use Scool\Enrollment\Database\Seeds\EnrollmentSeeder;
+use Scool\Enrollment\Database\Seeds\EnrollmentTableSeeder;
+use Scool\Enrollment\Database\Seeds\EnrollmentStudySubmoduleTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,5 +20,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminUserSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(EnrollmentSeeder::class);
+        $this->call(CurriculumSeeder::class);
+        $this->call(LawsTableSeeder::class);
+        $this->call(SubmoduleTypesTableSeeder::class);
     }
 }

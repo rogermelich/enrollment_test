@@ -10,13 +10,10 @@
 |
 */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Scool\Enrollment\Models\Enrollment::class, function (Faker\Generator $faker) {
+$factory->define(Scool\Enrollment\Models\EnrollmentStudySubmodule::class, function (Faker\Generator $faker) {
     return [
-        'validate_state' => $faker->boolean(),
-        'finished_state' => $faker->boolean(),
-        'user_id' => $faker->randomDigit,
-        'study_id' => $faker->randomDigit,
-        'course_id' => $faker->randomDigit,
-        'classroom_id' => $faker->randomDigit
+        'enrollment_id' => $faker->randomDigit,
+        'module_id' => $faker->randomDigit,
+        'study_submodule_id' => $faker->randomDigit,
     ];
 });
