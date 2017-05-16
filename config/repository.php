@@ -206,8 +206,8 @@ return [
     |
     */
     'generator'  => [
-        'basePath'      => base_path().'/vendor/scool/enrollment/src',
-        'databasePath'  => base_path(). '/vendor/scool/enrollment/database',
+        'basePath'      => base_path().'/vendor/scool/enrollments/src',
+        'databasePath'  => base_path(). '/vendor/scool/enrollments/database',
         'rootNamespace' => 'Scool\\Enrollment\\',
         'stubsOverridePath' => base_path().'/vendor/scool/src/stubs',
         'paths'         => [

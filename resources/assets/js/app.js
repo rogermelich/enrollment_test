@@ -13,6 +13,9 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/* Crud */
+Vue.component('enrollments', require('./components/Enrollments.vue'));
+
 /* Wizard */
 Vue.component('wizard', require('./components/Wizard/Wizard.vue'));
 Vue.component('wizard-step', require('./components/Wizard/WizardSteps.vue'));

@@ -4,10 +4,7 @@ use Illuminate\Database\Seeder;
 use Scool\Curriculum\Database\Seeds\CurriculumSeeder;
 use Scool\Curriculum\Database\Seeds\LawsTableSeeder;
 use Scool\Curriculum\Database\Seeds\SubmoduleTypesTableSeeder;
-use Scool\Enrollment\Database\Seeds\EnrollmentPermissionsTableSeeder;
 use Scool\Enrollment\Database\Seeds\EnrollmentSeeder;
-use Scool\Enrollment\Database\Seeds\EnrollmentTableSeeder;
-use Scool\Enrollment\Database\Seeds\EnrollmentStudySubmoduleTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {

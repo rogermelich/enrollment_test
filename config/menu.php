@@ -30,7 +30,7 @@ Menu::macro('sidebar', function () {
         ->add(Menu::adminlteSeparator('Acacha Adminlte'))
         ->add(Menu::new()->prepend('<a href="#"><span>Enrollment</span> <i class="fa fa-angle-left pull-right" aria-hidden="true"></i></a>')
             ->addParentClass('treeview')
-            ->add(Link::to('/enrollment', 'Crud'))->addClass('treeview-menu')
+            ->add(Link::to('/enrollments', 'Crud'))->addClass('treeview-menu')
             ->add(Link::to('/enrollment_wizard', 'Wizard'))
         )
         #adminlte_menu
