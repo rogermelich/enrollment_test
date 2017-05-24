@@ -30,3 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
 });
+
+Route::get('/users/pdf', 'PDFController@users');
+Route::get('/users/pdf/{id}', 'PDFController@user');
+Route::get('/users/pdf/view', 'PDFController@users_view');
