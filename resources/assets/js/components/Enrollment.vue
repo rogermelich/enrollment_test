@@ -1,57 +1,83 @@
 <template>
     <tr>
         <td>{{index + from }}</td>
-        <td>
-            <div v-if="!editing" @dblclick="editTodo(page,todo.id)">
-                <span>{{todo.name}}</span>
-            </div>
-            <div v-else @keyup.esc="uneditTodo(page)" @keyup.enter="editTodo(page,todo.id)">
-                <input v-model="todo.name" size="60">
-                <div  style="float: right;">
-                    <button type="button" class="btn btn-success btn-flat btn-xs" @click="editTodo(page,todo.id)">
-                        <i class="fa fa-fw fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-flat btn-xs" @click="uneditTodo(page)">
-                        <i class="fa fa-fw fa-close"></i>
-                    </button>
-                </div>
-            </div>
-        </td>
         <td align="center">
             <div class="btn-group">
                 <button type="button" class="btn btn-default btn-flat">
-                    <span>{{todo.priority}}</span>
+                    <span>{{enrollment.user_id}}</span>
                 </button>
                 <button type="button" class="btn btn-default dropdown-toggle btn-flat" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    <li v-for="n in 10"><a href="#" @click="editTodoPriority(page,(n-1))">{{(n-1)}}</a></li>
+                    <li v-for="n in 10"><a href="#" @click="editEnrollmentUserId(page,(n-1))">{{(n-1)}}</a></li>
                 </ul>
             </div>
         </td>
         <td align="center">
-            <div v-if="todo.done">
-                <input type="checkbox" class="checkbox icheck" checked @click="editTodoDone(page,todo.done)">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-flat">
+                    <span>{{enrollment.study_id}}</span>
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-flat" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li v-for="n in 10"><a href="#" @click="editEnrollmentStudyId(page,(n-1))">{{(n-1)}}</a></li>
+                </ul>
+            </div>
+        </td>
+        <td align="center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-flat">
+                    <span>{{enrollment.course_id}}</span>
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-flat" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li v-for="n in 10"><a href="#" @click="editEnrollmentCourseId(page,(n-m))">{{(n-m)}}</a></li>
+                </ul>
+            </div>
+        </td>
+        <td align="center">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-flat">
+                    <span>{{enrollment.classroom_id}}</span>
+                </button>
+                <button type="button" class="btn btn-default dropdown-toggle btn-flat" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li v-for="n in 10"><a href="#" @click="editEnrollmentClassroomId(page,(n-1))">{{(n-1)}}</a></li>
+                </ul>
+            </div>
+        </td>
+        <td align="center">
+            <div v-if="enrollment.validate_state == 1">
+                <input type="checkbox" class="checkbox icheck" checked @click="editEnrollmentValidate(page,enrollment.validate_state)">
             </div>
 
             <div v-else>
-                <input type="checkbox" class="checkbox icheck" @click="editTodoDone(page,todo.done)">
+                <input type="checkbox" class="checkbox icheck" @click="editEnrollmentValidate(page,enrollment.validate_state)">
             </div>
         </td>
         <td align="center">
-            <div class="progress progress-xs">
-                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+            <div v-if="enrollment.finished_state == 1">
+                <input type="checkbox" class="checkbox icheck" checked @click="editEnrollmentFinished(page,enrollment.finished_state)">
+            </div>
+
+            <div v-else>
+                <input type="checkbox" class="checkbox icheck" @click="editEnrollmentFinished(page,enrollment.finished_state)">
             </div>
         </td>
-        <td align="center"><span class="badge bg-red">55%</span></td>
         <td align="center">
             <div class="btn-group">
-                <button type="button" class="btn btn-info btn-flat" @click="editTodo(page,todo.id)">
+                <button type="button" class="btn btn-info btn-flat" @click="editEnrollment(page,enrollment.id)">
                     <i class="fa fa-edit"></i>
                 </button>
 
-                <button type="button" class="btn btn-danger btn-flat" @click="deleteTodo(todo.id)">
+                <button type="button" class="btn btn-danger btn-flat" @click="deleteEnrollment(enrollment.id)">
                     <i class="fa fa-trash"></i>
                 </button>
             </div>
@@ -61,74 +87,142 @@
 <script>
 
     export default {
-        props: ['todo','index','from','fetchPage','page'],
+        props: ['enrollment','index','from','fetchPage','page'],
 
         data() {
             return {
                 editing: false,
-                editingPriority: false,
+                editEnrollmentUserId: false,
+                editEnrollmentStudyId: false,
+                editEnrollmentCourseId: false,
+                editEnrollmentClassroomId: false,
+                editEnrollmentValidate: false,
+                editEnrollmentFinished: false,
+                n: 0,
+                m: 0
             }
         },
         created() {
-            console.log('Component todolist created.');
+            console.log('Component enrollmentlist created.');
         },
         methods: {
-            editTodo: function(pageNum) {
+            editEnrollment: function(pageNum) {
                 if (this.editing == true) {
-                    this.editTodoToApi();
+                    this.editEnrollmentToApi();
                     this.editing = false;
                     return this.fetchPage(pageNum);
                 }
                 this.editing = true;
                 return this.fetchPage(pageNum);
             },
-            editTodoToApi: function(){
-                this.$http.put('/api/v1/task/' + this.todo.id, {
-                    name: this.todo.name,
+            editEnrollmentToApi: function(){
+                axios.post('/api/v1/enrollments/' + this.enrollment.id, {
                 }).then((response) => {
-                    console.log('Name of task ' + this.todo.id + ' updated succesfully! Now is known as \"' + this.todo.name + '\".');
+                    console.log('Enrollment ' + this.enrollment.id + ' updated succesfully!');
                 }, (response) => {
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    swal("Oops...", "Something went wrong!", "error");
                     console.log(response);
                 });
             },
-            editTodoPriority: function(pageNum,number) {
-                this.editTodoPriorityToApi(number);
+            editEnrollmentUserId: function(pageNum,number) {
+                this.editEnrollmentUserToApi(number);
                 return this.fetchPage(pageNum);
             },
-            editTodoPriorityToApi: function(number) {
-                this.$http.put('/api/v1/task/' + this.todo.id,{
-                    priority: number,
-                }).then((response) => {
-                    console.log('Priority of task ' + this.todo.id + ' updated succesfully! Now has \"' + number + '\".');
-                }, (response) => {
-                    sweetAlert("Oops...", "Something went wrong!", "error");
-                    console.log(response);
-                });
-            },
-            editTodoDone: function(pageNum,doneStatus) {
-                doneStatus = this.todo.done = !this.todo.done;
-                this.editTodoDoneToApi(doneStatus);
+            editEnrollmentStudyId: function(pageNum, number) {
+                this.editEnrollmentStudyToApi(number);
                 return this.fetchPage(pageNum);
             },
-            editTodoDoneToApi: function(doneStatus) {
-                this.$http.put('/api/v1/task/' + this.todo.id,{
-                    done: doneStatus,
+            editEnrollmentCourseId: function(pageNum,number) {
+                this.editEnrollmentCourseToApi(number);
+                return this.fetchPage(pageNum);
+            },
+            editEnrollmentClassroomId: function(pageNum,number) {
+                this.editEnrollmentClassroomToApi(number);
+                return this.fetchPage(pageNum);
+            },
+            editEnrollmentUserToApi: function(number) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    user_id: number,
                 }).then((response) => {
-                    console.log('Done status of task ' + this.todo.id + ' updated succesfully! Now has \"' + doneStatus + '\".');
+                    console.log('User Id of enrollment ' + this.enrollment.id + ' updated succesfully!');
                 }, (response) => {
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    swal("Oops...", "Something went wrong!", "error");
                     console.log(response);
                 });
             },
-            uneditTodo: function(pageNum) {
+            editEnrollmentClassroomToApi: function(number) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    study_id: number,
+                }).then((response) => {
+                    console.log('User Id of enrollment ' + this.enrollment.id + ' updated succesfully!');
+                }, (response) => {
+                    swal("Oops...", "Something went wrong!", "error");
+                    console.log(response);
+                });
+            },
+            editEnrollmentCourseToApi: function(number) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    course_id: number,
+                }).then((response) => {
+                    console.log('User Id of enrollment ' + this.enrollment.id + ' updated succesfully!');
+                }, (response) => {
+                    swal("Oops...", "Something went wrong!", "error");
+                    console.log(response);
+                });
+            },
+            editEnrollmentStudyToApi: function(number) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    course_id: number,
+                }).then((response) => {
+                    console.log('User Id of enrollment ' + this.enrollment.id + ' updated succesfully!');
+                }, (response) => {
+                    swal("Oops...", "Something went wrong!", "error");
+                    console.log(response);
+                });
+            },
+            editEnrollmentValidate: function(pageNum,validateStatus) {
+                validateStatus = this.enrollment.validate = !this.enrollment.validate;
+                this.editEnrollmentValidateToApi(validateStatus);
+                return this.fetchPage(pageNum);
+            },
+            editEnrollmentFinished: function(pageNum,finishedStatus) {
+                finishedStatus = this.enrollment.finished = !this.enrollment.finished;
+                this.editEnrollmentFinishedToApi(finishedStatus);
+                return this.fetchPage(pageNum);
+            },
+            editEnrollmentValidateToApi: function(validateStatus) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    validate_state: validateStatus,
+                }).then((response) => {
+                    console.log('Done status of task ' + this.enrollment.id + ' updated succesfully!');
+                }, (response) => {
+                    swal("Oops...", "Something went wrong!", "error");
+                    console.log(response);
+                });
+            },
+            editEnrollmentFinishedToApi: function(finishedStatus) {
+                axios.post('/api/v1/enrollments/' + this.enrollment.id,{
+                    finished_state: finishedStatus,
+                }).then((response) => {
+                    console.log('Done status of task ' + this.enrollment.id + ' updated succesfully!');
+                }, (response) => {
+                    swal("Oops...", "Something went wrong!", "error");
+                    console.log(response);
+                });
+            },
+            uneditEnrollment: function(pageNum) {
                 this.editing = false;
-                this.editingPriority = false;
+                this.editEnrollmentUserId = false;
+                this.editEnrollmentStudyId = false;
+                this.editEnrollmentCourseId = false;
+                this.editEnrollmentClassroomId = false;
+                this.editEnrollmentValidate = false;
+                this.editEnrollmentFinished = false;
                 return this.fetchPage(pageNum);
             },
-            deleteTodo: function(id) {
-                console.log('Deleting todo');
-                this.$emit('todo-deleted',id);
+            deleteEnrollment: function(id) {
+                console.log('Deleting enrollment');
+                this.$emit('enrollment-deleted',id);
             },
         }
     }

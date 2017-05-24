@@ -6,73 +6,64 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                <form role="form" action="#">
 
-                <div class="input-group">
-                    <div class="col-lg-4 col-md-4">
-                        <label for="user">User:</label>
-
-                        <select class="form-control select2">
-                            <option v-for="user in users" :value="user.id">{{ user.name }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <label for="study">Study:</label>
-
-                        <select class="form-control select2">
-                            <option v-for="study in studies" :value="study.id">{{ study.name }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <label for="course">Course:</label>
-
-                        <select class="form-control select2">
-                            <option v-for="course in courses" :value="course.id">{{ course.name }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <label for="classroom">Classroom:</label>
-
-                        <select class="form-control select2">
-                            <option v-for="classroom in classrooms" :value="classroom.id">{{ classroom.name }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4">
-                        <label>Validate:</label>
-                        <div class="form-group">
-                            <label>
-                                <input type="radio" name="r1" value="True" class="minimal" checked>
-                            </label>
-                            <label>
-                                <input type="radio" name="r1" value="False" class="minimal">
-                            </label>
+                    <div class="input-group">
+                        <div class="col-lg-4 col-md-4">
+                            <label for="user">User:</label>
+                            <br>
+                            <select class="form-control" v-model="user">
+                                <option v-for="user in users" :value="user.id">{{ user.name }}</option>
+                            </select>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-md-4">
-                        <label>Finished:</label>
-                        <div class="form-group">
-                            <label>
-                                <input type="radio" name="r2" value="True" class="minimal" checked>
-                                True
-                            </label>
-                            <label>
-                                <input type="radio" name="r2" value="False" class="minimal">
-                                False
-                            </label>
+                        <div class="col-lg-4 col-md-4">
+                            <label for="studies">Study:</label>
+
+                            <select class="form-control" v-model="study">
+                                <option v-for="study in studies" :value="study.id">{{ study.name }}</option>
+                            </select>
                         </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <label for="courses">Course:</label>
+
+                            <select class="form-control" v-model="course">
+                                <option v-for="course in courses" :value="course.id">{{ course.name }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <label for="classrooms">Classroom:</label>
+
+                            <select class="form-control" v-model="classroom">
+                                <option v-for="classroom in classrooms" :value="classroom.id">{{ classroom.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <label>Validate:</label>
+                            <div class="form-group">
+                                <input type="checkbox" id="checkbox" v-model="validate">
+                                <label for="checkbox">{{ validate }}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <label>Finished:</label>
+                            <div class="form-group">
+                                <input type="checkbox" id="checkbox2" v-model="finished">
+                                <label for="checkbox">{{ finished }}</label>
+                            </div>
+                        </div>
+
+                        <button class="btn center-block btn-primary"
+                                @click="addEnrollment">Add
+                        </button>
+
                     </div>
-
-
-                    <button class="btn center-block btn-primary"
-                            @click="addEnrollment">Create Enrollment
-                    </button>
-
-                </div>
+                </form>
 
             </div>
             <div class="box">
@@ -103,19 +94,17 @@
                             <th>Classroom</th>
                             <th>Validate</th>
                             <th>Finished</th>
-                            <th>created at</th>
-                            <th>updated at</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <enrollment v-for="(enrollment, index) in filteredEnrollments"
+                        <enrollment v-for="(enrollment, index) in filteredEnrollements"
                                     v-bind:enrollment="enrollment"
                                     v-bind:index="index"
                                     v-bind:from="from"
                                     v-bind:page="page"
                                     v-bind:fetchPage="fetchPage"
-                                    @todo-deleted="deleteEnrollments">
+                                    @enrollment-deleted="deleteEnrollment">
                         </enrollment>
                         </tbody>
 
@@ -162,8 +151,6 @@
                 classrooms: [],
                 validate: false,
                 finished: false,
-                create_at: '',
-                update_at: '',
                 perPage: 5,
                 from: 0,
                 to: 0,
@@ -178,17 +165,17 @@
                 var filters = {
                     all: function (enrollments) {
                         return enrollments;
-                    },
-                    active: function (enrollments) {
-                        return enrollments.filter(function (enrollment) {
-                            return enrollment.finished;
-                        });
-                    },
-                    completed: function (enrollments) {
-                        return enrollments.filter(function (enrollment) {
-                            return enrollment.validated;
-                        });
                     }
+//                    active: function (enrollments) {
+//                        return enrollments.filter(function (enrollment) {
+//                            return enrollment.finished;
+//                        });
+//                    },
+//                    completed: function (enrollments) {
+//                        return enrollments.filter(function (enrollment) {
+//                            return enrollment.validated;
+//                        });
+//                    }
                 }
                 return filters[this.visibility](this.enrollments);
 
@@ -198,14 +185,21 @@
             console.log('Component enrollmentList created.');
             this.fetchData();
         },
+        mounted() {
+            this.fetchUsers();
+            this.fetchStudies();
+            this.fetchCourses();
+            this.fetchClassrooms();
+            this.initializeSelect2();
+        },
         methods: {
-            initialitzeSelect2() {
+            initializeSelect2() {
                 var component = this
                 $(".select2").select2().on('TODO', function (event) {
-                    component.form.set('user', user.id)
-                    component.form.set('study', study.id)
-                    component.form.set('course', course.id)
-                    component.form.set('classroom', classroom.id)
+                    component.form.set('user', users.id)
+                    component.form.set('study', studies.id)
+                    component.form.set('course', courses.id)
+                    component.form.set('classroom', classrooms.id)
 
                 })
             },
@@ -224,18 +218,18 @@
                     this.courses = response.data
                 });
             },
-            fetchclassrooms() {
+            fetchClassrooms() {
                 axios.get('/api/v1/classrooms').then(response => {
                     this.classrooms = response.data
                 });
             },
             getEnrollmentId: function (index) {
-                this.$http.get('/api/v1/enrollments').then((response) => {
+                axios.get('/api/v1/enrollments').then((response) => {
                     var enrollments = this.enrollments = response.data.data;
                     this.id = enrollments[index].id;
                 }, (response) => {
                     // error callback
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    swal("Oops...", "Something went wrong!", "error");
                     console.log(response);
                 });
             },
@@ -244,39 +238,28 @@
                 this.fetchPage(pageNum);
             },
             addEnrollment: function () {
-                var user = this.user && this.user.trim();
-                var study = this.study && this.study.trim();
-                var course = this.course && this.course.trim();
-                var classroom = this.classroom && this.classroom.trim();
-                var validate = this.validate && this.validate.trim();
-                var finished = this.finished && this.finished.trim();
-                var create_at = this.create_at && this.create_at.trim();
-                var update_at = this.update_at && this.update_at.trim();
-
-                var value = this.value && this.value.trim();
-                if (!value) {
-                    return;
-                }
+                console.log('heysyyyyy');
+                console.log('User is:', this.user);
+                console.log('Study is:', this.study);
+                console.log('Course is:', this.course);
+                console.log('Classroom is:', this.classroom);
+                console.log('Validate is:', this.validate);
+                console.log('Finished is:', this.finished);
+                var user = this.user;
+                var study = this.study;
+                var course = this.course;
+                var classroom = this.classroom;
+                var validate = this.validate;
+                var finished = this.finished;
                 var enrollment = {
                     user: user,
                     study: study,
                     course: course,
                     classroom: classroom,
                     validate: validate,
-                    finished: finished,
-                    create_at: create_at,
-                    update_at: update_at,
-                    value: value
+                    finished: finished
                 };
-                this.user = '',
-                    this.study = '',
-                    this.course = '',
-                    this.classroom = '',
-                    this.validate = false,
-                    this.finished = false,
-                    this.create_at = '',
-                    this.update_at = '',
-                    this.addEnrollmentToApi(enrollment);
+                this.addEnrollmentToApi(enrollment);
                 this.fetchPage(this.page);
             },
             setVisibility: function (visibility) {
@@ -286,28 +269,26 @@
                 return this.fetchPage(1);
             },
             addEnrollmentToApi: function (enrollment) {
-                this.$http.post('/api/v1/enrollments', {
+                axios.post('/api/v1/enrollments', {
                     user: enrollment.user,
                     study: enrollment.study,
                     course: enrollment.course,
                     classroom: enrollment.classroom,
                     validate: enrollment.validate,
-                    finished: enrollment.finished,
-                    create_at: enrollment.create_at,
-                    update_at: enrollment.update_at,
-                    value: enrollment.value
+                    finished: enrollment.finished
                 }).then((response) => {
-                    console.log(response);
-                }, (response) => {
                     // error callback
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    console.log('response');
                     console.log(response);
+                    console.log('response');
+
+                    //swal("Oops...", "Something went wrong!", "error");
+                    //console.log(response);
                 });
-                this.fetchPage(this.page);
+                //this.fetchPage(this.page);
             },
             fetchPage: function (page) {
-                this.$http.get('/api/v1/enrollments?page=' + page).then((response) => {
-                    console.log(response);
+                axios.get('/api/v1/enrollments?page=' + page).then((response) => {
                     this.enrollments = response.data.data;
                     this.perPage = response.data.per_page;
                     this.to = response.data.to;
@@ -315,7 +296,7 @@
                     this.total = response.data.total;
                 }, (response) => {
                     // error callback
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    swal("Oops...", "Something went wrong!", "error");
                     console.log(response);
                 });
             },
@@ -332,14 +313,14 @@
                     },
                     function () {
                         del.deleteEnrollmentFromApi(id);
-                        sweetAlert("Deleted!", "Your enrollment has been deleted.", "success");
+                        swal("Deleted!", "Your enrollment has been deleted.", "success");
                     });
             },
             deleteEnrollmentFromApi: function (id) {
-                this.$http.delete('/api/v1/enrollments/' + id).then((response) => {
+                axios.delete('/api/v1/enrollments/' + id).then((response) => {
                     console.log('Enrollment ' + id + ' deleted succesfully!');
                 }, (response) => {
-                    sweetAlert("Oops...", "Something went wrong!", "error");
+                    swal("Oops...", "Something went wrong!", "error");
                     console.log(response);
                 });
                 this.fetchPage(this.page);
