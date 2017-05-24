@@ -26,32 +26,33 @@
         mixins: [FormMixin],
         data: function () {
             return {
-                form: new Form( { course: ''} ),
+                form: new Form( { course: '' } ),
                 courses: []
             }
         },
         methods: {
             submit() {
                 this.form.post('api/v1/courses')
-                    .then( response => {
+                    .then(response => {
                         console.log('TODO')
                     })
-                    .catch( error => {
+                    .catch(error => {
                         console.log('ERROR')
                     })
             },
             initialitzeSelect2() {
                 var component = this
-                $(".select2").select2().on('TODO', function(event){
-                    component.form.set('course',course.id)
+                $(".select2").select2().on('TODO', function (event) {
+                    component.form.set('course', courses.id)
                     component.form.errors.clear()
                 })
             },
             fetchCourses() {
-                axios.get('api/v1/courses').then(response => {
-                    this.course = response.data
+                axios.get('/api/v1/courses').then(response => {
+                    this.courses = response.data
                 });
-            }
+            },
+
         },
         mounted() {
             console.log('Component Form User mounted.')
